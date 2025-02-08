@@ -227,21 +227,21 @@ div.csl-indent {
 </ul>
 <p>You can of course consult the full <strong>ggplot</strong> <a href="https://ggplot2-book.org/">manual</a>.</p>
 <p>Now that we have the Eerkens et al. 2007 data cleaned and in the form that we’d like, what do we want to <em>do</em> with it? For starters, let’s compare the diversity of sources for each artifact class across the different sites.</p>
-<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="the-payoff.html#cb54-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb54-2"><a href="the-payoff.html#cb54-2" tabindex="-1"></a><span class="fu">library</span>(ggstats)</span>
-<span id="cb54-3"><a href="the-payoff.html#cb54-3" tabindex="-1"></a><span class="fu">library</span>(RColorBrewer)</span>
-<span id="cb54-4"><a href="the-payoff.html#cb54-4" tabindex="-1"></a></span>
-<span id="cb54-5"><a href="the-payoff.html#cb54-5" tabindex="-1"></a>eerk_comb_long <span class="ot">&lt;-</span> eerk_comb <span class="sc">%&gt;%</span> </span>
-<span id="cb54-6"><a href="the-payoff.html#cb54-6" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">!</span><span class="fu">c</span>(site, source_artifact, sources_represented), </span>
-<span id="cb54-7"><a href="the-payoff.html#cb54-7" tabindex="-1"></a>                           <span class="at">names_to =</span> <span class="st">&quot;Source&quot;</span>,</span>
-<span id="cb54-8"><a href="the-payoff.html#cb54-8" tabindex="-1"></a>                           <span class="at">values_to =</span> <span class="st">&quot;Count&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb54-9"><a href="the-payoff.html#cb54-9" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Count =</span> <span class="fu">case_when</span>(      <span class="co">#replace NAs with 0s</span></span>
-<span id="cb54-10"><a href="the-payoff.html#cb54-10" tabindex="-1"></a>    <span class="fu">is.na</span>(Count) <span class="sc">==</span> T <span class="sc">~</span> <span class="dv">0</span>,</span>
-<span id="cb54-11"><a href="the-payoff.html#cb54-11" tabindex="-1"></a>    <span class="at">.default =</span> Count</span>
-<span id="cb54-12"><a href="the-payoff.html#cb54-12" tabindex="-1"></a>  ))</span>
-<span id="cb54-13"><a href="the-payoff.html#cb54-13" tabindex="-1"></a></span>
-<span id="cb54-14"><a href="the-payoff.html#cb54-14" tabindex="-1"></a><span class="co">#how many colors do we need?</span></span>
-<span id="cb54-15"><a href="the-payoff.html#cb54-15" tabindex="-1"></a><span class="fu">unique</span>(eerk_comb_long<span class="sc">$</span>Source)</span></code></pre></div>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="the-payoff.html#cb53-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb53-2"><a href="the-payoff.html#cb53-2" tabindex="-1"></a><span class="fu">library</span>(ggstats)</span>
+<span id="cb53-3"><a href="the-payoff.html#cb53-3" tabindex="-1"></a><span class="fu">library</span>(RColorBrewer)</span>
+<span id="cb53-4"><a href="the-payoff.html#cb53-4" tabindex="-1"></a></span>
+<span id="cb53-5"><a href="the-payoff.html#cb53-5" tabindex="-1"></a>eerk_comb_long <span class="ot">&lt;-</span> eerk_comb <span class="sc">%&gt;%</span> </span>
+<span id="cb53-6"><a href="the-payoff.html#cb53-6" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">!</span><span class="fu">c</span>(site, source_artifact, sources_represented), </span>
+<span id="cb53-7"><a href="the-payoff.html#cb53-7" tabindex="-1"></a>                           <span class="at">names_to =</span> <span class="st">&quot;Source&quot;</span>,</span>
+<span id="cb53-8"><a href="the-payoff.html#cb53-8" tabindex="-1"></a>                           <span class="at">values_to =</span> <span class="st">&quot;Count&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb53-9"><a href="the-payoff.html#cb53-9" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Count =</span> <span class="fu">case_when</span>(      <span class="co">#replace NAs with 0s</span></span>
+<span id="cb53-10"><a href="the-payoff.html#cb53-10" tabindex="-1"></a>    <span class="fu">is.na</span>(Count) <span class="sc">==</span> T <span class="sc">~</span> <span class="dv">0</span>,</span>
+<span id="cb53-11"><a href="the-payoff.html#cb53-11" tabindex="-1"></a>    <span class="at">.default =</span> Count</span>
+<span id="cb53-12"><a href="the-payoff.html#cb53-12" tabindex="-1"></a>  ))</span>
+<span id="cb53-13"><a href="the-payoff.html#cb53-13" tabindex="-1"></a></span>
+<span id="cb53-14"><a href="the-payoff.html#cb53-14" tabindex="-1"></a><span class="co">#how many colors do we need?</span></span>
+<span id="cb53-15"><a href="the-payoff.html#cb53-15" tabindex="-1"></a><span class="fu">unique</span>(eerk_comb_long<span class="sc">$</span>Source)</span></code></pre></div>
 <pre><code>##  [1] &quot;casa_diablo&quot;         &quot;mono_glass_mountain&quot; &quot;truman_queen&quot;       
 ##  [4] &quot;fish_springs&quot;        &quot;mono_craters&quot;        &quot;bodie_hills&quot;        
 ##  [7] &quot;mount_hicks&quot;         &quot;coso&quot;                &quot;buffalo_hills&quot;      
@@ -252,76 +252,76 @@ div.csl-indent {
 ## [22] &quot;quartz_mountain&quot;     &quot;cougar_mountain&quot;     &quot;silver_sycan&quot;       
 ## [25] &quot;brooks_canyon&quot;       &quot;glass_buttes&quot;        &quot;burns_butte&quot;        
 ## [28] &quot;rimrock_spring&quot;      &quot;whitewater_ridge&quot;</code></pre>
-<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="the-payoff.html#cb56-1" tabindex="-1"></a><span class="co">#a lot</span></span>
-<span id="cb56-2"><a href="the-payoff.html#cb56-2" tabindex="-1"></a>mypalette <span class="ot">&lt;-</span> <span class="fu">colorRampPalette</span>(<span class="fu">brewer.pal</span>(<span class="dv">12</span>, <span class="st">&quot;Set3&quot;</span>))(<span class="fu">length</span>(<span class="fu">unique</span>(eerk_comb_long<span class="sc">$</span>Source)))</span></code></pre></div>
-<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="the-payoff.html#cb57-1" tabindex="-1"></a>eerk_comb_long <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb57-2"><a href="the-payoff.html#cb57-2" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">x =</span> source_artifact, <span class="at">fill =</span> Source, <span class="at">weight =</span> Count)) <span class="sc">+</span></span>
-<span id="cb57-3"><a href="the-payoff.html#cb57-3" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> mypalette) <span class="sc">+</span></span>
-<span id="cb57-4"><a href="the-payoff.html#cb57-4" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb57-5"><a href="the-payoff.html#cb57-5" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="fu">vars</span>(site)) <span class="sc">+</span></span>
-<span id="cb57-6"><a href="the-payoff.html#cb57-6" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">x =</span> <span class="fu">guide_axis</span>(<span class="at">angle =</span> <span class="dv">60</span>)) <span class="sc">+</span></span>
-<span id="cb57-7"><a href="the-payoff.html#cb57-7" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="the-payoff.html#cb55-1" tabindex="-1"></a><span class="co">#a lot</span></span>
+<span id="cb55-2"><a href="the-payoff.html#cb55-2" tabindex="-1"></a>mypalette <span class="ot">&lt;-</span> <span class="fu">colorRampPalette</span>(<span class="fu">brewer.pal</span>(<span class="dv">12</span>, <span class="st">&quot;Set3&quot;</span>))(<span class="fu">length</span>(<span class="fu">unique</span>(eerk_comb_long<span class="sc">$</span>Source)))</span></code></pre></div>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="the-payoff.html#cb56-1" tabindex="-1"></a>eerk_comb_long <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb56-2"><a href="the-payoff.html#cb56-2" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">x =</span> source_artifact, <span class="at">fill =</span> Source, <span class="at">weight =</span> Count)) <span class="sc">+</span></span>
+<span id="cb56-3"><a href="the-payoff.html#cb56-3" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> mypalette) <span class="sc">+</span></span>
+<span id="cb56-4"><a href="the-payoff.html#cb56-4" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb56-5"><a href="the-payoff.html#cb56-5" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="fu">vars</span>(site)) <span class="sc">+</span></span>
+<span id="cb56-6"><a href="the-payoff.html#cb56-6" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">x =</span> <span class="fu">guide_axis</span>(<span class="at">angle =</span> <span class="dv">60</span>)) <span class="sc">+</span></span>
+<span id="cb56-7"><a href="the-payoff.html#cb56-7" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;&quot;</span>)</span></code></pre></div>
 <p><img src="DataWrangling_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
 <p>Since we’re interested in diversity, proportions are probably going to be more useful than counts.</p>
-<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="the-payoff.html#cb58-1" tabindex="-1"></a>eerk_comb_long <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb58-2"><a href="the-payoff.html#cb58-2" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> source_artifact, <span class="at">fill =</span> Source, </span>
-<span id="cb58-3"><a href="the-payoff.html#cb58-3" tabindex="-1"></a>                              <span class="at">weight =</span> Count, <span class="at">by =</span> source_artifact) <span class="sc">+</span></span>
-<span id="cb58-4"><a href="the-payoff.html#cb58-4" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> mypalette) <span class="sc">+</span></span>
-<span id="cb58-5"><a href="the-payoff.html#cb58-5" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">&quot;fill&quot;</span>) <span class="sc">+</span></span>
-<span id="cb58-6"><a href="the-payoff.html#cb58-6" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb58-7"><a href="the-payoff.html#cb58-7" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="fu">vars</span>(site)) <span class="sc">+</span></span>
-<span id="cb58-8"><a href="the-payoff.html#cb58-8" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">x =</span> <span class="fu">guide_axis</span>(<span class="at">angle =</span> <span class="dv">60</span>)) <span class="sc">+</span></span>
-<span id="cb58-9"><a href="the-payoff.html#cb58-9" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Proportion&quot;</span>) </span></code></pre></div>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="the-payoff.html#cb57-1" tabindex="-1"></a>eerk_comb_long <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb57-2"><a href="the-payoff.html#cb57-2" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> source_artifact, <span class="at">fill =</span> Source, </span>
+<span id="cb57-3"><a href="the-payoff.html#cb57-3" tabindex="-1"></a>                              <span class="at">weight =</span> Count, <span class="at">by =</span> source_artifact) <span class="sc">+</span></span>
+<span id="cb57-4"><a href="the-payoff.html#cb57-4" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> mypalette) <span class="sc">+</span></span>
+<span id="cb57-5"><a href="the-payoff.html#cb57-5" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">&quot;fill&quot;</span>) <span class="sc">+</span></span>
+<span id="cb57-6"><a href="the-payoff.html#cb57-6" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb57-7"><a href="the-payoff.html#cb57-7" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="fu">vars</span>(site)) <span class="sc">+</span></span>
+<span id="cb57-8"><a href="the-payoff.html#cb57-8" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">x =</span> <span class="fu">guide_axis</span>(<span class="at">angle =</span> <span class="dv">60</span>)) <span class="sc">+</span></span>
+<span id="cb57-9"><a href="the-payoff.html#cb57-9" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Proportion&quot;</span>) </span></code></pre></div>
 <p><img src="DataWrangling_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
 <p>If we wanted to make our categories more strictly comparable, we could recode ‘Small non-pressure flakes’ and ‘Small pressure flakes’ from Sherwin Summit to produce a ‘Small flakes’ category (using <code>case_when()</code> again).</p>
-<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="the-payoff.html#cb59-1" tabindex="-1"></a><span class="co">#first recode</span></span>
-<span id="cb59-2"><a href="the-payoff.html#cb59-2" tabindex="-1"></a>eerk_comb_coll <span class="ot">&lt;-</span> eerk_comb <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">source_artifact =</span> <span class="fu">case_when</span>(</span>
-<span id="cb59-3"><a href="the-payoff.html#cb59-3" tabindex="-1"></a>  source_artifact <span class="sc">==</span> <span class="st">&quot;Small Non-pressure Flakes&quot;</span> <span class="sc">~</span> <span class="st">&quot;Small Flakes&quot;</span>,</span>
-<span id="cb59-4"><a href="the-payoff.html#cb59-4" tabindex="-1"></a>  source_artifact <span class="sc">==</span> <span class="st">&quot;Small Pressure Flakes&quot;</span> <span class="sc">~</span> <span class="st">&quot;Small Flakes&quot;</span>,</span>
-<span id="cb59-5"><a href="the-payoff.html#cb59-5" tabindex="-1"></a>  <span class="at">.default =</span> source_artifact</span>
-<span id="cb59-6"><a href="the-payoff.html#cb59-6" tabindex="-1"></a>))</span>
-<span id="cb59-7"><a href="the-payoff.html#cb59-7" tabindex="-1"></a></span>
-<span id="cb59-8"><a href="the-payoff.html#cb59-8" tabindex="-1"></a><span class="co">#then collapse rows</span></span>
-<span id="cb59-9"><a href="the-payoff.html#cb59-9" tabindex="-1"></a></span>
-<span id="cb59-10"><a href="the-payoff.html#cb59-10" tabindex="-1"></a>eerk_comb_coll <span class="ot">&lt;-</span> eerk_comb_coll <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(site, source_artifact) <span class="sc">%&gt;%</span> </span>
-<span id="cb59-11"><a href="the-payoff.html#cb59-11" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="fu">across</span>(casa_diablo<span class="sc">:</span>whitewater_ridge, sum, <span class="at">na.rm =</span> T), </span>
-<span id="cb59-12"><a href="the-payoff.html#cb59-12" tabindex="-1"></a>            <span class="at">sources_represented =</span> <span class="fu">mean</span>(sources_represented))</span>
-<span id="cb59-13"><a href="the-payoff.html#cb59-13" tabindex="-1"></a></span>
-<span id="cb59-14"><a href="the-payoff.html#cb59-14" tabindex="-1"></a></span>
-<span id="cb59-15"><a href="the-payoff.html#cb59-15" tabindex="-1"></a><span class="co">#then pivot again</span></span>
-<span id="cb59-16"><a href="the-payoff.html#cb59-16" tabindex="-1"></a>eerk_comb_coll_long <span class="ot">&lt;-</span> eerk_comb_coll <span class="sc">%&gt;%</span> </span>
-<span id="cb59-17"><a href="the-payoff.html#cb59-17" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">!</span><span class="fu">c</span>(site, source_artifact, sources_represented), </span>
-<span id="cb59-18"><a href="the-payoff.html#cb59-18" tabindex="-1"></a>                           <span class="at">names_to =</span> <span class="st">&quot;Source&quot;</span>,</span>
-<span id="cb59-19"><a href="the-payoff.html#cb59-19" tabindex="-1"></a>                           <span class="at">values_to =</span> <span class="st">&quot;Count&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb59-20"><a href="the-payoff.html#cb59-20" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Count =</span> <span class="fu">case_when</span>(      <span class="co">#replace NAs with 0s</span></span>
-<span id="cb59-21"><a href="the-payoff.html#cb59-21" tabindex="-1"></a>    <span class="fu">is.na</span>(Count) <span class="sc">==</span> T <span class="sc">~</span> <span class="dv">0</span>,</span>
-<span id="cb59-22"><a href="the-payoff.html#cb59-22" tabindex="-1"></a>    <span class="at">.default =</span> Count</span>
-<span id="cb59-23"><a href="the-payoff.html#cb59-23" tabindex="-1"></a>  ))</span></code></pre></div>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="the-payoff.html#cb58-1" tabindex="-1"></a><span class="co">#first recode</span></span>
+<span id="cb58-2"><a href="the-payoff.html#cb58-2" tabindex="-1"></a>eerk_comb_coll <span class="ot">&lt;-</span> eerk_comb <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">source_artifact =</span> <span class="fu">case_when</span>(</span>
+<span id="cb58-3"><a href="the-payoff.html#cb58-3" tabindex="-1"></a>  source_artifact <span class="sc">==</span> <span class="st">&quot;Small Non-pressure Flakes&quot;</span> <span class="sc">~</span> <span class="st">&quot;Small Flakes&quot;</span>,</span>
+<span id="cb58-4"><a href="the-payoff.html#cb58-4" tabindex="-1"></a>  source_artifact <span class="sc">==</span> <span class="st">&quot;Small Pressure Flakes&quot;</span> <span class="sc">~</span> <span class="st">&quot;Small Flakes&quot;</span>,</span>
+<span id="cb58-5"><a href="the-payoff.html#cb58-5" tabindex="-1"></a>  <span class="at">.default =</span> source_artifact</span>
+<span id="cb58-6"><a href="the-payoff.html#cb58-6" tabindex="-1"></a>))</span>
+<span id="cb58-7"><a href="the-payoff.html#cb58-7" tabindex="-1"></a></span>
+<span id="cb58-8"><a href="the-payoff.html#cb58-8" tabindex="-1"></a><span class="co">#then collapse rows</span></span>
+<span id="cb58-9"><a href="the-payoff.html#cb58-9" tabindex="-1"></a></span>
+<span id="cb58-10"><a href="the-payoff.html#cb58-10" tabindex="-1"></a>eerk_comb_coll <span class="ot">&lt;-</span> eerk_comb_coll <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(site, source_artifact) <span class="sc">%&gt;%</span> </span>
+<span id="cb58-11"><a href="the-payoff.html#cb58-11" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="fu">across</span>(casa_diablo<span class="sc">:</span>whitewater_ridge, sum, <span class="at">na.rm =</span> T), </span>
+<span id="cb58-12"><a href="the-payoff.html#cb58-12" tabindex="-1"></a>            <span class="at">sources_represented =</span> <span class="fu">mean</span>(sources_represented))</span>
+<span id="cb58-13"><a href="the-payoff.html#cb58-13" tabindex="-1"></a></span>
+<span id="cb58-14"><a href="the-payoff.html#cb58-14" tabindex="-1"></a></span>
+<span id="cb58-15"><a href="the-payoff.html#cb58-15" tabindex="-1"></a><span class="co">#then pivot again</span></span>
+<span id="cb58-16"><a href="the-payoff.html#cb58-16" tabindex="-1"></a>eerk_comb_coll_long <span class="ot">&lt;-</span> eerk_comb_coll <span class="sc">%&gt;%</span> </span>
+<span id="cb58-17"><a href="the-payoff.html#cb58-17" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">!</span><span class="fu">c</span>(site, source_artifact, sources_represented), </span>
+<span id="cb58-18"><a href="the-payoff.html#cb58-18" tabindex="-1"></a>                           <span class="at">names_to =</span> <span class="st">&quot;Source&quot;</span>,</span>
+<span id="cb58-19"><a href="the-payoff.html#cb58-19" tabindex="-1"></a>                           <span class="at">values_to =</span> <span class="st">&quot;Count&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb58-20"><a href="the-payoff.html#cb58-20" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Count =</span> <span class="fu">case_when</span>(      <span class="co">#replace NAs with 0s</span></span>
+<span id="cb58-21"><a href="the-payoff.html#cb58-21" tabindex="-1"></a>    <span class="fu">is.na</span>(Count) <span class="sc">==</span> T <span class="sc">~</span> <span class="dv">0</span>,</span>
+<span id="cb58-22"><a href="the-payoff.html#cb58-22" tabindex="-1"></a>    <span class="at">.default =</span> Count</span>
+<span id="cb58-23"><a href="the-payoff.html#cb58-23" tabindex="-1"></a>  ))</span></code></pre></div>
 <p>And make a new plot.</p>
 <div id="prop-plot" class="section level3 hasAnchor" number="6.1.1">
 <h3><span class="header-section-number">6.1.1</span> Source proportions plotted by artifact type and site<a href="the-payoff.html#prop-plot" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="the-payoff.html#cb60-1" tabindex="-1"></a>eerk_comb_coll_long <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb60-2"><a href="the-payoff.html#cb60-2" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> source_artifact, <span class="at">fill =</span> Source, </span>
-<span id="cb60-3"><a href="the-payoff.html#cb60-3" tabindex="-1"></a>                              <span class="at">weight =</span> Count, <span class="at">by =</span> source_artifact) <span class="sc">+</span></span>
-<span id="cb60-4"><a href="the-payoff.html#cb60-4" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> mypalette) <span class="sc">+</span></span>
-<span id="cb60-5"><a href="the-payoff.html#cb60-5" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">&quot;fill&quot;</span>) <span class="sc">+</span></span>
-<span id="cb60-6"><a href="the-payoff.html#cb60-6" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb60-7"><a href="the-payoff.html#cb60-7" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="fu">vars</span>(site)) <span class="sc">+</span></span>
-<span id="cb60-8"><a href="the-payoff.html#cb60-8" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">x =</span> <span class="fu">guide_axis</span>(<span class="at">angle =</span> <span class="dv">60</span>)) <span class="sc">+</span></span>
-<span id="cb60-9"><a href="the-payoff.html#cb60-9" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Proportion&quot;</span>, </span>
-<span id="cb60-10"><a href="the-payoff.html#cb60-10" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;Obsidian source representation by artifact type&quot;</span>) </span></code></pre></div>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="the-payoff.html#cb59-1" tabindex="-1"></a>eerk_comb_coll_long <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb59-2"><a href="the-payoff.html#cb59-2" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> source_artifact, <span class="at">fill =</span> Source, </span>
+<span id="cb59-3"><a href="the-payoff.html#cb59-3" tabindex="-1"></a>                              <span class="at">weight =</span> Count, <span class="at">by =</span> source_artifact) <span class="sc">+</span></span>
+<span id="cb59-4"><a href="the-payoff.html#cb59-4" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> mypalette) <span class="sc">+</span></span>
+<span id="cb59-5"><a href="the-payoff.html#cb59-5" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">&quot;fill&quot;</span>) <span class="sc">+</span></span>
+<span id="cb59-6"><a href="the-payoff.html#cb59-6" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb59-7"><a href="the-payoff.html#cb59-7" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="fu">vars</span>(site)) <span class="sc">+</span></span>
+<span id="cb59-8"><a href="the-payoff.html#cb59-8" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">x =</span> <span class="fu">guide_axis</span>(<span class="at">angle =</span> <span class="dv">60</span>)) <span class="sc">+</span></span>
+<span id="cb59-9"><a href="the-payoff.html#cb59-9" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Proportion&quot;</span>, </span>
+<span id="cb59-10"><a href="the-payoff.html#cb59-10" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;Obsidian source representation by artifact type&quot;</span>) </span></code></pre></div>
 <p><img src="DataWrangling_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
 <p>We might also consider - as Eerkens and colleagues do - how sources represented relate to distance.</p>
-<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="the-payoff.html#cb61-1" tabindex="-1"></a>obsid_dist_l <span class="ot">&lt;-</span> obsid_dist <span class="sc">%&gt;%</span> </span>
-<span id="cb61-2"><a href="the-payoff.html#cb61-2" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span>site, <span class="at">names_to =</span> <span class="st">&quot;source&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;distance&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb61-3"><a href="the-payoff.html#cb61-3" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">is.na</span>(distance) <span class="sc">==</span> F)</span>
-<span id="cb61-4"><a href="the-payoff.html#cb61-4" tabindex="-1"></a></span>
-<span id="cb61-5"><a href="the-payoff.html#cb61-5" tabindex="-1"></a>obsid_dist_l <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb61-6"><a href="the-payoff.html#cb61-6" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">x =</span> site, <span class="at">fill =</span> source, <span class="at">y =</span> distance),</span>
-<span id="cb61-7"><a href="the-payoff.html#cb61-7" tabindex="-1"></a>           <span class="at">position =</span> <span class="st">&quot;dodge&quot;</span>, <span class="at">stat =</span> <span class="st">&quot;identity&quot;</span>) <span class="sc">+</span></span>
-<span id="cb61-8"><a href="the-payoff.html#cb61-8" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> mypalette) <span class="sc">+</span></span>
-<span id="cb61-9"><a href="the-payoff.html#cb61-9" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb61-10"><a href="the-payoff.html#cb61-10" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Distance (km)&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="the-payoff.html#cb60-1" tabindex="-1"></a>obsid_dist_l <span class="ot">&lt;-</span> obsid_dist <span class="sc">%&gt;%</span> </span>
+<span id="cb60-2"><a href="the-payoff.html#cb60-2" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span>site, <span class="at">names_to =</span> <span class="st">&quot;source&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;distance&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb60-3"><a href="the-payoff.html#cb60-3" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">is.na</span>(distance) <span class="sc">==</span> F)</span>
+<span id="cb60-4"><a href="the-payoff.html#cb60-4" tabindex="-1"></a></span>
+<span id="cb60-5"><a href="the-payoff.html#cb60-5" tabindex="-1"></a>obsid_dist_l <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb60-6"><a href="the-payoff.html#cb60-6" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">x =</span> site, <span class="at">fill =</span> source, <span class="at">y =</span> distance),</span>
+<span id="cb60-7"><a href="the-payoff.html#cb60-7" tabindex="-1"></a>           <span class="at">position =</span> <span class="st">&quot;dodge&quot;</span>, <span class="at">stat =</span> <span class="st">&quot;identity&quot;</span>) <span class="sc">+</span></span>
+<span id="cb60-8"><a href="the-payoff.html#cb60-8" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> mypalette) <span class="sc">+</span></span>
+<span id="cb60-9"><a href="the-payoff.html#cb60-9" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb60-10"><a href="the-payoff.html#cb60-10" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Distance (km)&quot;</span>)</span></code></pre></div>
 <p><img src="DataWrangling_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
 </div>
 </div>
@@ -331,10 +331,10 @@ div.csl-indent {
 <div id="diversity-indices" class="section level3 hasAnchor" number="6.2.1">
 <h3><span class="header-section-number">6.2.1</span> Diversity indices<a href="the-payoff.html#diversity-indices" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>We can examine diversity numerically as well as visually. The Shannon index is one of several tools used for quantifying the diversity of a sample by building on how many varieties there are and what proportion of the total each represents. A maximally rich sample is one with lots of varieties where each comprises a relatively high proportion of of the population.</p>
-<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="the-payoff.html#cb62-1" tabindex="-1"></a><span class="fu">library</span>(vegan)</span>
-<span id="cb62-2"><a href="the-payoff.html#cb62-2" tabindex="-1"></a></span>
-<span id="cb62-3"><a href="the-payoff.html#cb62-3" tabindex="-1"></a>eerk_comb_long <span class="sc">%&gt;%</span> <span class="fu">filter</span>(Count <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(site, source_artifact) <span class="sc">%&gt;%</span></span>
-<span id="cb62-4"><a href="the-payoff.html#cb62-4" tabindex="-1"></a><span class="fu">summarize</span>(<span class="at">shannon_index =</span> <span class="fu">diversity</span>(Count))</span></code></pre></div>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="the-payoff.html#cb61-1" tabindex="-1"></a><span class="fu">library</span>(vegan)</span>
+<span id="cb61-2"><a href="the-payoff.html#cb61-2" tabindex="-1"></a></span>
+<span id="cb61-3"><a href="the-payoff.html#cb61-3" tabindex="-1"></a>eerk_comb_long <span class="sc">%&gt;%</span> <span class="fu">filter</span>(Count <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(site, source_artifact) <span class="sc">%&gt;%</span></span>
+<span id="cb61-4"><a href="the-payoff.html#cb61-4" tabindex="-1"></a><span class="fu">summarize</span>(<span class="at">shannon_index =</span> <span class="fu">diversity</span>(Count))</span></code></pre></div>
 <pre><code>## # A tibble: 10 × 3
 ## # Groups:   site [3]
 ##    site           source_artifact           shannon_index

@@ -628,6 +628,7 @@ You can find any number of guides to data cleaning and manipulation in R, mostly
 - The [*Manipulating, analyzing and exporting data with tidyverse*](https://carpentries-incubator.github.io/R-archaeology-lesson/03-dplyr.html) section of Alison Clarke, François Michonneau, and Auriel Fournier's [*Data Analysis and Visualization in R for Archaeologists*](https://carpentries-incubator.github.io/R-archaeology-lesson/index.html). 
 - This [*The Tidyverse for Archaeologists: A Guide for Beginners*](https://benmarwick.github.io/tidyverse-for-archaeology/tidyverse-for-archaeology.html#1) presentation by Ben Marwick. 
 - The 'Preparing the Data' chapter of Ben Marwick's [*Archaeological Science with R*](https://benmarwick.github.io/aswr/preparingthedata.html). Note that the book itself is a work in progress...and hasn't been updated in some time. 
+- Blake Vernon's [*Quantitative Analysis of Archaeological Data* course](https://kbvernon.github.io/qaad/), particularly [the 'Working with Tables' lab](https://kbvernon.github.io/qaad/labs/06-dataframes-lab.html).
 
 
 
