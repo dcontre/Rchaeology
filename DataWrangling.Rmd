@@ -25,9 +25,9 @@ colorize <- function(x, color) {
 
 # to-do 
 
-- add hidden code for Eerkens Table 2 and Table 3 
 - add revealable code? **unilur**?
-- make sure structure of each section is 'Demo' with Drennan, then 'Putting it into practice' with Eerkens. Or re-order; all demo, then all 'putting it into practice'?
+- make sure structure of each section is 'Demo' with Drennan, then 'Putting it into practice' with Eerkens. Or re-order; all demo, then all 'putting it into practice'? 
+- tables in **kable**?
 
 
 # Introduction
@@ -84,7 +84,7 @@ knitr::include_graphics("imgs/tabula.png")
 
 [Tabula](https://tabula.technology/)
 
-We'll look at pages 589-592 from Eerkens et al. 2007[@eerkens2007], which contains three tables of interest. Scrape all three using **tabula** (there is a **tabulapdf** package that provides an interface through R...but it generally doesn't work as well), and save the three resulting .csv files in your 'data' folder. Examine the results, and you'll find that the scraping isn't perfect: characters may be misinterpreted (empty spaces and placeholders tend to cause trouble) and not everything winds up exactly where it should. This is generally easiest to fix by opening the .csv in MSExcel or something like it and editing there, comparing to the .pdf table to make sure you get accurate output.
+We'll look at pages 589-592 from Eerkens and colleagues 2007 [paper]((https://www.cambridge.org/core/journals/american-antiquity/article/abs/reduction-strategies-and-geochemical-characterization-of-lithic-assemblages-a-comparison-of-three-case-studies-from-western-north-america/261B64DA3C2F3D77B4D480E169778CD6)) [@eerkens2007], which contains three tables of interest. Scrape all three using **tabula** (there is a **tabulapdf** package that provides an interface through R...but it generally doesn't work as well), and save the three resulting .csv files in your 'data' folder. Examine the results, and you'll find that the scraping isn't perfect: characters may be misinterpreted (empty spaces and placeholders tend to cause trouble) and not everything winds up exactly where it should. This is generally easiest to fix by opening the .csv in MSExcel or something like it and editing there, comparing to the .pdf table to make sure you get accurate output.
 
 Once you have the three tables looking as they should, read them in with `read.csv()` or `read_csv()`. If Tabula isn't cooperating and/or you want to learn less, you can find .csv versions in the 'data' folder.
 
@@ -97,16 +97,20 @@ eerk_tab3 <- read_csv("data/Eerkens_2007_Table3.csv")
 ```
 
 
-What we want to do is tidy these tables up, and combine them into a single table that includes a variable for site (Table 1 is material from Sherwin Summit, Table 2 from Mohawk Valley, and Table 3 from Bone Cave). That desire leads us to...
+What we want to do is tidy these tables up, and combine them into a single table that includes a variable for site (Table 1 is material from Sherwin Summit, Table 2 from Mohawk Valley, and Table 3 from Bone Cave). Those desires leads us to...
 
 # Cleaning data
 
--   standardize no data value to NA
--   flesh out column names and make sure they match between tables
--   remove marginal totals and then join, allowing for the fact that not every site has material from the same sources [data wrangling]
--   exploratory visualization as payoff
+A few common data-cleaning tasks:
 
-We'll do this the **tidyverse** [`r emo::ji("face with rolling eyes")`] way, using `pipes` (`%>%`), since we're going to use the **dplyr** package and most of the examples you'll find do so. Note that even using pipes, if you don't write the result to an object (often overwriting the one that you feed into the pipe), it will be ephemeral. So, `drennan6.1b <- drennan6.1b %>%` is more likely to be useful than just `drennan6.1b %>%`. 
+- adding and removing columns 
+- converting character columns to factors 
+
+We'll do these the **tidyverse** [`r emo::ji("face with rolling eyes")`] way, using `pipes` (`%>%`), since we're going to use the **dplyr** package and most of the examples you'll find in the wild do so. Note that even using pipes, if you don't write the result to an object (often overwriting the one that you feed into the pipe), it will be ephemeral. So, `drennan6.1b <- drennan6.1b %>%` is more likely to be useful than just `drennan6.1b %>%`. 
+
+## Column/variable management
+
+### Removing columns with `select()`
 
 Unless we've specified which cells we want with the `range =` argument when reading in the sheet, Table 6.1b has some extraneous columns produced because R detected text outside of the first four and expanded the range accordingly. 
 
@@ -118,38 +122,46 @@ drennan6.1b <- drennan6.1b %>% select(-c(`...5`, `...6`, `...7`))
 #where column names have punctuation, enclose them in ``
 ```
 
+### Changing column classes and adding columns with `mutate()`
+
+The `mutate()` function can be used to modify existing columns by simply overwriting them. 
 
 ```{r mutating}
 drennan6.1b %>% mutate(Site = factor(Site), Unit = factor(Unit))
 
 #or, more efficiently where multiple columns are involved
 drennan6.1b <- drennan6.1b %>% mutate(across(Site:Unit, as.factor))
+```
 
-#mutate can also be used to create new columns, as assigning to `$` would
-#but remember that piping is ephemeral if you're not writing to an object
+Mutate can also be used to create new columns, as assigning to `$` would (but remember that piping is ephemeral if you're not writing to an object).
+
+```{r mutating-cont}
 drennan6.1b <- drennan6.1b %>% mutate(PropIncised = Incised/(Incised + Unincised))
 ```
 
 ## Putting it into practice
 
 Now that you have seen how this works, let's tidy up the Eerkens et al. tables so that we can use them. Looking at them, we'll need to: 
+
 - make sure that no-data values are `NA`, 
 - correct typos, 
-- rename columns, 
+- rename columns, making sure that they match between tables,
 - remove marginal totals,
 - add a 'Site' column, and
 - make sure that column classes are as we'd like. 
 
+
 Below I'll do this with Eerkens et al. 2007 Table 1; you'll need to do the equivalent with Table 2 and Table 3 so that we can combine all three. 
 
-We'll start by defining the no-data values. I find the **dplyr** syntax here annoying and almost illegible...but it's undeniably effective.
+We'll start by defining the no-data values. I find the **dplyr** syntax here a bit opaque...but it's undeniably effective.
 
 ```{r defineNA}
 
-eerk_tab1 <- eerk_tab1 %>% mutate(across(where(is.character), ~na_if(., "-")))
+eerk_tab1 %>% replace(. == "-", NA)
 
-### or with replace()? 
 ```
+
+`r colorize("Do the same for Eerkens et al. 2007 Table 2 and Table 3.", "orange")`  
 
 ```{r echo = F}
 eerk_tab2 <- eerk_tab2 %>% mutate(across(where(is.character), ~na_if(., "-")))
@@ -157,7 +169,7 @@ eerk_tab2 <- eerk_tab2 %>% mutate(across(where(is.character), ~na_if(., "-")))
 eerk_tab3 <- eerk_tab3 %>% mutate(across(where(is.character), ~na_if(., "-")))
 ```
 
-We can "recode" to deal with typos (or any other values that we'd like to change). This used to be handled in **dplyr** by a function called - sensibly - `recode()`...but that has been replaced by one called `case_match()`. Although you can still use `recode()`, we'll try to keep up with the times by using `case_match()`.
+We can "recode" to deal with typos (or any other values that we'd like to change). This used to be handled in **dplyr** by a function called - sensibly - `recode()`...but that has been replaced by one called `case_match()`. Although you can still use `recode()`, we'll try to keep up with the times by using `case_match()` (`case_when()` also works for this).
 
 ```{r case_matching}
 
@@ -277,10 +289,12 @@ We might also want to turn some of our character variables into factors, but if 
 
 # Wrangling data
 
-One common task to is integrate information that has been stored inconveniently. In the case of Table 6.1b, there's information stored in the second sheet that we might like to include in our table. Because there's not much of it, we can do this manually, by recoding. We'll also explore automating the process, which you would want to do with there were 30 rows rather than 3. 
+One common task is to reformat and/or integrate information that has been stored inconveniently. Sometimes this involves combining or splitting columns because we're unsatisfied with how data have been recorded. Other times this is because the data formats for recording, communicating, and analyzing data match rather imperfectly. Very often it's sensible and efficient to *record* data in *wide format* (each row a case containing observations about that case stored in columns), *review* and/or *communicate* it in *summary* format (cased grouped by some shared value of a given variable), and *analyze* it in *long* format (each row a unique combination of case, variable, and value).
+
+In the case of Table 6.1b, there's information stored in the second sheet that we might like to include in our table. Because there's not much of it, we can do this manually, by using `case_when()` to populate a new column . We'll also explore automating the process, which you would want to do with there were 30 rows rather than 3. 
 
 ## `case_when()`
-First we'll use **dplyr**'s `case_when()` function, which is effectively a version of `if_else()`. We'll combine it with `mutate()` to make a new column, and then populate that column depending on what the value of another column in the same row is. What we're doing in R working out way down the rows of Table 6.1b, checking the site, then looking at Table 6.1b Sheet 2 to see what period that site belongs to, and filling that information in a new column.
+First we'll use **dplyr**'s `case_when()` function, which is effectively a version of `if_else()`. We'll combine it with `mutate()` to make a new column, and then populate that column depending on the value associated in another table. What we're doing in R working out way down the rows of Table 6.1b, checking the site, then looking at Table 6.1b Sheet 2 to see what period that site belongs to, and filling that information in a new column.
 
 ```{r case_when}
 drennan6.1b_2
@@ -292,7 +306,6 @@ drennan6.1b %>% mutate(Period = case_when(
 ))
 
 #repeat for area
-
 drennan6.1b %>% mutate(Area = case_when(
   Site == "Oak Grove" ~ 2.2, #numeric so shouldn't be in ""
   Site == "Maple Knoll" ~ 2.9,
@@ -323,6 +336,16 @@ drennan6.1b %>% left_join(drennan6.1b_2, by = "Site")
 drennan6.1b <- drennan6.1b %>% left_join(drennan6.1b_2)
 ```
 
+## `separate()`
+
+Suppose that we sometimes want to lump all of these sites as belonging to the Formative Period, and other times we want to separate according to whether they're Middle Formative or Late Formative? This would be simpler if we had a 'Period' column and a second 'Subperiod' column. There's a convenient function for this is the **tidyr** package (another of the tendrils of the tidyverse). 
+
+```{r}
+library(tidyr)
+drennan6.1b %>% separate(Period, into = c("Subperiod", "Period"), sep = " ")
+```
+
+
 ## `bind_rows()`
 
 In the case of the Eerkens et al. 2007 tables, joining is not what we want - the tables encode information about different sites, so we don't want to take information from one table and fill it in to rows of another. Rather, we want to combine the tables by adding rows, and filling in columns with empty values where one table has a column and another does not. 
@@ -351,15 +374,15 @@ Summarizing needs - logically - a function that will *summarize* multiple inputs
 
 ```{r summarizing}
 #grouping and summarizing
-drennan6.1b %>% group_by(Site) %>% summarize(Incised = sum(Incised), Unincised = sum(Unincised),
+drennan6.1b %>% group_by(Site) %>% summarize(Incised = sum(Incised), 
+                                             Unincised = sum(Unincised),
                                              Units = length(Unit))
-
 
 ```
 
 We can combine `summarize()` and `across()` to perform the same summary operation on multiple columns. Note that we may need to include an `na.rm = T` argument if our sums are likely to include `NA` values and we want to treat those as 0s.
 
-```{r}
+```{r summarize-across, warning=F}
 eerk_bysite <- eerk_comb %>% group_by(site) %>% 
   summarize(across(casa_diablo:whitewater_ridge, sum, na.rm = T))
 ```
@@ -376,7 +399,8 @@ eerk_comb <- eerk_comb %>%
 This makes it interesting to summarize by other factors than site.
 
 ```{r}
-eerk_comb %>% group_by(source_artifact) %>% summarize(source_diversity = mean(sources_represented))
+eerk_comb %>% group_by(source_artifact) %>% 
+  summarize(source_diversity = mean(sources_represented))
 ```
 
 ## `pivot_wider()` and `pivot_longer()`
@@ -388,7 +412,7 @@ eerk_dist <- read_csv("data/Eerkens2007_distances.csv")
 ```
 
 These data are of interest because Eerkens and colleagues argue that obsidians that are more and less difficult to procure will not only be more and less common, but also differently represented amongst different kinds of artifacts. These data are, however, in a form that is inconvenient, and in a way that can't be addressed by simple summary. We could more easily make sense of a table that has, instead of one row for each unique combination of site and source, one row for each *site*, a column for each source, and a distance in each cell. Moving between these options is commonly called *pivoting* a table. The tidyverse functions for this are `pivot_longer()` and `pivot_wider()`, from the **tidyr** package. 
-The `pivot` vocabulary and syntax are often incomprehensible, but it's possible to follow the examples in the vignette that accompanies the package (try `vignette("pivot")`).
+The `pivot` vocabulary and syntax are often incomprehensible, but it's possible to follow the examples in the vignette that accompanies the package (try `vignette("pivot")`; many packages include demos ["vignettes"] that are often more obviously helpful than the abstracted info provided by `?`).
 
 ```{r}
 library(tidyr)
@@ -405,18 +429,30 @@ eerk_dist_summ %>% pivot_longer(cols = !Site,
                                 values_to = "Distance")
 ```
 
-```{r}
-eerk_comb
+## Combining information 
+
+We have one data frame that tells us how many artifacts of each class came from different sources from the three case-study sites, and another that tells us distances from sites to sources. One thing that we might want is a data frame that gives us distances from sites to *used* sources (since the distances to unused sources are at best irrelevant and at worst confusing). 
+
+```{r combining-info}
 eerk_dist_summ <- eerk_dist_summ %>% clean_names("snake")
 
 #check that names match
 compare_df_cols(eerk_bysite, eerk_dist_summ)
 
+#make a binary table (sources used or not)
 eerk_bysite_bin <- eerk_bysite %>% select(-site) %>% replace(.>0, 1)
   
+#multiply binary table by distance table
+#NA for unused sources
 obsid_dist <- mapply("*", eerk_bysite_bin, eerk_dist_summ[,-1]) %>% data.frame() %>%
-  mutate(site = eerk_bysite$site) %>% relocate(site, .before = casa_diablo)
+  mutate(site = eerk_bysite$site) %>% relocate(site, .before = casa_diablo) %>% 
+  replace(. == 0, NA)
 
+```
+
+```{r echo=F, results='hide'}
+
+#work on average distances/artifact class for each site
 
 sherwin <- eerk_comb %>% filter(site == "Sherwin Summit") %>% 
   select(-c(site, source_artifact, sources_represented)) %>% 
@@ -466,7 +502,8 @@ library(ggplot2)
 library(ggstats)
 library(RColorBrewer)
 
-eerk_comb_long <- eerk_comb %>% pivot_longer(cols = !c(site, source_artifact, sources_represented), 
+eerk_comb_long <- eerk_comb %>% 
+  pivot_longer(cols = !c(site, source_artifact, sources_represented), 
                            names_to = "Source",
                            values_to = "Count") %>%
   mutate(Count = case_when(      #replace NAs with 0s
@@ -477,8 +514,11 @@ eerk_comb_long <- eerk_comb %>% pivot_longer(cols = !c(site, source_artifact, so
 #how many colors do we need?
 unique(eerk_comb_long$Source)
 #a lot
-mypalette <- colorRampPalette(brewer.pal(12, "Set3"))(29)
+mypalette <- colorRampPalette(brewer.pal(12, "Set3"))(length(unique(eerk_comb_long$Source)))
 
+```
+
+```{r}
 eerk_comb_long %>% ggplot() +
   geom_bar(aes(x = source_artifact, fill = Source, weight = Count)) +
   scale_fill_manual(values = mypalette) +
@@ -553,7 +593,7 @@ We might also consider - as Eerkens and colleagues do - how sources represented 
 ```{r}
 obsid_dist_l <- obsid_dist %>% 
   pivot_longer(-site, names_to = "source", values_to = "distance") %>%
-  filter(distance > 0)
+  filter(is.na(distance) == F)
 
 obsid_dist_l %>% ggplot() +
   geom_bar(aes(x = site, fill = source, y = distance),
