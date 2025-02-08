@@ -273,7 +273,7 @@ eerk_tab3 <- eerk_tab3 %>% mutate(site = "Bone Cave")
 
 We can also use `mutate()` to alter column classes. We want to make sure, in particular, that our counts are 'numeric' rather than 'character' variables (`read_csv()` is likely to have guessed the to be character variables if it found *anything* non-numeric in them). We can do this efficiently by combining `across()` with `mutate()`. Referring to column names in code makes clear how useful **janitor**'s `clean_names()` function is (and how convenient "snake" case is for lazy typists).
 
-```{r as-numeric}
+```{r as-numeric, warning = F}
 eerk_tab1 <- eerk_tab1 %>% mutate(across(casa_diablo:coso, as.numeric))
 ```
 
@@ -329,10 +329,10 @@ drennan6.1b %>% mutate(
 Note that, as above, without a `<-` we are not saving our new, improved object. Not to worry - we'll produce it again - more efficiently - and save that. To do so we'll use a *join*, which updates one table based on information in another, using shared values to define a relationship. 
 There are multiple types of joins (inner/outer, left/right/full) that can be carried out in various ways (see `?join`), and their implementation can get tricky. We'll use a left join (`left_join()`), which takes the first table ('x'), and searches a second table ('y') for matching values in shared (or specified) columns. That is, if both `x` and `y` have a column `z`, `left_join()` searches `x$z`, and if a value of `"a"` is present in both `x$z` and `y$z`, it takes whatever other information is in that row of `y` and appends it to the matching row in `x`. That's probably hard to follow in the abstract, but have a look at how it works:
 
-```{r joining}
+```{r joining, message=F}
 drennan6.1b %>% left_join(drennan6.1b_2, by = "Site")
 
-#if we don't specify `by=`, it will guess based on column names
+#if we don't specify `by=`, `left_join()` will guess based on column names
 drennan6.1b <- drennan6.1b %>% left_join(drennan6.1b_2)
 ```
 
