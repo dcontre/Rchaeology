@@ -2,7 +2,7 @@
 title: "Data Cleaning and Wrangling"
 subtitle: "An Introduction to Manipulating Archaeological Data"
 author: "D. Contreras"
-date: "2025-02-04"
+date: "2025-02-09"
 output: bookdown::gitbook
 bibliography: references.bib
 ---
@@ -25,7 +25,6 @@ colorize <- function(x, color) {
 }
 ```
 
-
 # Introduction
 
 One of an archaeologist's most common challenges is struggling with an uncooperative dataset. Sometimes you might have no-oone to blame but yourself, and other times you may be working with existing (published/inherited/"legacy") data. They might be causing trouble for all sorts of reasons: for example, because they are full of typographical errors, because recording conventions were inconsistent, because they are formatted in a way that R finds inconvenient, or because the units of analysis in which you're interested differ from those of the initial collector of the data.
@@ -36,12 +35,11 @@ Because this is such a common problem, data *cleaning* and data *wrangling* are 
 knitr::include_graphics("imgs/expletives.png")
 ```
 
-What you'll find here are the tools you need to get started with data cleaning and manipulation -  concepts, plus an introduction to the very useful (and often irritating) **dplyr** package. We'll cover: 
+What you'll find here are the tools you need to get started with data cleaning and manipulation - concepts, plus an introduction to the very useful (and often irritating) **dplyr** package. We'll cover:
 
-- harvesting data (from importing .csvs to reading MSExcel files and GoogleSheets to scraping .pdfs) 
-- naming, renaming, and recoding 
-- summarizing and reshaping (wide to long data [and back again?]) 
-
+-   harvesting data (from importing .csvs to reading MSExcel files and GoogleSheets to scraping .pdfs)
+-   naming, renaming, and recoding
+-   summarizing and reshaping (wide to long data [and back again?])
 
 # Acquiring data
 
@@ -51,14 +49,14 @@ You can probably figure out a way to read just about any tabular data into R. We
 
 We've loaded the **dplyr** package above, and we'll add the **readxl**, **googlesheets4** packages here. They do exactly what you'd expect from the names. Since you're already familiar with `read.csv()` and `read.delim` from Base R, we'll skip those here. As it is wont to do, the **tidyverse** reinvents the wheel and adds a `read_csv()` function in the **readr** package. It it similar to the Base R function most of the time, but sometimes better at parsing files, and by default produces a `tibble`, which is a **tidyverse** version of a data frame.
 
-You'll find an .xlsx versions of a modified Drennan Table 6-1 in the 'data' folder, and a a google sheet version [here](https://docs.google.com/spreadsheets/d/1bnZ7QSc1hjQ1HYQwXFNUHY3Yf4DLiNw4B68gl3texJc/edit?usp=sharing). Try importing both just to see that both are possible, but then pick one - you only need one version of `drennan6.1b` and `drennan6.1b_2`.
+You'll find an .xlsx version of a table modified from Drennan's [-@drennan2009] Table 6-1 in the 'data' folder, and a a google sheet version [here](https://docs.google.com/spreadsheets/d/1bnZ7QSc1hjQ1HYQwXFNUHY3Yf4DLiNw4B68gl3texJc/edit?usp=sharing). Try importing both just to see that it's possible to do either, but then pick one - you only need one version of `drennan6.1b` and `drennan6.1b_2`.
 
-Note that some information is stored on a second sheet; you'll want that also. Note also that some information is encoded by highlighting cells. How might you alter the spreadhseet to make that information capturable? 
+Note that some information is stored on a second sheet; you'll want that also. Note also that some information is encoded by highlighting cells. How might you alter the spreadhseet to make that information capturable [you needn't do this; just think about it]?
 
-To note: 
+To note:
 
-- .csv is the most easily and reliably readable tabular format, but will not save formulas, colored cells, multiple sheets, etc...but when you read an .xlsx file you can't easily capture that info anyway...so it's not good practice to store information that way. 
-- For an .xlsx or a google sheet, you may to have specify which range of cells and/or which sheet you want. 
+-   .csv is the most easily and reliably readable tabular format, but will not save formulas, colored cells, multiple sheets, etc...but when you read an .xlsx file you can't easily capture that info anyway...so it's not good practice to store information that way.
+-   For an .xlsx or a google sheet, you may to have specify which range of cells and/or which sheet you want.
 
 For `googlesheets4::read_sheet()` to work, you may have to authenticate. If you don't get prompted and you get authentication errors, try running `gs4_auth()` in the console.
 
@@ -95,13 +93,13 @@ eerk_tab2 <- read_csv("data/Eerkens_2007_Table2.csv")
 eerk_tab3 <- read_csv("data/Eerkens_2007_Table3.csv")
 ```
 
-It's *always* a good idea to have a look at your data before you do anything. 
+It's *always* a good idea to have a look at your data before you do anything.
 
 ```{r}
 eerk_tab1
 ```
 
-It's immediately clear that we have some work to do. There are two different ways of indicating no data ("NA" and "-"), there are still a few typos, and it's not obvious which site these data are from. 
+It's immediately clear that we have some work to do. There are two different ways of indicating no data ("NA" and "-"), there are still a few typos, and it's not obvious which site these data are from.
 
 What we want to do is tidy these tables up, and combine them into a single table that includes a variable for site (the captions indicate that Table 1 is material from Sherwin Summit, Table 2 from Mohawk Valley, and Table 3 from Bone Cave). Those desires leads us to...
 
@@ -109,16 +107,16 @@ What we want to do is tidy these tables up, and combine them into a single table
 
 A few common data-cleaning tasks:
 
-- adding and removing columns 
-- converting character columns to factors 
+-   adding and removing columns
+-   converting character columns to factors
 
-We'll do these the **tidyverse** [`r emo::ji("face with rolling eyes")`] way, using `pipes` (`%>%`), since we're going to use the **dplyr** package and most of the examples you'll find in the wild do so. Note that even using pipes, if you don't write the result to an object (often overwriting the one that you feed into the pipe), it will be ephemeral. So, `drennan6.1b <- drennan6.1b %>%` is more likely to be useful than just `drennan6.1b %>%`. 
+We'll do these the **tidyverse** [`r emo::ji("face with rolling eyes")`] way, using `pipes` (`%>%`), since we're going to use the **dplyr** package and most of the examples you'll find in the wild do so. Note that even using pipes, if you don't write the result to an object (often overwriting the one that you feed into the pipe), it will be ephemeral. So, `drennan6.1b <- drennan6.1b %>%` is more likely to be useful than just `drennan6.1b %>%`.
 
 ## Column/variable management
 
 ### Removing columns with `select()`
 
-Unless we've specified which cells we want with the `range =` argument when reading in the sheet, Table 6.1b has some extraneous columns produced because R detected text outside of the first four and expanded the range accordingly. 
+Unless we've specified which cells we want with the `range =` argument when reading in the sheet, Table 6.1b has some extraneous columns produced because R detected text outside of the first four and expanded the range accordingly.
 
 ```{r selecting}
 drennan6.1b %>% select(Site:Unincised)
@@ -130,7 +128,7 @@ drennan6.1b <- drennan6.1b %>% select(-c(`...5`, `...6`, `...7`))
 
 ### Changing column classes and adding columns with `mutate()`
 
-The `mutate()` function can be used to modify existing columns by simply overwriting them. 
+The `mutate()` function can be used to modify existing columns by simply overwriting them.
 
 ```{r mutating}
 drennan6.1b %>% mutate(Site = factor(Site), Unit = factor(Unit))
@@ -147,17 +145,16 @@ drennan6.1b <- drennan6.1b %>% mutate(PropIncised = Incised/(Incised + Unincised
 
 ## Putting it into practice
 
-Now that you have seen how this works, let's tidy up the Eerkens et al. tables so that we can use them. Looking at them, we'll need to: 
+Now that you have seen how this works, let's tidy up the Eerkens et al. tables so that we can use them. Looking at them, we'll need to:
 
-- make sure that no-data values are `NA`, 
-- correct typos, 
-- rename columns, making sure that they match between tables,
-- remove marginal totals,
-- add a 'Site' column, and
-- make sure that column classes are as we'd like. 
+-   make sure that no-data values are `NA`,
+-   correct typos,
+-   rename columns, making sure that they match between tables,
+-   remove marginal totals,
+-   add a 'Site' column, and
+-   make sure that column classes are as we'd like.
 
-
-Below I'll do this with Eerkens et al. 2007 Table 1; you'll need to do the equivalent with Table 2 and Table 3 so that we can combine all three. 
+Below I'll do this with Eerkens et al. 2007 Table 1; you'll need to do the equivalent with Table 2 and Table 3 so that we can combine all three.
 
 We'll start by defining the no-data values. I find the **dplyr** syntax here a bit opaque...but it's undeniably effective.
 
@@ -167,7 +164,7 @@ eerk_tab1 %>% replace(. == "-", NA)
 
 ```
 
-`r colorize("Do the same for Eerkens et al. 2007 Table 2 and Table 3.", "orange")`  
+`r colorize("Do the same for Eerkens et al. 2007 Table 2 and Table 3.", "orange")`
 
 ```{r echo = F}
 eerk_tab2 <- eerk_tab2 %>% replace(. == "-", NA)
@@ -187,7 +184,7 @@ eerk_tab1 <- eerk_tab1 %>% mutate(`Source Artifact` = case_match(`Source Artifac
 
 ```
 
-The other two Eerkens tables don't seem to need any recoding, so we can move on to the column names. Looking at the data frames and/or using `colnames()` will make clear that there are both typos and abbreviations in the column names. The former are obviously mistakes; the latter imposed by the formatting limitations of published tables. Fortunately we can refer to the full names on the published map. Since "BS/PP/FM" and "GF/LIW/RS" are lumping multiple nearby source and the full lists ("Bordwell Spring, PintoPeak,Fox Mountain, and Hart Mountain", and "Grasshopper Flat, Lost Iron Well, and Red Switchback") would be clunky column names, we'll leave them as-is. 
+The other two Eerkens tables don't seem to need any recoding, so we can move on to the column names. Looking at the data frames and/or using `colnames()` will make clear that there are both typos and abbreviations in the column names. The former are obviously mistakes; the latter imposed by the formatting limitations of published tables. Fortunately we can refer to the full names on the published map. Since "BS/PP/FM" and "GF/LIW/RS" are lumping multiple nearby source and the full lists ("Bordwell Spring, PintoPeak,Fox Mountain, and Hart Mountain", and "Grasshopper Flat, Lost Iron Well, and Red Switchback") would be clunky column names, we'll leave them as-is.
 
 ![](imgs/Eerkens_2007_map.png)
 
@@ -211,7 +208,7 @@ eerk_tab2 <- eerk_tab2 %>% rename("Buffalo Hills" = "Buf. Hills",
                                   )
 ```
 
-`r colorize("Do the same for Eerkens et al. 2007 Table 3.", "orange")`  
+`r colorize("Do the same for Eerkens et al. 2007 Table 3.", "orange")`
 
 ```{r echo = F}
 eerk_tab3 <- eerk_tab3 %>% rename("Obsidian Cliffs" = "Obs. Cliff",
@@ -228,8 +225,7 @@ eerk_tab3 <- eerk_tab3 %>% rename("Obsidian Cliffs" = "Obs. Cliff",
                                   )
 ```
 
-As you'll have noticed above, column names with punctuation can be a hassle (need to be enclosed in tickmarks [`]). 
-The **janitor** package ("simple little tools for examining and cleaning dirty data") streamlines the standardization of these names (the `case=` argument controls whether you'll get "Source Artifact", "source_artifact", or "SourceArtifact", etc.). 
+As you'll have noticed above, column names with punctuation can be a hassle (need to be enclosed in tickmarks [`]).  The **janitor** package ("simple little tools for examining and cleaning dirty data") streamlines the standardization of these names (the`case=\` argument controls whether you'll get "Source Artifact", "source_artifact", or "SourceArtifact", etc.).
 
 ```{r janitor}
 library(janitor)
@@ -240,8 +236,7 @@ clean_names(eerk_tab1, case = "snake")
 eerk_tab1 <- eerk_tab1 %>% clean_names(case = "snake")
 ```
 
-`r colorize("Do the same for Eerkens et al. 2007 Table 2 and Table 3.", "orange")`  
-
+`r colorize("Do the same for Eerkens et al. 2007 Table 2 and Table 3.", "orange")`
 
 ```{r echo = F}
 eerk_tab2 <- clean_names(eerk_tab2, case = "snake")
@@ -258,7 +253,7 @@ eerk_tab1 %>% filter(source_artifact != "Totals")
 eerk_tab1 <- eerk_tab1 %>% select(-totals) %>% filter(source_artifact != "Totals")
 ```
 
-`r colorize("Do the same for Eerkens et al. 2007 Table 2 and Table 3.", "orange")`  
+`r colorize("Do the same for Eerkens et al. 2007 Table 2 and Table 3.", "orange")`
 
 ```{r echo = F}
 eerk_tab2 <- eerk_tab2 %>% select(-totals) %>% filter(source_artifact != "Totals")
@@ -271,7 +266,7 @@ Each of the three tables contains information from a separate site, but the site
 eerk_tab1 <- eerk_tab1 %>% mutate(site = "Sherwin Summit")
 ```
 
-`r colorize("Do the same for Eerkens et al. 2007 Table 2 and Table 3.", "orange")`  
+`r colorize("Do the same for Eerkens et al. 2007 Table 2 and Table 3.", "orange")`
 
 ```{r echo=F}
 eerk_tab2 <- eerk_tab2 %>% mutate(site = "Mohawk Valley")
@@ -284,23 +279,23 @@ We can also use `mutate()` to alter column classes. We want to make sure, in par
 eerk_tab1 <- eerk_tab1 %>% mutate(across(casa_diablo:coso, as.numeric))
 ```
 
-`r colorize("Do the same for Eerkens et al. 2007 Table 2 and Table 3.", "orange")`  
+`r colorize("Do the same for Eerkens et al. 2007 Table 2 and Table 3.", "orange")`
 
 ```{r echo=F}
 eerk_tab2 <- eerk_tab2 %>% mutate(across(buffalo_hills:truman_queen, as.numeric))
 eerk_tab3 <- eerk_tab3 %>% mutate(across(obsidian_cliffs:whitewater_ridge, as.numeric))
 ```
 
-We might also want to turn some of our character variables into factors, but if we plan to combine the tables it's usually safest to do that *after* combining. 
-
+We might also want to turn some of our character variables into factors, but if we plan to combine the tables it's usually safest to do that *after* combining.
 
 # Wrangling data
 
 One common task is to reformat and/or integrate information that has been stored inconveniently. Sometimes this involves combining or splitting columns because we're unsatisfied with how data have been recorded. Other times this is because the data formats for recording, communicating, and analyzing data match rather imperfectly. Very often it's sensible and efficient to *record* data in *wide format* (each row a case containing observations about that case stored in columns), *review* and/or *communicate* it in *summary* format (cased grouped by some shared value of a given variable), and *analyze* it in *long* format (each row a unique combination of case, variable, and value).
 
-In the case of Table 6.1b, there's information stored in the second sheet that we might like to include in our table. Because there's not much of it, we can do this manually, by using `case_when()` to populate a new column . We'll also explore automating the process, which you would want to do with there were 30 rows rather than 3. 
+In the case of Table 6.1b, there's information stored in the second sheet that we might like to include in our table. Because there's not much of it, we can do this manually, by using `case_when()` to populate a new column . We'll also explore automating the process, which you would want to do with there were 30 rows rather than 3.
 
 ## `case_when()`
+
 First we'll use **dplyr**'s `case_when()` function, which is effectively a version of `if_else()`. We'll combine it with `mutate()` to make a new column, and then populate that column depending on the value associated in another table. What we're doing in R working out way down the rows of Table 6.1b, checking the site, then looking at Table 6.1b Sheet 2 to see what period that site belongs to, and filling that information in a new column.
 
 ```{r case_when}
@@ -333,8 +328,8 @@ drennan6.1b %>% mutate(
 ```
 
 ## `left_join()`
-Note that, as above, without a `<-` we are not saving our new, improved object. Not to worry - we'll produce it again - more efficiently - and save that. To do so we'll use a *join*, which updates one table based on information in another, using shared values to define a relationship. 
-There are multiple types of joins (inner/outer, left/right/full) that can be carried out in various ways (see `?join`), and their implementation can get tricky. We'll use a left join (`left_join()`), which takes the first table ('x'), and searches a second table ('y') for matching values in shared (or specified) columns. That is, if both `x` and `y` have a column `z`, `left_join()` searches `x$z`, and if a value of `"a"` is present in both `x$z` and `y$z`, it takes whatever other information is in that row of `y` and appends it to the matching row in `x`. That's probably hard to follow in the abstract, but have a look at how it works:
+
+Note that, as above, without a `<-` we are not saving our new, improved object. Not to worry - we'll produce it again - more efficiently - and save that. To do so we'll use a *join*, which updates one table based on information in another, using shared values to define a relationship. There are multiple types of joins (inner/outer, left/right/full) that can be carried out in various ways (see `?join`), and their implementation can get tricky. We'll use a left join (`left_join()`), which takes the first table ('x'), and searches a second table ('y') for matching values in shared (or specified) columns. That is, if both `x` and `y` have a column `z`, `left_join()` searches `x$z`, and if a value of `"a"` is present in both `x$z` and `y$z`, it takes whatever other information is in that row of `y` and appends it to the matching row in `x`. That's probably hard to follow in the abstract, but have a look at how it works:
 
 ```{r joining, message=F}
 drennan6.1b %>% left_join(drennan6.1b_2, by = "Site")
@@ -345,17 +340,16 @@ drennan6.1b <- drennan6.1b %>% left_join(drennan6.1b_2)
 
 ## `separate()`
 
-Suppose that we sometimes want to lump all of these sites as belonging to the Formative Period, and other times we want to separate according to whether they're Middle Formative or Late Formative? This would be simpler if we had a 'Period' column and a second 'Subperiod' column. There's a convenient function for this is the **tidyr** package (another of the tendrils of the tidyverse). 
+Suppose that we sometimes want to lump all of these sites as belonging to the Formative Period, and other times we want to separate according to whether they're Middle Formative or Late Formative? This would be simpler if we had a 'Period' column and a second 'Subperiod' column. There's a convenient function for this is the **tidyr** package (another of the tendrils of the tidyverse).
 
 ```{r}
 library(tidyr)
 drennan6.1b %>% separate(Period, into = c("Subperiod", "Period"), sep = " ")
 ```
 
-
 ## `bind_rows()`
 
-In the case of the Eerkens et al. 2007 tables, joining is not what we want - the tables encode information about different sites, so we don't want to take information from one table and fill it in to rows of another. Rather, we want to combine the tables by adding rows, and filling in columns with empty values where one table has a column and another does not. 
+In the case of the Eerkens et al. 2007 tables, joining is not what we want - the tables encode information about different sites, so we don't want to take information from one table and fill it in to rows of another. Rather, we want to combine the tables by adding rows, and filling in columns with empty values where one table has a column and another does not.
 
 ```{r bind_rows}
 
@@ -373,9 +367,7 @@ eerk_comb %>% mutate(site = factor(site),
                      source_artifact = factor(source_artifact))
 ```
 
-
 ## `group_by()` and `summarize()`
-
 
 Summarizing needs - logically - a function that will *summarize* multiple inputs in one. Keep in mind that you are squishing the values of many cells in the first table into a single cell in the second, so `summarize()` will need some function with which to do so (sum, mean, median, etc).
 
@@ -396,7 +388,7 @@ eerk_bysite <- eerk_comb %>% group_by(site) %>%
 eerk_bysite
 ```
 
-We might also want to consider how many sources contribute flakes in each category. In this case we'll use an unholy mix of **dplyr** and Base R syntax. Don't tell. 
+We might also want to consider how many sources contribute flakes in each category. In this case we'll use an unholy mix of **dplyr** and Base R syntax. Don't tell.
 
 ```{r}
 
@@ -420,8 +412,7 @@ We can also add a bit more data to the mix, in the form of Euclidean distances f
 eerk_dist <- read_csv("data/Eerkens2007_distances.csv")
 ```
 
-These data are of interest because Eerkens and colleagues argue that obsidians that are more and less difficult to procure will not only be more and less common, but also differently represented amongst different kinds of artifacts. These data are, however, in a form that is inconvenient, and in a way that can't be addressed by simple summary. We could more easily make sense of a table that has, instead of one row for each unique combination of site and source, one row for each *site*, a column for each source, and a distance in each cell. Moving between these options is commonly called *pivoting* a table. The tidyverse functions for this are `pivot_longer()` and `pivot_wider()`, from the **tidyr** package. 
-The `pivot` vocabulary and syntax are often incomprehensible, but it's possible to follow the examples in the vignette that accompanies the package (try `vignette("pivot")`; many packages include demos ["vignettes"] that are often more obviously helpful than the abstracted info provided by `?`).
+These data are of interest because Eerkens and colleagues argue that obsidians that are more and less difficult to procure will not only be more and less common, but also differently represented amongst different kinds of artifacts. These data are, however, in a form that is inconvenient, and in a way that can't be addressed by simple summary. We could more easily make sense of a table that has, instead of one row for each unique combination of site and source, one row for each *site*, a column for each source, and a distance in each cell. Moving between these options is commonly called *pivoting* a table. The tidyverse functions for this are `pivot_longer()` and `pivot_wider()`, from the **tidyr** package. The `pivot` vocabulary and syntax are often incomprehensible, but it's possible to follow the examples in the vignette that accompanies the package (try `vignette("pivot")`; many packages include demos ["vignettes"] that are often more obviously helpful than the abstracted info provided by `?`).
 
 ```{r}
 library(tidyr)
@@ -430,7 +421,7 @@ eerk_dist_summ <- eerk_dist %>% pivot_wider(names_from = Source,
                                             values_from = `Euclidean Distance`)
 ```
 
-Let's reverse the process, just to see `pivot_longer()` in action. Here we tell the function to do this with every column except the first one, put the column names in a new column called 'Source', and put the values associated with each combination of site and source in a new column called 'Distance'. 
+Let's reverse the process, just to see `pivot_longer()` in action. Here we tell the function to do this with every column except the first one, put the column names in a new column called 'Source', and put the values associated with each combination of site and source in a new column called 'Distance'.
 
 ```{r}
 eerk_dist_summ %>% pivot_longer(cols = !Site, 
@@ -438,9 +429,9 @@ eerk_dist_summ %>% pivot_longer(cols = !Site,
                                 values_to = "Distance")
 ```
 
-## Combining information 
+## Combining information
 
-We have one data frame that tells us how many artifacts of each class came from different sources from the three case-study sites, and another that tells us distances from sites to sources. One thing that we might want is a data frame that gives us distances from sites to *used* sources (since the distances to unused sources are at best irrelevant and at worst confusing). 
+We have one data frame that tells us how many artifacts of each class came from different sources from the three case-study sites, and another that tells us distances from sites to sources. One thing that we might want is a data frame that gives us distances from sites to *used* sources (since the distances to unused sources are at best irrelevant and at worst confusing).
 
 ```{r combining-info}
 eerk_dist_summ <- eerk_dist_summ %>% clean_names("snake")
@@ -494,8 +485,7 @@ mapply("*", sherwin_sources, sherwin_dists) %>% replace(.==0, NA) %>%
 
 # The payoff
 
-
-Now that we have the Eerkens et al. 2007 data cleaned and in the form that we'd like, what do we want to *do* with it? For starters, let's admire our combined data table...then we'll compare the diversity of sources for each artifact class across the different sites. 
+Now that we have the Eerkens et al. 2007 data cleaned and in the form that we'd like, what do we want to *do* with it? For starters, let's admire our combined data table...then we'll compare the diversity of sources for each artifact class across the different sites.
 
 ```{r}
 eerk_comb %>% kable() %>% kable_classic(bootstrap_options = c("condensed")) %>% 
@@ -504,11 +494,11 @@ eerk_comb %>% kable() %>% kable_classic(bootstrap_options = c("condensed")) %>%
 
 ## Visualizing the data
 
-The **tidyverse** is a pretty prescriptive place (there are definitely right and wrong ways to do things), and **tidynerds** prefer to do their data visualization using **ggplot** rather than Base R. Since we've been immersed in **dplyr** here, we'll plot that way as well. A few general rules about ggplot: 
+The **tidyverse** is a pretty prescriptive place (there are definitely right and wrong ways to do things), and **tidynerds** prefer to do their data visualization using **ggplot** rather than Base R. Since we've been immersed in **dplyr** here, we'll plot that way as well. A few general rules about ggplot:
 
-- If you only have a little knowledge of both base R and **ggplot**, it's easier to produce elegant plots with **ggplot**...but harder to control them. If you know both reasonably well, you can produce elegant plots with either; for *complex* plots I usually turn to **ggplot**. 
-- **ggplot** often demands significant data preparation beforehand so that the data are in the format that **ggplot** expects (long rather than wide). If you're not conversant with **dplyr** this will be maddening. Base R can much more easily be coaxed to plot in ways that work with existing data.
-- **ggplot** (like the **tidyverse** in general) tends to be pretty *prescriptive*. As with any template, it's a good idea to think about what *you* want, and how well the template matches your desires, rather than just assuming that it's a) right, and b) smarter than you are. 
+-   If you only have a little knowledge of both base R and **ggplot**, it's easier to produce elegant plots with **ggplot**...but harder to control them. If you know both reasonably well, you can produce elegant plots with either; for *complex* plots I usually turn to **ggplot**.
+-   **ggplot** often demands significant data preparation beforehand so that the data are in the format that **ggplot** expects (long rather than wide). If you're not conversant with **dplyr** this will be maddening. Base R can much more easily be coaxed to plot in ways that work with existing data.
+-   **ggplot** (like the **tidyverse** in general) tends to be pretty *prescriptive*. As with any template, it's a good idea to think about what *you* want, and how well the template matches your desires, rather than just assuming that it's a) right, and b) smarter than you are.
 
 You can of course consult the full **ggplot** [manual](https://ggplot2-book.org/).
 
@@ -586,7 +576,7 @@ eerk_comb_coll_long <- eerk_comb_coll %>%
   ))
 ```
 
-And make a new plot. 
+And make a new plot.
 
 ### Source proportions plotted by artifact type and site {#prop-plot}
 
@@ -603,7 +593,7 @@ eerk_comb_coll_long %>% ggplot() +
        title = "Obsidian source representation by artifact type") 
 ```
 
-We might also consider - as Eerkens and colleagues do - how sources represented relate to distance. 
+We might also consider - as Eerkens and colleagues do - how sources represented relate to distance.
 
 ```{r}
 obsid_dist_l <- obsid_dist %>% 
@@ -618,13 +608,13 @@ obsid_dist_l %>% ggplot() +
   labs(x = "", y = "Distance (km)")
 ```
 
-## Next steps after exploratory visualization 
+## Next steps after exploratory visualization
 
 Generally the point of data visualization is to give you some idea about patterns or relationships in the data that you might explore further. In this case, we've been considering source diversity across artifact types at three different sites, and considering Eerkens and colleagues' contention that source diversity should be higher for small flakes.
 
 ### Diversity indices
 
-We can examine diversity numerically as well as visually. The Shannon index is one of several tools used for quantifying the diversity of a sample by building on how many varieties there are and what proportion of the total each represents. A maximally rich sample is one with lots of varieties where each comprises a relatively high proportion of of the population. 
+We can examine diversity numerically as well as visually. The Shannon index is one of several tools used for quantifying the diversity of a sample by building on how many varieties there are and what proportion of the total each represents. A maximally rich sample is one with lots of varieties where each comprises a relatively high proportion of of the population.
 
 ```{r message = F}
 library(vegan)
@@ -634,19 +624,15 @@ summarize(shannon_index = diversity(Count))
 
 ```
 
-How do these values compare to your assessment of the [plot](#prop-plot) we created above? 
+How do these values compare to your assessment of the [plot](#prop-plot) we created above?
 
 # Resources/Tutorials
 
 You can find any number of guides to data cleaning and manipulation in R, mostly using **tidyverse** and in particular the **dplyr** package. Here are a few archaeology-specific ones:
 
-- The [*Manipulating, analyzing and exporting data with tidyverse*](https://carpentries-incubator.github.io/R-archaeology-lesson/03-dplyr.html) section of Alison Clarke, François Michonneau, and Auriel Fournier's [*Data Analysis and Visualization in R for Archaeologists*](https://carpentries-incubator.github.io/R-archaeology-lesson/index.html). 
-- This [*The Tidyverse for Archaeologists: A Guide for Beginners*](https://benmarwick.github.io/tidyverse-for-archaeology/tidyverse-for-archaeology.html#1) presentation by Ben Marwick. 
-- The 'Preparing the Data' chapter of Ben Marwick's [*Archaeological Science with R*](https://benmarwick.github.io/aswr/preparingthedata.html). Note that the book itself is a work in progress...and hasn't been updated in some time. 
-- Blake Vernon's [*Quantitative Analysis of Archaeological Data* course](https://kbvernon.github.io/qaad/), particularly [the 'Working with Tables' lab](https://kbvernon.github.io/qaad/labs/06-dataframes-lab.html).
-
-
-
-
+-   The [*Manipulating, analyzing and exporting data with tidyverse*](https://carpentries-incubator.github.io/R-archaeology-lesson/03-dplyr.html) section of Alison Clarke, François Michonneau, and Auriel Fournier's [*Data Analysis and Visualization in R for Archaeologists*](https://carpentries-incubator.github.io/R-archaeology-lesson/index.html).
+-   This [*The Tidyverse for Archaeologists: A Guide for Beginners*](https://benmarwick.github.io/tidyverse-for-archaeology/tidyverse-for-archaeology.html#1) presentation by Ben Marwick.
+-   The 'Preparing the Data' chapter of Ben Marwick's [*Archaeological Science with R*](https://benmarwick.github.io/aswr/preparingthedata.html). Note that the book itself is a work in progress...and hasn't been updated in some time.
+-   Blake Vernon's [*Quantitative Analysis of Archaeological Data* course](https://kbvernon.github.io/qaad/), particularly [the 'Working with Tables' lab](https://kbvernon.github.io/qaad/labs/06-dataframes-lab.html).
 
 # References
