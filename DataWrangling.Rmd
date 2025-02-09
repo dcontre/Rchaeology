@@ -12,6 +12,8 @@ knitr::opts_chunk$set(echo = TRUE)
 library(dplyr)
 library(janitor)
 library(emo)
+library(knitr)
+library(kableExtra)
 
 colorize <- function(x, color) {
   if (knitr::is_latex_output()) {
@@ -59,7 +61,10 @@ You'll find an .xlsx versions of a modified Drennan Table 6-1 in the 'data' fold
 
 Note that some information is stored on a second sheet; you'll want that also. Note also that some information is encoded by highlighting cells. How might you alter the spreadhseet to make that information capturable? 
 
-To note: - .csv is the most easily and reliably readable tabular, but will not save formulas, colored cells, multiple sheets, etc. - ...but when you read an .xlsx file you can't easily capture that info anyway...so it's not good practice to store information that way. For an .xlsx or a google sheet, you may to have specify which range of cells and/or which sheet you want. 
+To note: 
+
+- .csv is the most easily and reliably readable tabular format, but will not save formulas, colored cells, multiple sheets, etc...but when you read an .xlsx file you can't easily capture that info anyway...so it's not good practice to store information that way. 
+- For an .xlsx or a google sheet, you may to have specify which range of cells and/or which sheet you want. 
 
 For `googlesheets4::read_sheet()` to work, you may have to authenticate. If you don't get prompted and you get authentication errors, try running `gs4_auth()` in the console.
 
@@ -86,7 +91,7 @@ knitr::include_graphics("imgs/tabula.png")
 
 We'll look at pages 589-592 from Eerkens and colleagues 2007 [paper]((https://www.cambridge.org/core/journals/american-antiquity/article/abs/reduction-strategies-and-geochemical-characterization-of-lithic-assemblages-a-comparison-of-three-case-studies-from-western-north-america/261B64DA3C2F3D77B4D480E169778CD6)) [@eerkens2007], which contains three tables of interest. Scrape all three - you can find a .pdf of the relevant pages [here](data/Eerkens_2007_American_Antiquity_extract.pdf) - using **tabula** (there is a **tabulapdf** package that provides an interface through R...but it generally doesn't work as well). Save the three resulting .csv files in your 'data' folder. Examine the results, and you'll find that the scraping isn't perfect: characters may be misinterpreted (empty spaces and placeholders tend to cause trouble) and not everything winds up exactly where it should. This is generally easiest to fix by opening the .csv in MSExcel or something like it and editing there, comparing to the .pdf table to make sure you get accurate output.
 
-Once you have the three tables looking as they should, read them in with `read.csv()` or `read_csv()`. If Tabula isn't cooperating and/or you want to learn less, you can find .csv versions in the 'data' folder.
+Once you have the three tables looking as they should, read them in with `read.csv()` or `read_csv()`. If Tabula isn't cooperating and/or you want to learn less, you can download .csv versions ([Table 1](data/Eerkens_2007_Table1.csv), [Table 2](data/Eerkens_2007_Table2.csv), and [Table 3](data/Eerkens_2007_Table3.csv)).
 
 ```{r read_csv, message = F}
 library(readr)
@@ -96,8 +101,15 @@ eerk_tab2 <- read_csv("data/Eerkens_2007_Table2.csv")
 eerk_tab3 <- read_csv("data/Eerkens_2007_Table3.csv")
 ```
 
+It's *always* a good idea to have a look at your data before you do anything. 
 
-What we want to do is tidy these tables up, and combine them into a single table that includes a variable for site (Table 1 is material from Sherwin Summit, Table 2 from Mohawk Valley, and Table 3 from Bone Cave). Those desires leads us to...
+```{r}
+eerk_tab1
+```
+
+It's immediately clear that we have some work to do. There are two different ways of indicating no data ("NA" and "-"), there are still a few typos, and it's not obvious which site these data are from. 
+
+What we want to do is tidy these tables up, and combine them into a single table that includes a variable for site (the captions indicate that Table 1 is material from Sherwin Summit, Table 2 from Mohawk Valley, and Table 3 from Bone Cave). Those desires leads us to...
 
 # Cleaning data
 
@@ -164,9 +176,10 @@ eerk_tab1 %>% replace(. == "-", NA)
 `r colorize("Do the same for Eerkens et al. 2007 Table 2 and Table 3.", "orange")`  
 
 ```{r echo = F}
-eerk_tab2 <- eerk_tab2 %>% mutate(across(where(is.character), ~na_if(., "-")))
+eerk_tab2 <- eerk_tab2 %>% replace(. == "-", NA)
+  
 
-eerk_tab3 <- eerk_tab3 %>% mutate(across(where(is.character), ~na_if(., "-")))
+eerk_tab3 <- eerk_tab3 %>% replace(. == "-", NA)
 ```
 
 We can "recode" to deal with typos (or any other values that we'd like to change). This used to be handled in **dplyr** by a function called - sensibly - `recode()`...but that has been replaced by one called `case_match()`. Although you can still use `recode()`, we'll try to keep up with the times by using `case_match()` (`case_when()` also works for this).
@@ -385,6 +398,8 @@ We can combine `summarize()` and `across()` to perform the same summary operatio
 ```{r summarize-across, warning=F}
 eerk_bysite <- eerk_comb %>% group_by(site) %>% 
   summarize(across(casa_diablo:whitewater_ridge, sum, na.rm = T))
+
+eerk_bysite
 ```
 
 We might also want to consider how many sources contribute flakes in each category. In this case we'll use an unholy mix of **dplyr** and Base R syntax. Don't tell. 
@@ -448,6 +463,7 @@ obsid_dist <- mapply("*", eerk_bysite_bin, eerk_dist_summ[,-1]) %>% data.frame()
   mutate(site = eerk_bysite$site) %>% relocate(site, .before = casa_diablo) %>% 
   replace(. == 0, NA)
 
+obsid_dist
 ```
 
 ```{r echo=F, results='hide'}
@@ -485,6 +501,13 @@ mapply("*", sherwin_sources, sherwin_dists) %>% replace(.==0, NA) %>%
 # The payoff
 
 
+Now that we have the Eerkens et al. 2007 data cleaned and in the form that we'd like, what do we want to *do* with it? For starters, let's admire our combined data table...then we'll compare the diversity of sources for each artifact class across the different sites. 
+
+```{r}
+eerk_comb %>% kable() %>% kable_classic(bootstrap_options = c("condensed")) %>% 
+  scroll_box(width = "800px")
+```
+
 ## Visualizing the data
 
 The **tidyverse** is a pretty prescriptive place (there are definitely right and wrong ways to do things), and **tidynerds** prefer to do their data visualization using **ggplot** rather than Base R. Since we've been immersed in **dplyr** here, we'll plot that way as well. A few general rules about ggplot: 
@@ -494,8 +517,6 @@ The **tidyverse** is a pretty prescriptive place (there are definitely right and
 - **ggplot** (like the **tidyverse** in general) tends to be pretty *prescriptive*. As with any template, it's a good idea to think about what *you* want, and how well the template matches your desires, rather than just assuming that it's a) right, and b) smarter than you are. 
 
 You can of course consult the full **ggplot** [manual](https://ggplot2-book.org/).
-
-Now that we have the Eerkens et al. 2007 data cleaned and in the form that we'd like, what do we want to *do* with it? For starters, let's compare the diversity of sources for each artifact class across the different sites. 
 
 ```{r}
 library(ggplot2)

@@ -52,6 +52,10 @@
 <link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
 <link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
+<script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
 
 
 <style type="text/css">
@@ -223,7 +227,11 @@ div.csl-indent {
 <p>We’ve loaded the <strong>dplyr</strong> package above, and we’ll add the <strong>readxl</strong>, <strong>googlesheets4</strong> packages here. They do exactly what you’d expect from the names. Since you’re already familiar with <code>read.csv()</code> and <code>read.delim</code> from Base R, we’ll skip those here. As it is wont to do, the <strong>tidyverse</strong> reinvents the wheel and adds a <code>read_csv()</code> function in the <strong>readr</strong> package. It it similar to the Base R function most of the time, but sometimes better at parsing files, and by default produces a <code>tibble</code>, which is a <strong>tidyverse</strong> version of a data frame.</p>
 <p>You’ll find an .xlsx versions of a modified Drennan Table 6-1 in the ‘data’ folder, and a a google sheet version <a href="https://docs.google.com/spreadsheets/d/1bnZ7QSc1hjQ1HYQwXFNUHY3Yf4DLiNw4B68gl3texJc/edit?usp=sharing">here</a>. Try importing both just to see that both are possible, but then pick one - you only need one version of <code>drennan6.1b</code> and <code>drennan6.1b_2</code>.</p>
 <p>Note that some information is stored on a second sheet; you’ll want that also. Note also that some information is encoded by highlighting cells. How might you alter the spreadhseet to make that information capturable?</p>
-<p>To note: - .csv is the most easily and reliably readable tabular, but will not save formulas, colored cells, multiple sheets, etc. - …but when you read an .xlsx file you can’t easily capture that info anyway…so it’s not good practice to store information that way. For an .xlsx or a google sheet, you may to have specify which range of cells and/or which sheet you want.</p>
+<p>To note:</p>
+<ul>
+<li>.csv is the most easily and reliably readable tabular format, but will not save formulas, colored cells, multiple sheets, etc…but when you read an .xlsx file you can’t easily capture that info anyway…so it’s not good practice to store information that way.</li>
+<li>For an .xlsx or a google sheet, you may to have specify which range of cells and/or which sheet you want.</li>
+</ul>
 <p>For <code>googlesheets4::read_sheet()</code> to work, you may have to authenticate. If you don’t get prompted and you get authentication errors, try running <code>gs4_auth()</code> in the console.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="acquiring-data.html#cb1-1" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
 <span id="cb1-2"><a href="acquiring-data.html#cb1-2" tabindex="-1"></a><span class="fu">library</span>(googlesheets4)</span>
@@ -240,13 +248,26 @@ div.csl-indent {
 <p><img src="imgs/tabula.png" width="20%" style="float:left; padding:10px" /></p>
 <p><a href="https://tabula.technology/">Tabula</a></p>
 <p>We’ll look at pages 589-592 from Eerkens and colleagues 2007 <a href="(https://www.cambridge.org/core/journals/american-antiquity/article/abs/reduction-strategies-and-geochemical-characterization-of-lithic-assemblages-a-comparison-of-three-case-studies-from-western-north-america/261B64DA3C2F3D77B4D480E169778CD6)">paper</a> <span class="citation">(Eerkens et al. 2007)</span>, which contains three tables of interest. Scrape all three - you can find a .pdf of the relevant pages <a href="data/Eerkens_2007_American_Antiquity_extract.pdf">here</a> - using <strong>tabula</strong> (there is a <strong>tabulapdf</strong> package that provides an interface through R…but it generally doesn’t work as well). Save the three resulting .csv files in your ‘data’ folder. Examine the results, and you’ll find that the scraping isn’t perfect: characters may be misinterpreted (empty spaces and placeholders tend to cause trouble) and not everything winds up exactly where it should. This is generally easiest to fix by opening the .csv in MSExcel or something like it and editing there, comparing to the .pdf table to make sure you get accurate output.</p>
-<p>Once you have the three tables looking as they should, read them in with <code>read.csv()</code> or <code>read_csv()</code>. If Tabula isn’t cooperating and/or you want to learn less, you can find .csv versions in the ‘data’ folder.</p>
+<p>Once you have the three tables looking as they should, read them in with <code>read.csv()</code> or <code>read_csv()</code>. If Tabula isn’t cooperating and/or you want to learn less, you can download .csv versions (<a href="data/Eerkens_2007_Table1.csv">Table 1</a>, <a href="data/Eerkens_2007_Table2.csv">Table 2</a>, and <a href="data/Eerkens_2007_Table3.csv">Table 3</a>).</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="acquiring-data.html#cb2-1" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
 <span id="cb2-2"><a href="acquiring-data.html#cb2-2" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="acquiring-data.html#cb2-3" tabindex="-1"></a>eerk_tab1 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data/Eerkens_2007_Table1.csv&quot;</span>)</span>
 <span id="cb2-4"><a href="acquiring-data.html#cb2-4" tabindex="-1"></a>eerk_tab2 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data/Eerkens_2007_Table2.csv&quot;</span>)</span>
 <span id="cb2-5"><a href="acquiring-data.html#cb2-5" tabindex="-1"></a>eerk_tab3 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data/Eerkens_2007_Table3.csv&quot;</span>)</span></code></pre></div>
-<p>What we want to do is tidy these tables up, and combine them into a single table that includes a variable for site (Table 1 is material from Sherwin Summit, Table 2 from Mohawk Valley, and Table 3 from Bone Cave). Those desires leads us to…</p>
+<p>It’s <em>always</em> a good idea to have a look at your data before you do anything.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="acquiring-data.html#cb3-1" tabindex="-1"></a>eerk_tab1</span></code></pre></div>
+<pre><code>## # A tibble: 5 × 10
+##   `Source Artifact`         `Casa Diablo` `Mono GlassMtn.` Queen `Fish Springs`
+##   &lt;chr&gt;                             &lt;dbl&gt;            &lt;dbl&gt; &lt;dbl&gt;          &lt;dbl&gt;
+## 1 FormalT ools                         51               16    13              5
+## 2 Large Flakes                        166               65    10             18
+## 3 Small Non-pressure Flakes            24               10     2              1
+## 4 Small Pressure Flakes                 7                3     7              1
+## 5 Totals                              248               94    32             25
+## # ℹ 5 more variables: `Mono Craters` &lt;chr&gt;, `Bodie Hills` &lt;chr&gt;,
+## #   `Mount Hicks` &lt;chr&gt;, Coso &lt;chr&gt;, Totals &lt;dbl&gt;</code></pre>
+<p>It’s immediately clear that we have some work to do. There are two different ways of indicating no data (“NA” and “-”), there are still a few typos, and it’s not obvious which site these data are from.</p>
+<p>What we want to do is tidy these tables up, and combine them into a single table that includes a variable for site (the captions indicate that Table 1 is material from Sherwin Summit, Table 2 from Mohawk Valley, and Table 3 from Bone Cave). Those desires leads us to…</p>
 </div>
 </div>
             </section>

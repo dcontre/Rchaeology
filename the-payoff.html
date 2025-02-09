@@ -52,6 +52,10 @@
 <link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
 <link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
+<script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
 
 
 <style type="text/css">
@@ -217,6 +221,1095 @@ div.csl-indent {
             <section class="normal" id="section-">
 <div id="the-payoff" class="section level1 hasAnchor" number="6">
 <h1><span class="header-section-number">6</span> The payoff<a href="the-payoff.html#the-payoff" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Now that we have the Eerkens et al. 2007 data cleaned and in the form that we’d like, what do we want to <em>do</em> with it? For starters, let’s admire our combined data table…then we’ll compare the diversity of sources for each artifact class across the different sites.</p>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="the-payoff.html#cb57-1" tabindex="-1"></a>eerk_comb <span class="sc">%&gt;%</span> <span class="fu">kable</span>() <span class="sc">%&gt;%</span> <span class="fu">kable_classic</span>(<span class="at">bootstrap_options =</span> <span class="fu">c</span>(<span class="st">&quot;condensed&quot;</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb57-2"><a href="the-payoff.html#cb57-2" tabindex="-1"></a>  <span class="fu">scroll_box</span>(<span class="at">width =</span> <span class="st">&quot;800px&quot;</span>)</span></code></pre></div>
+<div style="border: 1px solid #ddd; padding: 5px; overflow-x: scroll; width:800px; ">
+<table class=" lightable-classic" style="font-family: &quot;Arial Narrow&quot;, &quot;Source Sans Pro&quot;, sans-serif; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+site
+</th>
+<th style="text-align:left;">
+source_artifact
+</th>
+<th style="text-align:right;">
+casa_diablo
+</th>
+<th style="text-align:right;">
+mono_glass_mountain
+</th>
+<th style="text-align:right;">
+truman_queen
+</th>
+<th style="text-align:right;">
+fish_springs
+</th>
+<th style="text-align:right;">
+mono_craters
+</th>
+<th style="text-align:right;">
+bodie_hills
+</th>
+<th style="text-align:right;">
+mount_hicks
+</th>
+<th style="text-align:right;">
+coso
+</th>
+<th style="text-align:right;">
+buffalo_hills
+</th>
+<th style="text-align:right;">
+south_warners
+</th>
+<th style="text-align:right;">
+bs_pp_fm
+</th>
+<th style="text-align:right;">
+gf_liw_rs
+</th>
+<th style="text-align:right;">
+cowhead_lake
+</th>
+<th style="text-align:right;">
+cougar_butte
+</th>
+<th style="text-align:right;">
+buck_mountain
+</th>
+<th style="text-align:right;">
+napa_glass_mountain
+</th>
+<th style="text-align:right;">
+borax_lake
+</th>
+<th style="text-align:right;">
+obsidian_cliffs
+</th>
+<th style="text-align:right;">
+mc_kay_butte
+</th>
+<th style="text-align:right;">
+big_obsidian_flow
+</th>
+<th style="text-align:right;">
+east_lake_flow
+</th>
+<th style="text-align:right;">
+quartz_mountain
+</th>
+<th style="text-align:right;">
+cougar_mountain
+</th>
+<th style="text-align:right;">
+silver_sycan
+</th>
+<th style="text-align:right;">
+brooks_canyon
+</th>
+<th style="text-align:right;">
+glass_buttes
+</th>
+<th style="text-align:right;">
+burns_butte
+</th>
+<th style="text-align:right;">
+rimrock_spring
+</th>
+<th style="text-align:right;">
+whitewater_ridge
+</th>
+<th style="text-align:right;">
+sources_represented
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Sherwin Summit
+</td>
+<td style="text-align:left;">
+Formal Tools
+</td>
+<td style="text-align:right;">
+51
+</td>
+<td style="text-align:right;">
+16
+</td>
+<td style="text-align:right;">
+13
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+5
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Sherwin Summit
+</td>
+<td style="text-align:left;">
+Large Flakes
+</td>
+<td style="text-align:right;">
+166
+</td>
+<td style="text-align:right;">
+65
+</td>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:right;">
+18
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+7
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Sherwin Summit
+</td>
+<td style="text-align:left;">
+Small Non-pressure Flakes
+</td>
+<td style="text-align:right;">
+24
+</td>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+5
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Sherwin Summit
+</td>
+<td style="text-align:left;">
+Small Pressure Flakes
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+5
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Mohawk Valley
+</td>
+<td style="text-align:left;">
+Formal Tools
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+7
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Mohawk Valley
+</td>
+<td style="text-align:left;">
+Large Flakes
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+13
+</td>
+<td style="text-align:right;">
+12
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+6
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Mohawk Valley
+</td>
+<td style="text-align:left;">
+Small Flakes
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+14
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Bone Cave
+</td>
+<td style="text-align:left;">
+Formal Tools
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Bone Cave
+</td>
+<td style="text-align:left;">
+Large Flakes
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+23
+</td>
+<td style="text-align:right;">
+64
+</td>
+<td style="text-align:right;">
+67
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+14
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+15
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Bone Cave
+</td>
+<td style="text-align:left;">
+Small Flakes
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 <div id="visualizing-the-data" class="section level2 hasAnchor" number="6.1">
 <h2><span class="header-section-number">6.1</span> Visualizing the data<a href="the-payoff.html#visualizing-the-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The <strong>tidyverse</strong> is a pretty prescriptive place (there are definitely right and wrong ways to do things), and <strong>tidynerds</strong> prefer to do their data visualization using <strong>ggplot</strong> rather than Base R. Since we’ve been immersed in <strong>dplyr</strong> here, we’ll plot that way as well. A few general rules about ggplot:</p>
@@ -226,22 +1319,21 @@ div.csl-indent {
 <li><strong>ggplot</strong> (like the <strong>tidyverse</strong> in general) tends to be pretty <em>prescriptive</em>. As with any template, it’s a good idea to think about what <em>you</em> want, and how well the template matches your desires, rather than just assuming that it’s a) right, and b) smarter than you are.</li>
 </ul>
 <p>You can of course consult the full <strong>ggplot</strong> <a href="https://ggplot2-book.org/">manual</a>.</p>
-<p>Now that we have the Eerkens et al. 2007 data cleaned and in the form that we’d like, what do we want to <em>do</em> with it? For starters, let’s compare the diversity of sources for each artifact class across the different sites.</p>
-<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="the-payoff.html#cb53-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb53-2"><a href="the-payoff.html#cb53-2" tabindex="-1"></a><span class="fu">library</span>(ggstats)</span>
-<span id="cb53-3"><a href="the-payoff.html#cb53-3" tabindex="-1"></a><span class="fu">library</span>(RColorBrewer)</span>
-<span id="cb53-4"><a href="the-payoff.html#cb53-4" tabindex="-1"></a></span>
-<span id="cb53-5"><a href="the-payoff.html#cb53-5" tabindex="-1"></a>eerk_comb_long <span class="ot">&lt;-</span> eerk_comb <span class="sc">%&gt;%</span> </span>
-<span id="cb53-6"><a href="the-payoff.html#cb53-6" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">!</span><span class="fu">c</span>(site, source_artifact, sources_represented), </span>
-<span id="cb53-7"><a href="the-payoff.html#cb53-7" tabindex="-1"></a>                           <span class="at">names_to =</span> <span class="st">&quot;Source&quot;</span>,</span>
-<span id="cb53-8"><a href="the-payoff.html#cb53-8" tabindex="-1"></a>                           <span class="at">values_to =</span> <span class="st">&quot;Count&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb53-9"><a href="the-payoff.html#cb53-9" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Count =</span> <span class="fu">case_when</span>(      <span class="co">#replace NAs with 0s</span></span>
-<span id="cb53-10"><a href="the-payoff.html#cb53-10" tabindex="-1"></a>    <span class="fu">is.na</span>(Count) <span class="sc">==</span> T <span class="sc">~</span> <span class="dv">0</span>,</span>
-<span id="cb53-11"><a href="the-payoff.html#cb53-11" tabindex="-1"></a>    <span class="at">.default =</span> Count</span>
-<span id="cb53-12"><a href="the-payoff.html#cb53-12" tabindex="-1"></a>  ))</span>
-<span id="cb53-13"><a href="the-payoff.html#cb53-13" tabindex="-1"></a></span>
-<span id="cb53-14"><a href="the-payoff.html#cb53-14" tabindex="-1"></a><span class="co">#how many colors do we need?</span></span>
-<span id="cb53-15"><a href="the-payoff.html#cb53-15" tabindex="-1"></a><span class="fu">unique</span>(eerk_comb_long<span class="sc">$</span>Source)</span></code></pre></div>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="the-payoff.html#cb58-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb58-2"><a href="the-payoff.html#cb58-2" tabindex="-1"></a><span class="fu">library</span>(ggstats)</span>
+<span id="cb58-3"><a href="the-payoff.html#cb58-3" tabindex="-1"></a><span class="fu">library</span>(RColorBrewer)</span>
+<span id="cb58-4"><a href="the-payoff.html#cb58-4" tabindex="-1"></a></span>
+<span id="cb58-5"><a href="the-payoff.html#cb58-5" tabindex="-1"></a>eerk_comb_long <span class="ot">&lt;-</span> eerk_comb <span class="sc">%&gt;%</span> </span>
+<span id="cb58-6"><a href="the-payoff.html#cb58-6" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">!</span><span class="fu">c</span>(site, source_artifact, sources_represented), </span>
+<span id="cb58-7"><a href="the-payoff.html#cb58-7" tabindex="-1"></a>                           <span class="at">names_to =</span> <span class="st">&quot;Source&quot;</span>,</span>
+<span id="cb58-8"><a href="the-payoff.html#cb58-8" tabindex="-1"></a>                           <span class="at">values_to =</span> <span class="st">&quot;Count&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb58-9"><a href="the-payoff.html#cb58-9" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Count =</span> <span class="fu">case_when</span>(      <span class="co">#replace NAs with 0s</span></span>
+<span id="cb58-10"><a href="the-payoff.html#cb58-10" tabindex="-1"></a>    <span class="fu">is.na</span>(Count) <span class="sc">==</span> T <span class="sc">~</span> <span class="dv">0</span>,</span>
+<span id="cb58-11"><a href="the-payoff.html#cb58-11" tabindex="-1"></a>    <span class="at">.default =</span> Count</span>
+<span id="cb58-12"><a href="the-payoff.html#cb58-12" tabindex="-1"></a>  ))</span>
+<span id="cb58-13"><a href="the-payoff.html#cb58-13" tabindex="-1"></a></span>
+<span id="cb58-14"><a href="the-payoff.html#cb58-14" tabindex="-1"></a><span class="co">#how many colors do we need?</span></span>
+<span id="cb58-15"><a href="the-payoff.html#cb58-15" tabindex="-1"></a><span class="fu">unique</span>(eerk_comb_long<span class="sc">$</span>Source)</span></code></pre></div>
 <pre><code>##  [1] &quot;casa_diablo&quot;         &quot;mono_glass_mountain&quot; &quot;truman_queen&quot;       
 ##  [4] &quot;fish_springs&quot;        &quot;mono_craters&quot;        &quot;bodie_hills&quot;        
 ##  [7] &quot;mount_hicks&quot;         &quot;coso&quot;                &quot;buffalo_hills&quot;      
@@ -252,77 +1344,77 @@ div.csl-indent {
 ## [22] &quot;quartz_mountain&quot;     &quot;cougar_mountain&quot;     &quot;silver_sycan&quot;       
 ## [25] &quot;brooks_canyon&quot;       &quot;glass_buttes&quot;        &quot;burns_butte&quot;        
 ## [28] &quot;rimrock_spring&quot;      &quot;whitewater_ridge&quot;</code></pre>
-<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="the-payoff.html#cb55-1" tabindex="-1"></a><span class="co">#a lot</span></span>
-<span id="cb55-2"><a href="the-payoff.html#cb55-2" tabindex="-1"></a>mypalette <span class="ot">&lt;-</span> <span class="fu">colorRampPalette</span>(<span class="fu">brewer.pal</span>(<span class="dv">12</span>, <span class="st">&quot;Set3&quot;</span>))(<span class="fu">length</span>(<span class="fu">unique</span>(eerk_comb_long<span class="sc">$</span>Source)))</span></code></pre></div>
-<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="the-payoff.html#cb56-1" tabindex="-1"></a>eerk_comb_long <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb56-2"><a href="the-payoff.html#cb56-2" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">x =</span> source_artifact, <span class="at">fill =</span> Source, <span class="at">weight =</span> Count)) <span class="sc">+</span></span>
-<span id="cb56-3"><a href="the-payoff.html#cb56-3" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> mypalette) <span class="sc">+</span></span>
-<span id="cb56-4"><a href="the-payoff.html#cb56-4" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb56-5"><a href="the-payoff.html#cb56-5" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="fu">vars</span>(site)) <span class="sc">+</span></span>
-<span id="cb56-6"><a href="the-payoff.html#cb56-6" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">x =</span> <span class="fu">guide_axis</span>(<span class="at">angle =</span> <span class="dv">60</span>)) <span class="sc">+</span></span>
-<span id="cb56-7"><a href="the-payoff.html#cb56-7" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;&quot;</span>)</span></code></pre></div>
-<p><img src="DataWrangling_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="the-payoff.html#cb60-1" tabindex="-1"></a><span class="co">#a lot</span></span>
+<span id="cb60-2"><a href="the-payoff.html#cb60-2" tabindex="-1"></a>mypalette <span class="ot">&lt;-</span> <span class="fu">colorRampPalette</span>(<span class="fu">brewer.pal</span>(<span class="dv">12</span>, <span class="st">&quot;Set3&quot;</span>))(<span class="fu">length</span>(<span class="fu">unique</span>(eerk_comb_long<span class="sc">$</span>Source)))</span></code></pre></div>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="the-payoff.html#cb61-1" tabindex="-1"></a>eerk_comb_long <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb61-2"><a href="the-payoff.html#cb61-2" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">x =</span> source_artifact, <span class="at">fill =</span> Source, <span class="at">weight =</span> Count)) <span class="sc">+</span></span>
+<span id="cb61-3"><a href="the-payoff.html#cb61-3" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> mypalette) <span class="sc">+</span></span>
+<span id="cb61-4"><a href="the-payoff.html#cb61-4" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb61-5"><a href="the-payoff.html#cb61-5" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="fu">vars</span>(site)) <span class="sc">+</span></span>
+<span id="cb61-6"><a href="the-payoff.html#cb61-6" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">x =</span> <span class="fu">guide_axis</span>(<span class="at">angle =</span> <span class="dv">60</span>)) <span class="sc">+</span></span>
+<span id="cb61-7"><a href="the-payoff.html#cb61-7" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;&quot;</span>)</span></code></pre></div>
+<p><img src="DataWrangling_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
 <p>Since we’re interested in diversity, proportions are probably going to be more useful than counts.</p>
-<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="the-payoff.html#cb57-1" tabindex="-1"></a>eerk_comb_long <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb57-2"><a href="the-payoff.html#cb57-2" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> source_artifact, <span class="at">fill =</span> Source, </span>
-<span id="cb57-3"><a href="the-payoff.html#cb57-3" tabindex="-1"></a>                              <span class="at">weight =</span> Count, <span class="at">by =</span> source_artifact) <span class="sc">+</span></span>
-<span id="cb57-4"><a href="the-payoff.html#cb57-4" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> mypalette) <span class="sc">+</span></span>
-<span id="cb57-5"><a href="the-payoff.html#cb57-5" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">&quot;fill&quot;</span>) <span class="sc">+</span></span>
-<span id="cb57-6"><a href="the-payoff.html#cb57-6" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb57-7"><a href="the-payoff.html#cb57-7" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="fu">vars</span>(site)) <span class="sc">+</span></span>
-<span id="cb57-8"><a href="the-payoff.html#cb57-8" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">x =</span> <span class="fu">guide_axis</span>(<span class="at">angle =</span> <span class="dv">60</span>)) <span class="sc">+</span></span>
-<span id="cb57-9"><a href="the-payoff.html#cb57-9" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Proportion&quot;</span>) </span></code></pre></div>
-<p><img src="DataWrangling_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="the-payoff.html#cb62-1" tabindex="-1"></a>eerk_comb_long <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb62-2"><a href="the-payoff.html#cb62-2" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> source_artifact, <span class="at">fill =</span> Source, </span>
+<span id="cb62-3"><a href="the-payoff.html#cb62-3" tabindex="-1"></a>                              <span class="at">weight =</span> Count, <span class="at">by =</span> source_artifact) <span class="sc">+</span></span>
+<span id="cb62-4"><a href="the-payoff.html#cb62-4" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> mypalette) <span class="sc">+</span></span>
+<span id="cb62-5"><a href="the-payoff.html#cb62-5" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">&quot;fill&quot;</span>) <span class="sc">+</span></span>
+<span id="cb62-6"><a href="the-payoff.html#cb62-6" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb62-7"><a href="the-payoff.html#cb62-7" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="fu">vars</span>(site)) <span class="sc">+</span></span>
+<span id="cb62-8"><a href="the-payoff.html#cb62-8" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">x =</span> <span class="fu">guide_axis</span>(<span class="at">angle =</span> <span class="dv">60</span>)) <span class="sc">+</span></span>
+<span id="cb62-9"><a href="the-payoff.html#cb62-9" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Proportion&quot;</span>) </span></code></pre></div>
+<p><img src="DataWrangling_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
 <p>If we wanted to make our categories more strictly comparable, we could recode ‘Small non-pressure flakes’ and ‘Small pressure flakes’ from Sherwin Summit to produce a ‘Small flakes’ category (using <code>case_when()</code> again).</p>
-<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="the-payoff.html#cb58-1" tabindex="-1"></a><span class="co">#first recode</span></span>
-<span id="cb58-2"><a href="the-payoff.html#cb58-2" tabindex="-1"></a>eerk_comb_coll <span class="ot">&lt;-</span> eerk_comb <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">source_artifact =</span> <span class="fu">case_when</span>(</span>
-<span id="cb58-3"><a href="the-payoff.html#cb58-3" tabindex="-1"></a>  source_artifact <span class="sc">==</span> <span class="st">&quot;Small Non-pressure Flakes&quot;</span> <span class="sc">~</span> <span class="st">&quot;Small Flakes&quot;</span>,</span>
-<span id="cb58-4"><a href="the-payoff.html#cb58-4" tabindex="-1"></a>  source_artifact <span class="sc">==</span> <span class="st">&quot;Small Pressure Flakes&quot;</span> <span class="sc">~</span> <span class="st">&quot;Small Flakes&quot;</span>,</span>
-<span id="cb58-5"><a href="the-payoff.html#cb58-5" tabindex="-1"></a>  <span class="at">.default =</span> source_artifact</span>
-<span id="cb58-6"><a href="the-payoff.html#cb58-6" tabindex="-1"></a>))</span>
-<span id="cb58-7"><a href="the-payoff.html#cb58-7" tabindex="-1"></a></span>
-<span id="cb58-8"><a href="the-payoff.html#cb58-8" tabindex="-1"></a><span class="co">#then collapse rows</span></span>
-<span id="cb58-9"><a href="the-payoff.html#cb58-9" tabindex="-1"></a></span>
-<span id="cb58-10"><a href="the-payoff.html#cb58-10" tabindex="-1"></a>eerk_comb_coll <span class="ot">&lt;-</span> eerk_comb_coll <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(site, source_artifact) <span class="sc">%&gt;%</span> </span>
-<span id="cb58-11"><a href="the-payoff.html#cb58-11" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="fu">across</span>(casa_diablo<span class="sc">:</span>whitewater_ridge, sum, <span class="at">na.rm =</span> T), </span>
-<span id="cb58-12"><a href="the-payoff.html#cb58-12" tabindex="-1"></a>            <span class="at">sources_represented =</span> <span class="fu">mean</span>(sources_represented))</span>
-<span id="cb58-13"><a href="the-payoff.html#cb58-13" tabindex="-1"></a></span>
-<span id="cb58-14"><a href="the-payoff.html#cb58-14" tabindex="-1"></a></span>
-<span id="cb58-15"><a href="the-payoff.html#cb58-15" tabindex="-1"></a><span class="co">#then pivot again</span></span>
-<span id="cb58-16"><a href="the-payoff.html#cb58-16" tabindex="-1"></a>eerk_comb_coll_long <span class="ot">&lt;-</span> eerk_comb_coll <span class="sc">%&gt;%</span> </span>
-<span id="cb58-17"><a href="the-payoff.html#cb58-17" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">!</span><span class="fu">c</span>(site, source_artifact, sources_represented), </span>
-<span id="cb58-18"><a href="the-payoff.html#cb58-18" tabindex="-1"></a>                           <span class="at">names_to =</span> <span class="st">&quot;Source&quot;</span>,</span>
-<span id="cb58-19"><a href="the-payoff.html#cb58-19" tabindex="-1"></a>                           <span class="at">values_to =</span> <span class="st">&quot;Count&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb58-20"><a href="the-payoff.html#cb58-20" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Count =</span> <span class="fu">case_when</span>(      <span class="co">#replace NAs with 0s</span></span>
-<span id="cb58-21"><a href="the-payoff.html#cb58-21" tabindex="-1"></a>    <span class="fu">is.na</span>(Count) <span class="sc">==</span> T <span class="sc">~</span> <span class="dv">0</span>,</span>
-<span id="cb58-22"><a href="the-payoff.html#cb58-22" tabindex="-1"></a>    <span class="at">.default =</span> Count</span>
-<span id="cb58-23"><a href="the-payoff.html#cb58-23" tabindex="-1"></a>  ))</span></code></pre></div>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="the-payoff.html#cb63-1" tabindex="-1"></a><span class="co">#first recode</span></span>
+<span id="cb63-2"><a href="the-payoff.html#cb63-2" tabindex="-1"></a>eerk_comb_coll <span class="ot">&lt;-</span> eerk_comb <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">source_artifact =</span> <span class="fu">case_when</span>(</span>
+<span id="cb63-3"><a href="the-payoff.html#cb63-3" tabindex="-1"></a>  source_artifact <span class="sc">==</span> <span class="st">&quot;Small Non-pressure Flakes&quot;</span> <span class="sc">~</span> <span class="st">&quot;Small Flakes&quot;</span>,</span>
+<span id="cb63-4"><a href="the-payoff.html#cb63-4" tabindex="-1"></a>  source_artifact <span class="sc">==</span> <span class="st">&quot;Small Pressure Flakes&quot;</span> <span class="sc">~</span> <span class="st">&quot;Small Flakes&quot;</span>,</span>
+<span id="cb63-5"><a href="the-payoff.html#cb63-5" tabindex="-1"></a>  <span class="at">.default =</span> source_artifact</span>
+<span id="cb63-6"><a href="the-payoff.html#cb63-6" tabindex="-1"></a>))</span>
+<span id="cb63-7"><a href="the-payoff.html#cb63-7" tabindex="-1"></a></span>
+<span id="cb63-8"><a href="the-payoff.html#cb63-8" tabindex="-1"></a><span class="co">#then collapse rows</span></span>
+<span id="cb63-9"><a href="the-payoff.html#cb63-9" tabindex="-1"></a></span>
+<span id="cb63-10"><a href="the-payoff.html#cb63-10" tabindex="-1"></a>eerk_comb_coll <span class="ot">&lt;-</span> eerk_comb_coll <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(site, source_artifact) <span class="sc">%&gt;%</span> </span>
+<span id="cb63-11"><a href="the-payoff.html#cb63-11" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="fu">across</span>(casa_diablo<span class="sc">:</span>whitewater_ridge, sum, <span class="at">na.rm =</span> T), </span>
+<span id="cb63-12"><a href="the-payoff.html#cb63-12" tabindex="-1"></a>            <span class="at">sources_represented =</span> <span class="fu">mean</span>(sources_represented))</span>
+<span id="cb63-13"><a href="the-payoff.html#cb63-13" tabindex="-1"></a></span>
+<span id="cb63-14"><a href="the-payoff.html#cb63-14" tabindex="-1"></a></span>
+<span id="cb63-15"><a href="the-payoff.html#cb63-15" tabindex="-1"></a><span class="co">#then pivot again</span></span>
+<span id="cb63-16"><a href="the-payoff.html#cb63-16" tabindex="-1"></a>eerk_comb_coll_long <span class="ot">&lt;-</span> eerk_comb_coll <span class="sc">%&gt;%</span> </span>
+<span id="cb63-17"><a href="the-payoff.html#cb63-17" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">!</span><span class="fu">c</span>(site, source_artifact, sources_represented), </span>
+<span id="cb63-18"><a href="the-payoff.html#cb63-18" tabindex="-1"></a>                           <span class="at">names_to =</span> <span class="st">&quot;Source&quot;</span>,</span>
+<span id="cb63-19"><a href="the-payoff.html#cb63-19" tabindex="-1"></a>                           <span class="at">values_to =</span> <span class="st">&quot;Count&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb63-20"><a href="the-payoff.html#cb63-20" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Count =</span> <span class="fu">case_when</span>(      <span class="co">#replace NAs with 0s</span></span>
+<span id="cb63-21"><a href="the-payoff.html#cb63-21" tabindex="-1"></a>    <span class="fu">is.na</span>(Count) <span class="sc">==</span> T <span class="sc">~</span> <span class="dv">0</span>,</span>
+<span id="cb63-22"><a href="the-payoff.html#cb63-22" tabindex="-1"></a>    <span class="at">.default =</span> Count</span>
+<span id="cb63-23"><a href="the-payoff.html#cb63-23" tabindex="-1"></a>  ))</span></code></pre></div>
 <p>And make a new plot.</p>
 <div id="prop-plot" class="section level3 hasAnchor" number="6.1.1">
 <h3><span class="header-section-number">6.1.1</span> Source proportions plotted by artifact type and site<a href="the-payoff.html#prop-plot" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="the-payoff.html#cb59-1" tabindex="-1"></a>eerk_comb_coll_long <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb59-2"><a href="the-payoff.html#cb59-2" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> source_artifact, <span class="at">fill =</span> Source, </span>
-<span id="cb59-3"><a href="the-payoff.html#cb59-3" tabindex="-1"></a>                              <span class="at">weight =</span> Count, <span class="at">by =</span> source_artifact) <span class="sc">+</span></span>
-<span id="cb59-4"><a href="the-payoff.html#cb59-4" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> mypalette) <span class="sc">+</span></span>
-<span id="cb59-5"><a href="the-payoff.html#cb59-5" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">&quot;fill&quot;</span>) <span class="sc">+</span></span>
-<span id="cb59-6"><a href="the-payoff.html#cb59-6" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb59-7"><a href="the-payoff.html#cb59-7" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="fu">vars</span>(site)) <span class="sc">+</span></span>
-<span id="cb59-8"><a href="the-payoff.html#cb59-8" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">x =</span> <span class="fu">guide_axis</span>(<span class="at">angle =</span> <span class="dv">60</span>)) <span class="sc">+</span></span>
-<span id="cb59-9"><a href="the-payoff.html#cb59-9" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Proportion&quot;</span>, </span>
-<span id="cb59-10"><a href="the-payoff.html#cb59-10" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;Obsidian source representation by artifact type&quot;</span>) </span></code></pre></div>
-<p><img src="DataWrangling_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="the-payoff.html#cb64-1" tabindex="-1"></a>eerk_comb_coll_long <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb64-2"><a href="the-payoff.html#cb64-2" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> source_artifact, <span class="at">fill =</span> Source, </span>
+<span id="cb64-3"><a href="the-payoff.html#cb64-3" tabindex="-1"></a>                              <span class="at">weight =</span> Count, <span class="at">by =</span> source_artifact) <span class="sc">+</span></span>
+<span id="cb64-4"><a href="the-payoff.html#cb64-4" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> mypalette) <span class="sc">+</span></span>
+<span id="cb64-5"><a href="the-payoff.html#cb64-5" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">&quot;fill&quot;</span>) <span class="sc">+</span></span>
+<span id="cb64-6"><a href="the-payoff.html#cb64-6" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb64-7"><a href="the-payoff.html#cb64-7" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="fu">vars</span>(site)) <span class="sc">+</span></span>
+<span id="cb64-8"><a href="the-payoff.html#cb64-8" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">x =</span> <span class="fu">guide_axis</span>(<span class="at">angle =</span> <span class="dv">60</span>)) <span class="sc">+</span></span>
+<span id="cb64-9"><a href="the-payoff.html#cb64-9" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Proportion&quot;</span>, </span>
+<span id="cb64-10"><a href="the-payoff.html#cb64-10" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;Obsidian source representation by artifact type&quot;</span>) </span></code></pre></div>
+<p><img src="DataWrangling_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
 <p>We might also consider - as Eerkens and colleagues do - how sources represented relate to distance.</p>
-<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="the-payoff.html#cb60-1" tabindex="-1"></a>obsid_dist_l <span class="ot">&lt;-</span> obsid_dist <span class="sc">%&gt;%</span> </span>
-<span id="cb60-2"><a href="the-payoff.html#cb60-2" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span>site, <span class="at">names_to =</span> <span class="st">&quot;source&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;distance&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb60-3"><a href="the-payoff.html#cb60-3" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">is.na</span>(distance) <span class="sc">==</span> F)</span>
-<span id="cb60-4"><a href="the-payoff.html#cb60-4" tabindex="-1"></a></span>
-<span id="cb60-5"><a href="the-payoff.html#cb60-5" tabindex="-1"></a>obsid_dist_l <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb60-6"><a href="the-payoff.html#cb60-6" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">x =</span> site, <span class="at">fill =</span> source, <span class="at">y =</span> distance),</span>
-<span id="cb60-7"><a href="the-payoff.html#cb60-7" tabindex="-1"></a>           <span class="at">position =</span> <span class="st">&quot;dodge&quot;</span>, <span class="at">stat =</span> <span class="st">&quot;identity&quot;</span>) <span class="sc">+</span></span>
-<span id="cb60-8"><a href="the-payoff.html#cb60-8" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> mypalette) <span class="sc">+</span></span>
-<span id="cb60-9"><a href="the-payoff.html#cb60-9" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb60-10"><a href="the-payoff.html#cb60-10" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Distance (km)&quot;</span>)</span></code></pre></div>
-<p><img src="DataWrangling_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="the-payoff.html#cb65-1" tabindex="-1"></a>obsid_dist_l <span class="ot">&lt;-</span> obsid_dist <span class="sc">%&gt;%</span> </span>
+<span id="cb65-2"><a href="the-payoff.html#cb65-2" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span>site, <span class="at">names_to =</span> <span class="st">&quot;source&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;distance&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb65-3"><a href="the-payoff.html#cb65-3" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">is.na</span>(distance) <span class="sc">==</span> F)</span>
+<span id="cb65-4"><a href="the-payoff.html#cb65-4" tabindex="-1"></a></span>
+<span id="cb65-5"><a href="the-payoff.html#cb65-5" tabindex="-1"></a>obsid_dist_l <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb65-6"><a href="the-payoff.html#cb65-6" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">x =</span> site, <span class="at">fill =</span> source, <span class="at">y =</span> distance),</span>
+<span id="cb65-7"><a href="the-payoff.html#cb65-7" tabindex="-1"></a>           <span class="at">position =</span> <span class="st">&quot;dodge&quot;</span>, <span class="at">stat =</span> <span class="st">&quot;identity&quot;</span>) <span class="sc">+</span></span>
+<span id="cb65-8"><a href="the-payoff.html#cb65-8" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> mypalette) <span class="sc">+</span></span>
+<span id="cb65-9"><a href="the-payoff.html#cb65-9" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb65-10"><a href="the-payoff.html#cb65-10" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Distance (km)&quot;</span>)</span></code></pre></div>
+<p><img src="DataWrangling_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
 </div>
 </div>
 <div id="next-steps-after-exploratory-visualization" class="section level2 hasAnchor" number="6.2">
@@ -331,10 +1423,10 @@ div.csl-indent {
 <div id="diversity-indices" class="section level3 hasAnchor" number="6.2.1">
 <h3><span class="header-section-number">6.2.1</span> Diversity indices<a href="the-payoff.html#diversity-indices" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>We can examine diversity numerically as well as visually. The Shannon index is one of several tools used for quantifying the diversity of a sample by building on how many varieties there are and what proportion of the total each represents. A maximally rich sample is one with lots of varieties where each comprises a relatively high proportion of of the population.</p>
-<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="the-payoff.html#cb61-1" tabindex="-1"></a><span class="fu">library</span>(vegan)</span>
-<span id="cb61-2"><a href="the-payoff.html#cb61-2" tabindex="-1"></a></span>
-<span id="cb61-3"><a href="the-payoff.html#cb61-3" tabindex="-1"></a>eerk_comb_long <span class="sc">%&gt;%</span> <span class="fu">filter</span>(Count <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(site, source_artifact) <span class="sc">%&gt;%</span></span>
-<span id="cb61-4"><a href="the-payoff.html#cb61-4" tabindex="-1"></a><span class="fu">summarize</span>(<span class="at">shannon_index =</span> <span class="fu">diversity</span>(Count))</span></code></pre></div>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="the-payoff.html#cb66-1" tabindex="-1"></a><span class="fu">library</span>(vegan)</span>
+<span id="cb66-2"><a href="the-payoff.html#cb66-2" tabindex="-1"></a></span>
+<span id="cb66-3"><a href="the-payoff.html#cb66-3" tabindex="-1"></a>eerk_comb_long <span class="sc">%&gt;%</span> <span class="fu">filter</span>(Count <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(site, source_artifact) <span class="sc">%&gt;%</span></span>
+<span id="cb66-4"><a href="the-payoff.html#cb66-4" tabindex="-1"></a><span class="fu">summarize</span>(<span class="at">shannon_index =</span> <span class="fu">diversity</span>(Count))</span></code></pre></div>
 <pre><code>## # A tibble: 10 × 3
 ## # Groups:   site [3]
 ##    site           source_artifact           shannon_index

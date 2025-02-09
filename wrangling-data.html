@@ -52,6 +52,10 @@
 <link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
 <link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
+<script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
 
 
 <style type="text/css">
@@ -222,18 +226,18 @@ div.csl-indent {
 <div id="case_when" class="section level2 hasAnchor" number="5.1">
 <h2><span class="header-section-number">5.1</span> <code>case_when()</code><a href="wrangling-data.html#case_when" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>First we’ll use <strong>dplyr</strong>’s <code>case_when()</code> function, which is effectively a version of <code>if_else()</code>. We’ll combine it with <code>mutate()</code> to make a new column, and then populate that column depending on the value associated in another table. What we’re doing in R working out way down the rows of Table 6.1b, checking the site, then looking at Table 6.1b Sheet 2 to see what period that site belongs to, and filling that information in a new column.</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="wrangling-data.html#cb24-1" tabindex="-1"></a>drennan6<span class="fl">.1</span>b_2</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="wrangling-data.html#cb26-1" tabindex="-1"></a>drennan6<span class="fl">.1</span>b_2</span></code></pre></div>
 <pre><code>## # A tibble: 3 × 3
 ##   Site          Period           `Area (ha)`
 ##   &lt;chr&gt;         &lt;chr&gt;                  &lt;dbl&gt;
 ## 1 Oak Grove     Middle Formative         2.2
 ## 2 Maple Knoll   Middle Formative         2.9
 ## 3 Cypress Swamp Late Formative           4.1</code></pre>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="wrangling-data.html#cb26-1" tabindex="-1"></a>drennan6<span class="fl">.1</span>b <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Period =</span> <span class="fu">case_when</span>(</span>
-<span id="cb26-2"><a href="wrangling-data.html#cb26-2" tabindex="-1"></a>  Site <span class="sc">==</span> <span class="st">&quot;Oak Grove&quot;</span> <span class="sc">~</span> <span class="st">&quot;Middle Formative&quot;</span>,</span>
-<span id="cb26-3"><a href="wrangling-data.html#cb26-3" tabindex="-1"></a>  Site <span class="sc">==</span> <span class="st">&quot;Maple Knoll&quot;</span> <span class="sc">~</span> <span class="st">&quot;Middle Formative&quot;</span>,</span>
-<span id="cb26-4"><a href="wrangling-data.html#cb26-4" tabindex="-1"></a>  Site <span class="sc">==</span> <span class="st">&quot;Cypress Swamp&quot;</span> <span class="sc">~</span> <span class="st">&quot;Late Formative&quot;</span></span>
-<span id="cb26-5"><a href="wrangling-data.html#cb26-5" tabindex="-1"></a>))</span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="wrangling-data.html#cb28-1" tabindex="-1"></a>drennan6<span class="fl">.1</span>b <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Period =</span> <span class="fu">case_when</span>(</span>
+<span id="cb28-2"><a href="wrangling-data.html#cb28-2" tabindex="-1"></a>  Site <span class="sc">==</span> <span class="st">&quot;Oak Grove&quot;</span> <span class="sc">~</span> <span class="st">&quot;Middle Formative&quot;</span>,</span>
+<span id="cb28-3"><a href="wrangling-data.html#cb28-3" tabindex="-1"></a>  Site <span class="sc">==</span> <span class="st">&quot;Maple Knoll&quot;</span> <span class="sc">~</span> <span class="st">&quot;Middle Formative&quot;</span>,</span>
+<span id="cb28-4"><a href="wrangling-data.html#cb28-4" tabindex="-1"></a>  Site <span class="sc">==</span> <span class="st">&quot;Cypress Swamp&quot;</span> <span class="sc">~</span> <span class="st">&quot;Late Formative&quot;</span></span>
+<span id="cb28-5"><a href="wrangling-data.html#cb28-5" tabindex="-1"></a>))</span></code></pre></div>
 <pre><code>## # A tibble: 140 × 6
 ##    Site          Unit  Incised Unincised PropIncised Period          
 ##    &lt;fct&gt;         &lt;fct&gt;   &lt;dbl&gt;     &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;           
@@ -248,12 +252,12 @@ div.csl-indent {
 ##  9 Oak Grove     OG-4       25       101       0.198 Middle Formative
 ## 10 Maple Knoll   MK-26      14        94       0.130 Middle Formative
 ## # ℹ 130 more rows</code></pre>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="wrangling-data.html#cb28-1" tabindex="-1"></a><span class="co">#repeat for area</span></span>
-<span id="cb28-2"><a href="wrangling-data.html#cb28-2" tabindex="-1"></a>drennan6<span class="fl">.1</span>b <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Area =</span> <span class="fu">case_when</span>(</span>
-<span id="cb28-3"><a href="wrangling-data.html#cb28-3" tabindex="-1"></a>  Site <span class="sc">==</span> <span class="st">&quot;Oak Grove&quot;</span> <span class="sc">~</span> <span class="fl">2.2</span>, <span class="co">#numeric so shouldn&#39;t be in &quot;&quot;</span></span>
-<span id="cb28-4"><a href="wrangling-data.html#cb28-4" tabindex="-1"></a>  Site <span class="sc">==</span> <span class="st">&quot;Maple Knoll&quot;</span> <span class="sc">~</span> <span class="fl">2.9</span>,</span>
-<span id="cb28-5"><a href="wrangling-data.html#cb28-5" tabindex="-1"></a>  Site <span class="sc">==</span> <span class="st">&quot;Cypress Swamp&quot;</span> <span class="sc">~</span> <span class="fl">4.1</span></span>
-<span id="cb28-6"><a href="wrangling-data.html#cb28-6" tabindex="-1"></a>))</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="wrangling-data.html#cb30-1" tabindex="-1"></a><span class="co">#repeat for area</span></span>
+<span id="cb30-2"><a href="wrangling-data.html#cb30-2" tabindex="-1"></a>drennan6<span class="fl">.1</span>b <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Area =</span> <span class="fu">case_when</span>(</span>
+<span id="cb30-3"><a href="wrangling-data.html#cb30-3" tabindex="-1"></a>  Site <span class="sc">==</span> <span class="st">&quot;Oak Grove&quot;</span> <span class="sc">~</span> <span class="fl">2.2</span>, <span class="co">#numeric so shouldn&#39;t be in &quot;&quot;</span></span>
+<span id="cb30-4"><a href="wrangling-data.html#cb30-4" tabindex="-1"></a>  Site <span class="sc">==</span> <span class="st">&quot;Maple Knoll&quot;</span> <span class="sc">~</span> <span class="fl">2.9</span>,</span>
+<span id="cb30-5"><a href="wrangling-data.html#cb30-5" tabindex="-1"></a>  Site <span class="sc">==</span> <span class="st">&quot;Cypress Swamp&quot;</span> <span class="sc">~</span> <span class="fl">4.1</span></span>
+<span id="cb30-6"><a href="wrangling-data.html#cb30-6" tabindex="-1"></a>))</span></code></pre></div>
 <pre><code>## # A tibble: 140 × 6
 ##    Site          Unit  Incised Unincised PropIncised  Area
 ##    &lt;fct&gt;         &lt;fct&gt;   &lt;dbl&gt;     &lt;dbl&gt;       &lt;dbl&gt; &lt;dbl&gt;
@@ -268,17 +272,17 @@ div.csl-indent {
 ##  9 Oak Grove     OG-4       25       101       0.198   2.2
 ## 10 Maple Knoll   MK-26      14        94       0.130   2.9
 ## # ℹ 130 more rows</code></pre>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="wrangling-data.html#cb30-1" tabindex="-1"></a><span class="co">#can also combine these</span></span>
-<span id="cb30-2"><a href="wrangling-data.html#cb30-2" tabindex="-1"></a>drennan6<span class="fl">.1</span>b <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(</span>
-<span id="cb30-3"><a href="wrangling-data.html#cb30-3" tabindex="-1"></a>  <span class="at">Period =</span> <span class="fu">case_when</span>(</span>
-<span id="cb30-4"><a href="wrangling-data.html#cb30-4" tabindex="-1"></a>  Site <span class="sc">==</span> <span class="st">&quot;Oak Grove&quot;</span> <span class="sc">~</span> <span class="st">&quot;Middle Formative&quot;</span>,</span>
-<span id="cb30-5"><a href="wrangling-data.html#cb30-5" tabindex="-1"></a>  Site <span class="sc">==</span> <span class="st">&quot;Maple Knoll&quot;</span> <span class="sc">~</span> <span class="st">&quot;Middle Formative&quot;</span>,</span>
-<span id="cb30-6"><a href="wrangling-data.html#cb30-6" tabindex="-1"></a>  Site <span class="sc">==</span> <span class="st">&quot;Cypress Swamp&quot;</span> <span class="sc">~</span> <span class="st">&quot;Late Formative&quot;</span>),</span>
-<span id="cb30-7"><a href="wrangling-data.html#cb30-7" tabindex="-1"></a>  <span class="at">Area =</span> <span class="fu">case_when</span>(</span>
-<span id="cb30-8"><a href="wrangling-data.html#cb30-8" tabindex="-1"></a>  Site <span class="sc">==</span> <span class="st">&quot;Oak Grove&quot;</span> <span class="sc">~</span> <span class="fl">2.2</span>, <span class="co">#numeric so shouldn&#39;t be in &quot;&quot;</span></span>
-<span id="cb30-9"><a href="wrangling-data.html#cb30-9" tabindex="-1"></a>  Site <span class="sc">==</span> <span class="st">&quot;Maple Knoll&quot;</span> <span class="sc">~</span> <span class="fl">2.9</span>,</span>
-<span id="cb30-10"><a href="wrangling-data.html#cb30-10" tabindex="-1"></a>  Site <span class="sc">==</span> <span class="st">&quot;Cypress Swamp&quot;</span> <span class="sc">~</span> <span class="fl">4.1</span></span>
-<span id="cb30-11"><a href="wrangling-data.html#cb30-11" tabindex="-1"></a>))</span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="wrangling-data.html#cb32-1" tabindex="-1"></a><span class="co">#can also combine these</span></span>
+<span id="cb32-2"><a href="wrangling-data.html#cb32-2" tabindex="-1"></a>drennan6<span class="fl">.1</span>b <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(</span>
+<span id="cb32-3"><a href="wrangling-data.html#cb32-3" tabindex="-1"></a>  <span class="at">Period =</span> <span class="fu">case_when</span>(</span>
+<span id="cb32-4"><a href="wrangling-data.html#cb32-4" tabindex="-1"></a>  Site <span class="sc">==</span> <span class="st">&quot;Oak Grove&quot;</span> <span class="sc">~</span> <span class="st">&quot;Middle Formative&quot;</span>,</span>
+<span id="cb32-5"><a href="wrangling-data.html#cb32-5" tabindex="-1"></a>  Site <span class="sc">==</span> <span class="st">&quot;Maple Knoll&quot;</span> <span class="sc">~</span> <span class="st">&quot;Middle Formative&quot;</span>,</span>
+<span id="cb32-6"><a href="wrangling-data.html#cb32-6" tabindex="-1"></a>  Site <span class="sc">==</span> <span class="st">&quot;Cypress Swamp&quot;</span> <span class="sc">~</span> <span class="st">&quot;Late Formative&quot;</span>),</span>
+<span id="cb32-7"><a href="wrangling-data.html#cb32-7" tabindex="-1"></a>  <span class="at">Area =</span> <span class="fu">case_when</span>(</span>
+<span id="cb32-8"><a href="wrangling-data.html#cb32-8" tabindex="-1"></a>  Site <span class="sc">==</span> <span class="st">&quot;Oak Grove&quot;</span> <span class="sc">~</span> <span class="fl">2.2</span>, <span class="co">#numeric so shouldn&#39;t be in &quot;&quot;</span></span>
+<span id="cb32-9"><a href="wrangling-data.html#cb32-9" tabindex="-1"></a>  Site <span class="sc">==</span> <span class="st">&quot;Maple Knoll&quot;</span> <span class="sc">~</span> <span class="fl">2.9</span>,</span>
+<span id="cb32-10"><a href="wrangling-data.html#cb32-10" tabindex="-1"></a>  Site <span class="sc">==</span> <span class="st">&quot;Cypress Swamp&quot;</span> <span class="sc">~</span> <span class="fl">4.1</span></span>
+<span id="cb32-11"><a href="wrangling-data.html#cb32-11" tabindex="-1"></a>))</span></code></pre></div>
 <pre><code>## # A tibble: 140 × 7
 ##    Site          Unit  Incised Unincised PropIncised Period            Area
 ##    &lt;fct&gt;         &lt;fct&gt;   &lt;dbl&gt;     &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;            &lt;dbl&gt;
@@ -298,7 +302,7 @@ div.csl-indent {
 <h2><span class="header-section-number">5.2</span> <code>left_join()</code><a href="wrangling-data.html#left_join" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Note that, as above, without a <code>&lt;-</code> we are not saving our new, improved object. Not to worry - we’ll produce it again - more efficiently - and save that. To do so we’ll use a <em>join</em>, which updates one table based on information in another, using shared values to define a relationship.
 There are multiple types of joins (inner/outer, left/right/full) that can be carried out in various ways (see <code>?join</code>), and their implementation can get tricky. We’ll use a left join (<code>left_join()</code>), which takes the first table (‘x’), and searches a second table (‘y’) for matching values in shared (or specified) columns. That is, if both <code>x</code> and <code>y</code> have a column <code>z</code>, <code>left_join()</code> searches <code>x$z</code>, and if a value of <code>"a"</code> is present in both <code>x$z</code> and <code>y$z</code>, it takes whatever other information is in that row of <code>y</code> and appends it to the matching row in <code>x</code>. That’s probably hard to follow in the abstract, but have a look at how it works:</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="wrangling-data.html#cb32-1" tabindex="-1"></a>drennan6<span class="fl">.1</span>b <span class="sc">%&gt;%</span> <span class="fu">left_join</span>(drennan6<span class="fl">.1</span>b_2, <span class="at">by =</span> <span class="st">&quot;Site&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="wrangling-data.html#cb34-1" tabindex="-1"></a>drennan6<span class="fl">.1</span>b <span class="sc">%&gt;%</span> <span class="fu">left_join</span>(drennan6<span class="fl">.1</span>b_2, <span class="at">by =</span> <span class="st">&quot;Site&quot;</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 140 × 7
 ##    Site          Unit  Incised Unincised PropIncised Period          `Area (ha)`
 ##    &lt;chr&gt;         &lt;fct&gt;   &lt;dbl&gt;     &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;                 &lt;dbl&gt;
@@ -313,14 +317,14 @@ There are multiple types of joins (inner/outer, left/right/full) that can be car
 ##  9 Oak Grove     OG-4       25       101       0.198 Middle Formati…         2.2
 ## 10 Maple Knoll   MK-26      14        94       0.130 Middle Formati…         2.9
 ## # ℹ 130 more rows</code></pre>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="wrangling-data.html#cb34-1" tabindex="-1"></a><span class="co">#if we don&#39;t specify `by=`, `left_join()` will guess based on column names</span></span>
-<span id="cb34-2"><a href="wrangling-data.html#cb34-2" tabindex="-1"></a>drennan6<span class="fl">.1</span>b <span class="ot">&lt;-</span> drennan6<span class="fl">.1</span>b <span class="sc">%&gt;%</span> <span class="fu">left_join</span>(drennan6<span class="fl">.1</span>b_2)</span></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="wrangling-data.html#cb36-1" tabindex="-1"></a><span class="co">#if we don&#39;t specify `by=`, `left_join()` will guess based on column names</span></span>
+<span id="cb36-2"><a href="wrangling-data.html#cb36-2" tabindex="-1"></a>drennan6<span class="fl">.1</span>b <span class="ot">&lt;-</span> drennan6<span class="fl">.1</span>b <span class="sc">%&gt;%</span> <span class="fu">left_join</span>(drennan6<span class="fl">.1</span>b_2)</span></code></pre></div>
 </div>
 <div id="separate" class="section level2 hasAnchor" number="5.3">
 <h2><span class="header-section-number">5.3</span> <code>separate()</code><a href="wrangling-data.html#separate" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Suppose that we sometimes want to lump all of these sites as belonging to the Formative Period, and other times we want to separate according to whether they’re Middle Formative or Late Formative? This would be simpler if we had a ‘Period’ column and a second ‘Subperiod’ column. There’s a convenient function for this is the <strong>tidyr</strong> package (another of the tendrils of the tidyverse).</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="wrangling-data.html#cb35-1" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
-<span id="cb35-2"><a href="wrangling-data.html#cb35-2" tabindex="-1"></a>drennan6<span class="fl">.1</span>b <span class="sc">%&gt;%</span> <span class="fu">separate</span>(Period, <span class="at">into =</span> <span class="fu">c</span>(<span class="st">&quot;Subperiod&quot;</span>, <span class="st">&quot;Period&quot;</span>), <span class="at">sep =</span> <span class="st">&quot; &quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="wrangling-data.html#cb37-1" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb37-2"><a href="wrangling-data.html#cb37-2" tabindex="-1"></a>drennan6<span class="fl">.1</span>b <span class="sc">%&gt;%</span> <span class="fu">separate</span>(Period, <span class="at">into =</span> <span class="fu">c</span>(<span class="st">&quot;Subperiod&quot;</span>, <span class="st">&quot;Period&quot;</span>), <span class="at">sep =</span> <span class="st">&quot; &quot;</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 140 × 8
 ##    Site         Unit  Incised Unincised PropIncised Subperiod Period `Area (ha)`
 ##    &lt;chr&gt;        &lt;fct&gt;   &lt;dbl&gt;     &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;        &lt;dbl&gt;
@@ -339,14 +343,14 @@ There are multiple types of joins (inner/outer, left/right/full) that can be car
 <div id="bind_rows" class="section level2 hasAnchor" number="5.4">
 <h2><span class="header-section-number">5.4</span> <code>bind_rows()</code><a href="wrangling-data.html#bind_rows" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>In the case of the Eerkens et al. 2007 tables, joining is not what we want - the tables encode information about different sites, so we don’t want to take information from one table and fill it in to rows of another. Rather, we want to combine the tables by adding rows, and filling in columns with empty values where one table has a column and another does not.</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="wrangling-data.html#cb37-1" tabindex="-1"></a>eerk_comb <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(eerk_tab1, eerk_tab2, eerk_tab3)</span>
-<span id="cb37-2"><a href="wrangling-data.html#cb37-2" tabindex="-1"></a></span>
-<span id="cb37-3"><a href="wrangling-data.html#cb37-3" tabindex="-1"></a><span class="co">#reorder columns of result</span></span>
-<span id="cb37-4"><a href="wrangling-data.html#cb37-4" tabindex="-1"></a></span>
-<span id="cb37-5"><a href="wrangling-data.html#cb37-5" tabindex="-1"></a>eerk_comb <span class="ot">&lt;-</span> eerk_comb <span class="sc">%&gt;%</span> <span class="fu">relocate</span>(site, source_artifact, casa_diablo<span class="sc">:</span>whitewater_ridge)</span></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="wrangling-data.html#cb39-1" tabindex="-1"></a>eerk_comb <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(eerk_tab1, eerk_tab2, eerk_tab3)</span>
+<span id="cb39-2"><a href="wrangling-data.html#cb39-2" tabindex="-1"></a></span>
+<span id="cb39-3"><a href="wrangling-data.html#cb39-3" tabindex="-1"></a><span class="co">#reorder columns of result</span></span>
+<span id="cb39-4"><a href="wrangling-data.html#cb39-4" tabindex="-1"></a></span>
+<span id="cb39-5"><a href="wrangling-data.html#cb39-5" tabindex="-1"></a>eerk_comb <span class="ot">&lt;-</span> eerk_comb <span class="sc">%&gt;%</span> <span class="fu">relocate</span>(site, source_artifact, casa_diablo<span class="sc">:</span>whitewater_ridge)</span></code></pre></div>
 <p>Now we can convert character columns to factors if appropriate.</p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="wrangling-data.html#cb38-1" tabindex="-1"></a>eerk_comb <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">site =</span> <span class="fu">factor</span>(site), </span>
-<span id="cb38-2"><a href="wrangling-data.html#cb38-2" tabindex="-1"></a>                     <span class="at">source_artifact =</span> <span class="fu">factor</span>(source_artifact))</span></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="wrangling-data.html#cb40-1" tabindex="-1"></a>eerk_comb <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">site =</span> <span class="fu">factor</span>(site), </span>
+<span id="cb40-2"><a href="wrangling-data.html#cb40-2" tabindex="-1"></a>                     <span class="at">source_artifact =</span> <span class="fu">factor</span>(source_artifact))</span></code></pre></div>
 <pre><code>## # A tibble: 10 × 31
 ##    site           source_artifact   casa_diablo mono_glass_mountain truman_queen
 ##    &lt;fct&gt;          &lt;fct&gt;                   &lt;dbl&gt;               &lt;dbl&gt;        &lt;dbl&gt;
@@ -371,10 +375,10 @@ There are multiple types of joins (inner/outer, left/right/full) that can be car
 <div id="group_by-and-summarize" class="section level2 hasAnchor" number="5.5">
 <h2><span class="header-section-number">5.5</span> <code>group_by()</code> and <code>summarize()</code><a href="wrangling-data.html#group_by-and-summarize" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Summarizing needs - logically - a function that will <em>summarize</em> multiple inputs in one. Keep in mind that you are squishing the values of many cells in the first table into a single cell in the second, so <code>summarize()</code> will need some function with which to do so (sum, mean, median, etc).</p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="wrangling-data.html#cb40-1" tabindex="-1"></a><span class="co">#grouping and summarizing</span></span>
-<span id="cb40-2"><a href="wrangling-data.html#cb40-2" tabindex="-1"></a>drennan6<span class="fl">.1</span>b <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(Site) <span class="sc">%&gt;%</span> <span class="fu">summarize</span>(<span class="at">Incised =</span> <span class="fu">sum</span>(Incised), </span>
-<span id="cb40-3"><a href="wrangling-data.html#cb40-3" tabindex="-1"></a>                                             <span class="at">Unincised =</span> <span class="fu">sum</span>(Unincised),</span>
-<span id="cb40-4"><a href="wrangling-data.html#cb40-4" tabindex="-1"></a>                                             <span class="at">Units =</span> <span class="fu">length</span>(Unit))</span></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="wrangling-data.html#cb42-1" tabindex="-1"></a><span class="co">#grouping and summarizing</span></span>
+<span id="cb42-2"><a href="wrangling-data.html#cb42-2" tabindex="-1"></a>drennan6<span class="fl">.1</span>b <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(Site) <span class="sc">%&gt;%</span> <span class="fu">summarize</span>(<span class="at">Incised =</span> <span class="fu">sum</span>(Incised), </span>
+<span id="cb42-3"><a href="wrangling-data.html#cb42-3" tabindex="-1"></a>                                             <span class="at">Unincised =</span> <span class="fu">sum</span>(Unincised),</span>
+<span id="cb42-4"><a href="wrangling-data.html#cb42-4" tabindex="-1"></a>                                             <span class="at">Units =</span> <span class="fu">length</span>(Unit))</span></code></pre></div>
 <pre><code>## # A tibble: 3 × 4
 ##   Site          Incised Unincised Units
 ##   &lt;chr&gt;           &lt;dbl&gt;     &lt;dbl&gt; &lt;int&gt;
@@ -382,14 +386,29 @@ There are multiple types of joins (inner/outer, left/right/full) that can be car
 ## 2 Maple Knoll      1091      3290    37
 ## 3 Oak Grove        1815      5281    59</code></pre>
 <p>We can combine <code>summarize()</code> and <code>across()</code> to perform the same summary operation on multiple columns. Note that we may need to include an <code>na.rm = T</code> argument if our sums are likely to include <code>NA</code> values and we want to treat those as 0s.</p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="wrangling-data.html#cb42-1" tabindex="-1"></a>eerk_bysite <span class="ot">&lt;-</span> eerk_comb <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(site) <span class="sc">%&gt;%</span> </span>
-<span id="cb42-2"><a href="wrangling-data.html#cb42-2" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="fu">across</span>(casa_diablo<span class="sc">:</span>whitewater_ridge, sum, <span class="at">na.rm =</span> T))</span></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="wrangling-data.html#cb44-1" tabindex="-1"></a>eerk_bysite <span class="ot">&lt;-</span> eerk_comb <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(site) <span class="sc">%&gt;%</span> </span>
+<span id="cb44-2"><a href="wrangling-data.html#cb44-2" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="fu">across</span>(casa_diablo<span class="sc">:</span>whitewater_ridge, sum, <span class="at">na.rm =</span> T))</span>
+<span id="cb44-3"><a href="wrangling-data.html#cb44-3" tabindex="-1"></a></span>
+<span id="cb44-4"><a href="wrangling-data.html#cb44-4" tabindex="-1"></a>eerk_bysite</span></code></pre></div>
+<pre><code>## # A tibble: 3 × 30
+##   site    casa_diablo mono_glass_mountain truman_queen fish_springs mono_craters
+##   &lt;chr&gt;         &lt;dbl&gt;               &lt;dbl&gt;        &lt;dbl&gt;        &lt;dbl&gt;        &lt;dbl&gt;
+## 1 Bone C…           0                   0            0            0            0
+## 2 Mohawk…           0                   0            1            0            0
+## 3 Sherwi…         248                  94           32           25            3
+## # ℹ 24 more variables: bodie_hills &lt;dbl&gt;, mount_hicks &lt;dbl&gt;, coso &lt;dbl&gt;,
+## #   buffalo_hills &lt;dbl&gt;, south_warners &lt;dbl&gt;, bs_pp_fm &lt;dbl&gt;, gf_liw_rs &lt;dbl&gt;,
+## #   cowhead_lake &lt;dbl&gt;, cougar_butte &lt;dbl&gt;, buck_mountain &lt;dbl&gt;,
+## #   napa_glass_mountain &lt;dbl&gt;, borax_lake &lt;dbl&gt;, obsidian_cliffs &lt;dbl&gt;,
+## #   mc_kay_butte &lt;dbl&gt;, big_obsidian_flow &lt;dbl&gt;, east_lake_flow &lt;dbl&gt;,
+## #   quartz_mountain &lt;dbl&gt;, cougar_mountain &lt;dbl&gt;, silver_sycan &lt;dbl&gt;,
+## #   brooks_canyon &lt;dbl&gt;, glass_buttes &lt;dbl&gt;, burns_butte &lt;dbl&gt;, …</code></pre>
 <p>We might also want to consider how many sources contribute flakes in each category. In this case we’ll use an unholy mix of <strong>dplyr</strong> and Base R syntax. Don’t tell.</p>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="wrangling-data.html#cb43-1" tabindex="-1"></a>eerk_comb <span class="ot">&lt;-</span> eerk_comb <span class="sc">%&gt;%</span> </span>
-<span id="cb43-2"><a href="wrangling-data.html#cb43-2" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">sources_represented =</span> <span class="fu">rowSums</span>(<span class="fu">is.na</span>(eerk_comb[,<span class="dv">3</span><span class="sc">:</span><span class="dv">31</span>]) <span class="sc">==</span> F))</span></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="wrangling-data.html#cb46-1" tabindex="-1"></a>eerk_comb <span class="ot">&lt;-</span> eerk_comb <span class="sc">%&gt;%</span> </span>
+<span id="cb46-2"><a href="wrangling-data.html#cb46-2" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">sources_represented =</span> <span class="fu">rowSums</span>(<span class="fu">is.na</span>(eerk_comb[,<span class="dv">3</span><span class="sc">:</span><span class="dv">31</span>]) <span class="sc">==</span> F))</span></code></pre></div>
 <p>This makes it interesting to summarize by other factors than site.</p>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="wrangling-data.html#cb44-1" tabindex="-1"></a>eerk_comb <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(source_artifact) <span class="sc">%&gt;%</span> </span>
-<span id="cb44-2"><a href="wrangling-data.html#cb44-2" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">source_diversity =</span> <span class="fu">mean</span>(sources_represented))</span></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="wrangling-data.html#cb47-1" tabindex="-1"></a>eerk_comb <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(source_artifact) <span class="sc">%&gt;%</span> </span>
+<span id="cb47-2"><a href="wrangling-data.html#cb47-2" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">source_diversity =</span> <span class="fu">mean</span>(sources_represented))</span></code></pre></div>
 <pre><code>## # A tibble: 5 × 2
 ##   source_artifact           source_diversity
 ##   &lt;chr&gt;                                &lt;dbl&gt;
@@ -402,17 +421,17 @@ There are multiple types of joins (inner/outer, left/right/full) that can be car
 <div id="pivot_wider-and-pivot_longer" class="section level2 hasAnchor" number="5.6">
 <h2><span class="header-section-number">5.6</span> <code>pivot_wider()</code> and <code>pivot_longer()</code><a href="wrangling-data.html#pivot_wider-and-pivot_longer" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>We can also add a bit more data to the mix, in the form of Euclidean distances from sites to obsidian sources.</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="wrangling-data.html#cb46-1" tabindex="-1"></a>eerk_dist <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data/Eerkens2007_distances.csv&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="wrangling-data.html#cb49-1" tabindex="-1"></a>eerk_dist <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;data/Eerkens2007_distances.csv&quot;</span>)</span></code></pre></div>
 <p>These data are of interest because Eerkens and colleagues argue that obsidians that are more and less difficult to procure will not only be more and less common, but also differently represented amongst different kinds of artifacts. These data are, however, in a form that is inconvenient, and in a way that can’t be addressed by simple summary. We could more easily make sense of a table that has, instead of one row for each unique combination of site and source, one row for each <em>site</em>, a column for each source, and a distance in each cell. Moving between these options is commonly called <em>pivoting</em> a table. The tidyverse functions for this are <code>pivot_longer()</code> and <code>pivot_wider()</code>, from the <strong>tidyr</strong> package.
 The <code>pivot</code> vocabulary and syntax are often incomprehensible, but it’s possible to follow the examples in the vignette that accompanies the package (try <code>vignette("pivot")</code>; many packages include demos [“vignettes”] that are often more obviously helpful than the abstracted info provided by <code>?</code>).</p>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="wrangling-data.html#cb47-1" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
-<span id="cb47-2"><a href="wrangling-data.html#cb47-2" tabindex="-1"></a></span>
-<span id="cb47-3"><a href="wrangling-data.html#cb47-3" tabindex="-1"></a>eerk_dist_summ <span class="ot">&lt;-</span> eerk_dist <span class="sc">%&gt;%</span> <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> Source, </span>
-<span id="cb47-4"><a href="wrangling-data.html#cb47-4" tabindex="-1"></a>                                            <span class="at">values_from =</span> <span class="st">`</span><span class="at">Euclidean Distance</span><span class="st">`</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="wrangling-data.html#cb50-1" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb50-2"><a href="wrangling-data.html#cb50-2" tabindex="-1"></a></span>
+<span id="cb50-3"><a href="wrangling-data.html#cb50-3" tabindex="-1"></a>eerk_dist_summ <span class="ot">&lt;-</span> eerk_dist <span class="sc">%&gt;%</span> <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> Source, </span>
+<span id="cb50-4"><a href="wrangling-data.html#cb50-4" tabindex="-1"></a>                                            <span class="at">values_from =</span> <span class="st">`</span><span class="at">Euclidean Distance</span><span class="st">`</span>)</span></code></pre></div>
 <p>Let’s reverse the process, just to see <code>pivot_longer()</code> in action. Here we tell the function to do this with every column except the first one, put the column names in a new column called ‘Source’, and put the values associated with each combination of site and source in a new column called ‘Distance’.</p>
-<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="wrangling-data.html#cb48-1" tabindex="-1"></a>eerk_dist_summ <span class="sc">%&gt;%</span> <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">!</span>Site, </span>
-<span id="cb48-2"><a href="wrangling-data.html#cb48-2" tabindex="-1"></a>                                <span class="at">names_to =</span> <span class="st">&quot;Source&quot;</span>,</span>
-<span id="cb48-3"><a href="wrangling-data.html#cb48-3" tabindex="-1"></a>                                <span class="at">values_to =</span> <span class="st">&quot;Distance&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="wrangling-data.html#cb51-1" tabindex="-1"></a>eerk_dist_summ <span class="sc">%&gt;%</span> <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">!</span>Site, </span>
+<span id="cb51-2"><a href="wrangling-data.html#cb51-2" tabindex="-1"></a>                                <span class="at">names_to =</span> <span class="st">&quot;Source&quot;</span>,</span>
+<span id="cb51-3"><a href="wrangling-data.html#cb51-3" tabindex="-1"></a>                                <span class="at">values_to =</span> <span class="st">&quot;Distance&quot;</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 87 × 3
 ##    Site      Source              Distance
 ##    &lt;chr&gt;     &lt;chr&gt;                  &lt;dbl&gt;
@@ -431,10 +450,10 @@ The <code>pivot</code> vocabulary and syntax are often incomprehensible, but it�
 <div id="combining-information" class="section level2 hasAnchor" number="5.7">
 <h2><span class="header-section-number">5.7</span> Combining information<a href="wrangling-data.html#combining-information" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>We have one data frame that tells us how many artifacts of each class came from different sources from the three case-study sites, and another that tells us distances from sites to sources. One thing that we might want is a data frame that gives us distances from sites to <em>used</em> sources (since the distances to unused sources are at best irrelevant and at worst confusing).</p>
-<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="wrangling-data.html#cb50-1" tabindex="-1"></a>eerk_dist_summ <span class="ot">&lt;-</span> eerk_dist_summ <span class="sc">%&gt;%</span> <span class="fu">clean_names</span>(<span class="st">&quot;snake&quot;</span>)</span>
-<span id="cb50-2"><a href="wrangling-data.html#cb50-2" tabindex="-1"></a></span>
-<span id="cb50-3"><a href="wrangling-data.html#cb50-3" tabindex="-1"></a><span class="co">#check that names match</span></span>
-<span id="cb50-4"><a href="wrangling-data.html#cb50-4" tabindex="-1"></a><span class="fu">compare_df_cols</span>(eerk_bysite, eerk_dist_summ)</span></code></pre></div>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="wrangling-data.html#cb53-1" tabindex="-1"></a>eerk_dist_summ <span class="ot">&lt;-</span> eerk_dist_summ <span class="sc">%&gt;%</span> <span class="fu">clean_names</span>(<span class="st">&quot;snake&quot;</span>)</span>
+<span id="cb53-2"><a href="wrangling-data.html#cb53-2" tabindex="-1"></a></span>
+<span id="cb53-3"><a href="wrangling-data.html#cb53-3" tabindex="-1"></a><span class="co">#check that names match</span></span>
+<span id="cb53-4"><a href="wrangling-data.html#cb53-4" tabindex="-1"></a><span class="fu">compare_df_cols</span>(eerk_bysite, eerk_dist_summ)</span></code></pre></div>
 <pre><code>##            column_name eerk_bysite eerk_dist_summ
 ## 1    big_obsidian_flow     numeric        numeric
 ## 2          bodie_hills     numeric        numeric
@@ -466,14 +485,40 @@ The <code>pivot</code> vocabulary and syntax are often incomprehensible, but it�
 ## 28       south_warners     numeric        numeric
 ## 29        truman_queen     numeric        numeric
 ## 30    whitewater_ridge     numeric        numeric</code></pre>
-<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="wrangling-data.html#cb52-1" tabindex="-1"></a><span class="co">#make a binary table (sources used or not)</span></span>
-<span id="cb52-2"><a href="wrangling-data.html#cb52-2" tabindex="-1"></a>eerk_bysite_bin <span class="ot">&lt;-</span> eerk_bysite <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span>site) <span class="sc">%&gt;%</span> <span class="fu">replace</span>(.<span class="sc">&gt;</span><span class="dv">0</span>, <span class="dv">1</span>)</span>
-<span id="cb52-3"><a href="wrangling-data.html#cb52-3" tabindex="-1"></a>  </span>
-<span id="cb52-4"><a href="wrangling-data.html#cb52-4" tabindex="-1"></a><span class="co">#multiply binary table by distance table</span></span>
-<span id="cb52-5"><a href="wrangling-data.html#cb52-5" tabindex="-1"></a><span class="co">#NA for unused sources</span></span>
-<span id="cb52-6"><a href="wrangling-data.html#cb52-6" tabindex="-1"></a>obsid_dist <span class="ot">&lt;-</span> <span class="fu">mapply</span>(<span class="st">&quot;*&quot;</span>, eerk_bysite_bin, eerk_dist_summ[,<span class="sc">-</span><span class="dv">1</span>]) <span class="sc">%&gt;%</span> <span class="fu">data.frame</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb52-7"><a href="wrangling-data.html#cb52-7" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">site =</span> eerk_bysite<span class="sc">$</span>site) <span class="sc">%&gt;%</span> <span class="fu">relocate</span>(site, <span class="at">.before =</span> casa_diablo) <span class="sc">%&gt;%</span> </span>
-<span id="cb52-8"><a href="wrangling-data.html#cb52-8" tabindex="-1"></a>  <span class="fu">replace</span>(. <span class="sc">==</span> <span class="dv">0</span>, <span class="cn">NA</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="wrangling-data.html#cb55-1" tabindex="-1"></a><span class="co">#make a binary table (sources used or not)</span></span>
+<span id="cb55-2"><a href="wrangling-data.html#cb55-2" tabindex="-1"></a>eerk_bysite_bin <span class="ot">&lt;-</span> eerk_bysite <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span>site) <span class="sc">%&gt;%</span> <span class="fu">replace</span>(.<span class="sc">&gt;</span><span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb55-3"><a href="wrangling-data.html#cb55-3" tabindex="-1"></a>  </span>
+<span id="cb55-4"><a href="wrangling-data.html#cb55-4" tabindex="-1"></a><span class="co">#multiply binary table by distance table</span></span>
+<span id="cb55-5"><a href="wrangling-data.html#cb55-5" tabindex="-1"></a><span class="co">#NA for unused sources</span></span>
+<span id="cb55-6"><a href="wrangling-data.html#cb55-6" tabindex="-1"></a>obsid_dist <span class="ot">&lt;-</span> <span class="fu">mapply</span>(<span class="st">&quot;*&quot;</span>, eerk_bysite_bin, eerk_dist_summ[,<span class="sc">-</span><span class="dv">1</span>]) <span class="sc">%&gt;%</span> <span class="fu">data.frame</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb55-7"><a href="wrangling-data.html#cb55-7" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">site =</span> eerk_bysite<span class="sc">$</span>site) <span class="sc">%&gt;%</span> <span class="fu">relocate</span>(site, <span class="at">.before =</span> casa_diablo) <span class="sc">%&gt;%</span> </span>
+<span id="cb55-8"><a href="wrangling-data.html#cb55-8" tabindex="-1"></a>  <span class="fu">replace</span>(. <span class="sc">==</span> <span class="dv">0</span>, <span class="cn">NA</span>)</span>
+<span id="cb55-9"><a href="wrangling-data.html#cb55-9" tabindex="-1"></a></span>
+<span id="cb55-10"><a href="wrangling-data.html#cb55-10" tabindex="-1"></a>obsid_dist</span></code></pre></div>
+<pre><code>##             site casa_diablo mono_glass_mountain truman_queen fish_springs
+## 1      Bone Cave          NA                  NA           NA           NA
+## 2  Mohawk Valley          NA                  NA          200           NA
+## 3 Sherwin Summit         100                 360          390          380
+##   mono_craters bodie_hills mount_hicks coso buffalo_hills south_warners
+## 1           NA          NA          NA   NA            NA            NA
+## 2           NA         150         220   NA           200           230
+## 3          400         410         490  500            NA            NA
+##   bs_pp_fm gf_liw_rs cowhead_lake cougar_butte buck_mountain
+## 1       NA        NA           NA           NA            NA
+## 2      370       410          450          450           510
+## 3       NA        NA           NA           NA            NA
+##   napa_glass_mountain borax_lake obsidian_cliffs mc_kay_butte big_obsidian_flow
+## 1                  NA         NA              50           30                40
+## 2                 430        430              NA           NA                NA
+## 3                  NA         NA              NA           NA                NA
+##   east_lake_flow quartz_mountain cougar_mountain silver_sycan brooks_canyon
+## 1             40              50             950          820           730
+## 2             NA              NA              NA           NA            NA
+## 3             NA              NA              NA           NA            NA
+##   glass_buttes burns_butte rimrock_spring whitewater_ridge
+## 1          730         710            680              720
+## 2           NA          NA             NA               NA
+## 3           NA          NA             NA               NA</code></pre>
 </div>
 </div>
             </section>

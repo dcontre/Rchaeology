@@ -52,6 +52,10 @@
 <link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
 <link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="libs/bsTable-3.3.7/bootstrapTable.min.css" rel="stylesheet" />
+<script src="libs/bsTable-3.3.7/bootstrapTable.js"></script>
 
 
 <style type="text/css">
@@ -228,7 +232,7 @@ div.csl-indent {
 <div id="removing-columns-with-select" class="section level3 hasAnchor" number="4.1.1">
 <h3><span class="header-section-number">4.1.1</span> Removing columns with <code>select()</code><a href="cleaning-data.html#removing-columns-with-select" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Unless we’ve specified which cells we want with the <code>range =</code> argument when reading in the sheet, Table 6.1b has some extraneous columns produced because R detected text outside of the first four and expanded the range accordingly.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="cleaning-data.html#cb3-1" tabindex="-1"></a>drennan6<span class="fl">.1</span>b <span class="sc">%&gt;%</span> <span class="fu">select</span>(Site<span class="sc">:</span>Unincised)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="cleaning-data.html#cb5-1" tabindex="-1"></a>drennan6<span class="fl">.1</span>b <span class="sc">%&gt;%</span> <span class="fu">select</span>(Site<span class="sc">:</span>Unincised)</span></code></pre></div>
 <pre><code>## # A tibble: 140 × 4
 ##    Site          Unit  Incised Unincised
 ##    &lt;chr&gt;         &lt;chr&gt;   &lt;dbl&gt;     &lt;dbl&gt;
@@ -243,14 +247,14 @@ div.csl-indent {
 ##  9 Oak Grove     OG-4       25       101
 ## 10 Maple Knoll   MK-26      14        94
 ## # ℹ 130 more rows</code></pre>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="cleaning-data.html#cb5-1" tabindex="-1"></a><span class="co">#or the inverse</span></span>
-<span id="cb5-2"><a href="cleaning-data.html#cb5-2" tabindex="-1"></a>drennan6<span class="fl">.1</span>b <span class="ot">&lt;-</span> drennan6<span class="fl">.1</span>b <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(<span class="st">`</span><span class="at">...5</span><span class="st">`</span>, <span class="st">`</span><span class="at">...6</span><span class="st">`</span>, <span class="st">`</span><span class="at">...7</span><span class="st">`</span>)) </span>
-<span id="cb5-3"><a href="cleaning-data.html#cb5-3" tabindex="-1"></a><span class="co">#where column names have punctuation, enclose them in ``</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="cleaning-data.html#cb7-1" tabindex="-1"></a><span class="co">#or the inverse</span></span>
+<span id="cb7-2"><a href="cleaning-data.html#cb7-2" tabindex="-1"></a>drennan6<span class="fl">.1</span>b <span class="ot">&lt;-</span> drennan6<span class="fl">.1</span>b <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(<span class="st">`</span><span class="at">...5</span><span class="st">`</span>, <span class="st">`</span><span class="at">...6</span><span class="st">`</span>, <span class="st">`</span><span class="at">...7</span><span class="st">`</span>)) </span>
+<span id="cb7-3"><a href="cleaning-data.html#cb7-3" tabindex="-1"></a><span class="co">#where column names have punctuation, enclose them in ``</span></span></code></pre></div>
 </div>
 <div id="changing-column-classes-and-adding-columns-with-mutate" class="section level3 hasAnchor" number="4.1.2">
 <h3><span class="header-section-number">4.1.2</span> Changing column classes and adding columns with <code>mutate()</code><a href="cleaning-data.html#changing-column-classes-and-adding-columns-with-mutate" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The <code>mutate()</code> function can be used to modify existing columns by simply overwriting them.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="cleaning-data.html#cb6-1" tabindex="-1"></a>drennan6<span class="fl">.1</span>b <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Site =</span> <span class="fu">factor</span>(Site), <span class="at">Unit =</span> <span class="fu">factor</span>(Unit))</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="cleaning-data.html#cb8-1" tabindex="-1"></a>drennan6<span class="fl">.1</span>b <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Site =</span> <span class="fu">factor</span>(Site), <span class="at">Unit =</span> <span class="fu">factor</span>(Unit))</span></code></pre></div>
 <pre><code>## # A tibble: 140 × 4
 ##    Site          Unit  Incised Unincised
 ##    &lt;fct&gt;         &lt;fct&gt;   &lt;dbl&gt;     &lt;dbl&gt;
@@ -265,10 +269,10 @@ div.csl-indent {
 ##  9 Oak Grove     OG-4       25       101
 ## 10 Maple Knoll   MK-26      14        94
 ## # ℹ 130 more rows</code></pre>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="cleaning-data.html#cb8-1" tabindex="-1"></a><span class="co">#or, more efficiently where multiple columns are involved</span></span>
-<span id="cb8-2"><a href="cleaning-data.html#cb8-2" tabindex="-1"></a>drennan6<span class="fl">.1</span>b <span class="ot">&lt;-</span> drennan6<span class="fl">.1</span>b <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="fu">across</span>(Site<span class="sc">:</span>Unit, as.factor))</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="cleaning-data.html#cb10-1" tabindex="-1"></a><span class="co">#or, more efficiently where multiple columns are involved</span></span>
+<span id="cb10-2"><a href="cleaning-data.html#cb10-2" tabindex="-1"></a>drennan6<span class="fl">.1</span>b <span class="ot">&lt;-</span> drennan6<span class="fl">.1</span>b <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="fu">across</span>(Site<span class="sc">:</span>Unit, as.factor))</span></code></pre></div>
 <p>Mutate can also be used to create new columns, as assigning to <code>$</code> would (but remember that piping is ephemeral if you’re not writing to an object).</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="cleaning-data.html#cb9-1" tabindex="-1"></a>drennan6<span class="fl">.1</span>b <span class="ot">&lt;-</span> drennan6<span class="fl">.1</span>b <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">PropIncised =</span> Incised<span class="sc">/</span>(Incised <span class="sc">+</span> Unincised))</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="cleaning-data.html#cb11-1" tabindex="-1"></a>drennan6<span class="fl">.1</span>b <span class="ot">&lt;-</span> drennan6<span class="fl">.1</span>b <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">PropIncised =</span> Incised<span class="sc">/</span>(Incised <span class="sc">+</span> Unincised))</span></code></pre></div>
 </div>
 </div>
 <div id="putting-it-into-practice" class="section level2 hasAnchor" number="4.2">
@@ -284,11 +288,11 @@ div.csl-indent {
 </ul>
 <p>Below I’ll do this with Eerkens et al. 2007 Table 1; you’ll need to do the equivalent with Table 2 and Table 3 so that we can combine all three.</p>
 <p>We’ll start by defining the no-data values. I find the <strong>dplyr</strong> syntax here a bit opaque…but it’s undeniably effective.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="cleaning-data.html#cb10-1" tabindex="-1"></a>eerk_tab1 <span class="sc">%&gt;%</span> <span class="fu">replace</span>(. <span class="sc">==</span> <span class="st">&quot;-&quot;</span>, <span class="cn">NA</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="cleaning-data.html#cb12-1" tabindex="-1"></a>eerk_tab1 <span class="sc">%&gt;%</span> <span class="fu">replace</span>(. <span class="sc">==</span> <span class="st">&quot;-&quot;</span>, <span class="cn">NA</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 5 × 10
 ##   `Source Artifact`         `Casa Diablo` `Mono GlassMtn.` Queen `Fish Springs`
 ##   &lt;chr&gt;                             &lt;dbl&gt;            &lt;dbl&gt; &lt;dbl&gt;          &lt;dbl&gt;
-## 1 Formal Tools                         51               16    13              5
+## 1 FormalT ools                         51               16    13              5
 ## 2 Large Flakes                        166               65    10             18
 ## 3 Small Non-pressure Flakes            24               10     2              1
 ## 4 Small Pressure Flakes                 7                3     7              1
@@ -297,34 +301,34 @@ div.csl-indent {
 ## #   `Mount Hicks` &lt;chr&gt;, Coso &lt;chr&gt;, Totals &lt;dbl&gt;</code></pre>
 <p><span style="color: orange;">Do the same for Eerkens et al. 2007 Table 2 and Table 3.</span></p>
 <p>We can “recode” to deal with typos (or any other values that we’d like to change). This used to be handled in <strong>dplyr</strong> by a function called - sensibly - <code>recode()</code>…but that has been replaced by one called <code>case_match()</code>. Although you can still use <code>recode()</code>, we’ll try to keep up with the times by using <code>case_match()</code> (<code>case_when()</code> also works for this).</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="cleaning-data.html#cb12-1" tabindex="-1"></a>eerk_tab1 <span class="ot">&lt;-</span> eerk_tab1 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="st">`</span><span class="at">Source Artifact</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">case_match</span>(<span class="st">`</span><span class="at">Source Artifact</span><span class="st">`</span>,</span>
-<span id="cb12-2"><a href="cleaning-data.html#cb12-2" tabindex="-1"></a>                         <span class="st">&quot;FormalT ools&quot;</span> <span class="sc">~</span> <span class="st">&quot;Formal Tools&quot;</span>,</span>
-<span id="cb12-3"><a href="cleaning-data.html#cb12-3" tabindex="-1"></a>                         <span class="at">.default =</span> <span class="st">`</span><span class="at">Source Artifact</span><span class="st">`</span></span>
-<span id="cb12-4"><a href="cleaning-data.html#cb12-4" tabindex="-1"></a>                         ))</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="cleaning-data.html#cb14-1" tabindex="-1"></a>eerk_tab1 <span class="ot">&lt;-</span> eerk_tab1 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="st">`</span><span class="at">Source Artifact</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">case_match</span>(<span class="st">`</span><span class="at">Source Artifact</span><span class="st">`</span>,</span>
+<span id="cb14-2"><a href="cleaning-data.html#cb14-2" tabindex="-1"></a>                         <span class="st">&quot;FormalT ools&quot;</span> <span class="sc">~</span> <span class="st">&quot;Formal Tools&quot;</span>,</span>
+<span id="cb14-3"><a href="cleaning-data.html#cb14-3" tabindex="-1"></a>                         <span class="at">.default =</span> <span class="st">`</span><span class="at">Source Artifact</span><span class="st">`</span></span>
+<span id="cb14-4"><a href="cleaning-data.html#cb14-4" tabindex="-1"></a>                         ))</span></code></pre></div>
 <p>The other two Eerkens tables don’t seem to need any recoding, so we can move on to the column names. Looking at the data frames and/or using <code>colnames()</code> will make clear that there are both typos and abbreviations in the column names. The former are obviously mistakes; the latter imposed by the formatting limitations of published tables. Fortunately we can refer to the full names on the published map. Since “BS/PP/FM” and “GF/LIW/RS” are lumping multiple nearby source and the full lists (“Bordwell Spring, PintoPeak,Fox Mountain, and Hart Mountain”, and “Grasshopper Flat, Lost Iron Well, and Red Switchback”) would be clunky column names, we’ll leave them as-is.</p>
 <p><img src="imgs/Eerkens_2007_map.png" /></p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="cleaning-data.html#cb13-1" tabindex="-1"></a><span class="co">#rename() syntax is &quot;NewName&quot; = &quot;OldName&quot;</span></span>
-<span id="cb13-2"><a href="cleaning-data.html#cb13-2" tabindex="-1"></a><span class="co">#unlike recode(), only specified names will change</span></span>
-<span id="cb13-3"><a href="cleaning-data.html#cb13-3" tabindex="-1"></a></span>
-<span id="cb13-4"><a href="cleaning-data.html#cb13-4" tabindex="-1"></a>eerk_tab1 <span class="ot">&lt;-</span> eerk_tab1 <span class="sc">%&gt;%</span> <span class="fu">rename</span>(<span class="st">&quot;Mono Glass Mountain&quot;</span> <span class="ot">=</span> <span class="st">&quot;Mono GlassMtn.&quot;</span>,</span>
-<span id="cb13-5"><a href="cleaning-data.html#cb13-5" tabindex="-1"></a>                                  <span class="st">&quot;Truman/Queen&quot;</span> <span class="ot">=</span> <span class="st">&quot;Queen&quot;</span>)</span>
-<span id="cb13-6"><a href="cleaning-data.html#cb13-6" tabindex="-1"></a></span>
-<span id="cb13-7"><a href="cleaning-data.html#cb13-7" tabindex="-1"></a>eerk_tab2 <span class="ot">&lt;-</span> eerk_tab2 <span class="sc">%&gt;%</span> <span class="fu">rename</span>(<span class="st">&quot;Buffalo Hills&quot;</span> <span class="ot">=</span> <span class="st">&quot;Buf. Hills&quot;</span>,</span>
-<span id="cb13-8"><a href="cleaning-data.html#cb13-8" tabindex="-1"></a>                                  <span class="st">&quot;South Warners&quot;</span> <span class="ot">=</span> <span class="st">&quot;South War.&quot;</span>,</span>
-<span id="cb13-9"><a href="cleaning-data.html#cb13-9" tabindex="-1"></a>                                  <span class="st">&quot;BS/PP/FM&quot;</span> <span class="ot">=</span> <span class="st">&quot;BS PP FM&quot;</span>,</span>
-<span id="cb13-10"><a href="cleaning-data.html#cb13-10" tabindex="-1"></a>                                  <span class="st">&quot;GF/LIW/RS&quot;</span> <span class="ot">=</span> <span class="st">&quot;GF LIW RS&quot;</span>, </span>
-<span id="cb13-11"><a href="cleaning-data.html#cb13-11" tabindex="-1"></a>                                  <span class="st">&quot;Cowhead Lake&quot;</span> <span class="ot">=</span> <span class="st">&quot;Cow. Lake&quot;</span>,</span>
-<span id="cb13-12"><a href="cleaning-data.html#cb13-12" tabindex="-1"></a>                                  <span class="st">&quot;Cougar Butte&quot;</span> <span class="ot">=</span> <span class="st">&quot;Coug Butte&quot;</span>,</span>
-<span id="cb13-13"><a href="cleaning-data.html#cb13-13" tabindex="-1"></a>                                  <span class="st">&quot;Buck Mountain&quot;</span> <span class="ot">=</span> <span class="st">&quot;Buck Mtn.&quot;</span>,</span>
-<span id="cb13-14"><a href="cleaning-data.html#cb13-14" tabindex="-1"></a>                                  <span class="st">&quot;Napa Glass Mountain&quot;</span> <span class="ot">=</span> <span class="st">&quot;Napa&quot;</span>,</span>
-<span id="cb13-15"><a href="cleaning-data.html#cb13-15" tabindex="-1"></a>                                  <span class="st">&quot;Mount Hicks&quot;</span> <span class="ot">=</span> <span class="st">&quot;Mt. Hicks&quot;</span>,</span>
-<span id="cb13-16"><a href="cleaning-data.html#cb13-16" tabindex="-1"></a>                                  <span class="st">&quot;Truman/Queen&quot;</span> <span class="ot">=</span> <span class="st">&quot;Queen&quot;</span></span>
-<span id="cb13-17"><a href="cleaning-data.html#cb13-17" tabindex="-1"></a>                                  )</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="cleaning-data.html#cb15-1" tabindex="-1"></a><span class="co">#rename() syntax is &quot;NewName&quot; = &quot;OldName&quot;</span></span>
+<span id="cb15-2"><a href="cleaning-data.html#cb15-2" tabindex="-1"></a><span class="co">#unlike recode(), only specified names will change</span></span>
+<span id="cb15-3"><a href="cleaning-data.html#cb15-3" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="cleaning-data.html#cb15-4" tabindex="-1"></a>eerk_tab1 <span class="ot">&lt;-</span> eerk_tab1 <span class="sc">%&gt;%</span> <span class="fu">rename</span>(<span class="st">&quot;Mono Glass Mountain&quot;</span> <span class="ot">=</span> <span class="st">&quot;Mono GlassMtn.&quot;</span>,</span>
+<span id="cb15-5"><a href="cleaning-data.html#cb15-5" tabindex="-1"></a>                                  <span class="st">&quot;Truman/Queen&quot;</span> <span class="ot">=</span> <span class="st">&quot;Queen&quot;</span>)</span>
+<span id="cb15-6"><a href="cleaning-data.html#cb15-6" tabindex="-1"></a></span>
+<span id="cb15-7"><a href="cleaning-data.html#cb15-7" tabindex="-1"></a>eerk_tab2 <span class="ot">&lt;-</span> eerk_tab2 <span class="sc">%&gt;%</span> <span class="fu">rename</span>(<span class="st">&quot;Buffalo Hills&quot;</span> <span class="ot">=</span> <span class="st">&quot;Buf. Hills&quot;</span>,</span>
+<span id="cb15-8"><a href="cleaning-data.html#cb15-8" tabindex="-1"></a>                                  <span class="st">&quot;South Warners&quot;</span> <span class="ot">=</span> <span class="st">&quot;South War.&quot;</span>,</span>
+<span id="cb15-9"><a href="cleaning-data.html#cb15-9" tabindex="-1"></a>                                  <span class="st">&quot;BS/PP/FM&quot;</span> <span class="ot">=</span> <span class="st">&quot;BS PP FM&quot;</span>,</span>
+<span id="cb15-10"><a href="cleaning-data.html#cb15-10" tabindex="-1"></a>                                  <span class="st">&quot;GF/LIW/RS&quot;</span> <span class="ot">=</span> <span class="st">&quot;GF LIW RS&quot;</span>, </span>
+<span id="cb15-11"><a href="cleaning-data.html#cb15-11" tabindex="-1"></a>                                  <span class="st">&quot;Cowhead Lake&quot;</span> <span class="ot">=</span> <span class="st">&quot;Cow. Lake&quot;</span>,</span>
+<span id="cb15-12"><a href="cleaning-data.html#cb15-12" tabindex="-1"></a>                                  <span class="st">&quot;Cougar Butte&quot;</span> <span class="ot">=</span> <span class="st">&quot;Coug Butte&quot;</span>,</span>
+<span id="cb15-13"><a href="cleaning-data.html#cb15-13" tabindex="-1"></a>                                  <span class="st">&quot;Buck Mountain&quot;</span> <span class="ot">=</span> <span class="st">&quot;Buck Mtn.&quot;</span>,</span>
+<span id="cb15-14"><a href="cleaning-data.html#cb15-14" tabindex="-1"></a>                                  <span class="st">&quot;Napa Glass Mountain&quot;</span> <span class="ot">=</span> <span class="st">&quot;Napa&quot;</span>,</span>
+<span id="cb15-15"><a href="cleaning-data.html#cb15-15" tabindex="-1"></a>                                  <span class="st">&quot;Mount Hicks&quot;</span> <span class="ot">=</span> <span class="st">&quot;Mt. Hicks&quot;</span>,</span>
+<span id="cb15-16"><a href="cleaning-data.html#cb15-16" tabindex="-1"></a>                                  <span class="st">&quot;Truman/Queen&quot;</span> <span class="ot">=</span> <span class="st">&quot;Queen&quot;</span></span>
+<span id="cb15-17"><a href="cleaning-data.html#cb15-17" tabindex="-1"></a>                                  )</span></code></pre></div>
 <p><span style="color: orange;">Do the same for Eerkens et al. 2007 Table 3.</span></p>
 <p>As you’ll have noticed above, column names with punctuation can be a hassle (need to be enclosed in tickmarks [<code>]).  The **janitor** package ("simple little tools for examining and cleaning dirty data") streamlines the standardization of these names (the</code>case=` argument controls whether you’ll get “Source Artifact”, “source_artifact”, or “SourceArtifact”, etc.).</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="cleaning-data.html#cb14-1" tabindex="-1"></a><span class="fu">library</span>(janitor)</span>
-<span id="cb14-2"><a href="cleaning-data.html#cb14-2" tabindex="-1"></a></span>
-<span id="cb14-3"><a href="cleaning-data.html#cb14-3" tabindex="-1"></a><span class="fu">clean_names</span>(eerk_tab1, <span class="at">case =</span> <span class="st">&quot;snake&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="cleaning-data.html#cb16-1" tabindex="-1"></a><span class="fu">library</span>(janitor)</span>
+<span id="cb16-2"><a href="cleaning-data.html#cb16-2" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="cleaning-data.html#cb16-3" tabindex="-1"></a><span class="fu">clean_names</span>(eerk_tab1, <span class="at">case =</span> <span class="st">&quot;snake&quot;</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 5 × 10
 ##   source_artifact      casa_diablo mono_glass_mountain truman_queen fish_springs
 ##   &lt;chr&gt;                      &lt;dbl&gt;               &lt;dbl&gt;        &lt;dbl&gt;        &lt;dbl&gt;
@@ -335,11 +339,11 @@ div.csl-indent {
 ## 5 Totals                       248                  94           32           25
 ## # ℹ 5 more variables: mono_craters &lt;chr&gt;, bodie_hills &lt;chr&gt;, mount_hicks &lt;chr&gt;,
 ## #   coso &lt;chr&gt;, totals &lt;dbl&gt;</code></pre>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="cleaning-data.html#cb16-1" tabindex="-1"></a><span class="co">#or piping</span></span>
-<span id="cb16-2"><a href="cleaning-data.html#cb16-2" tabindex="-1"></a>eerk_tab1 <span class="ot">&lt;-</span> eerk_tab1 <span class="sc">%&gt;%</span> <span class="fu">clean_names</span>(<span class="at">case =</span> <span class="st">&quot;snake&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="cleaning-data.html#cb18-1" tabindex="-1"></a><span class="co">#or piping</span></span>
+<span id="cb18-2"><a href="cleaning-data.html#cb18-2" tabindex="-1"></a>eerk_tab1 <span class="ot">&lt;-</span> eerk_tab1 <span class="sc">%&gt;%</span> <span class="fu">clean_names</span>(<span class="at">case =</span> <span class="st">&quot;snake&quot;</span>)</span></code></pre></div>
 <p><span style="color: orange;">Do the same for Eerkens et al. 2007 Table 2 and Table 3.</span></p>
 <p>The tables have row and column totals included, but since we’re going to combine them these will just get in the way. We already used <code>select()</code> to remove columns using <strong>dplyr</strong> (and you can do so just as easily by indexing using <code>[</code>); we can also use the <code>filter()</code> function to remove rows.</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="cleaning-data.html#cb17-1" tabindex="-1"></a>eerk_tab1 <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span>totals)</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="cleaning-data.html#cb19-1" tabindex="-1"></a>eerk_tab1 <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span>totals)</span></code></pre></div>
 <pre><code>## # A tibble: 5 × 9
 ##   source_artifact      casa_diablo mono_glass_mountain truman_queen fish_springs
 ##   &lt;chr&gt;                      &lt;dbl&gt;               &lt;dbl&gt;        &lt;dbl&gt;        &lt;dbl&gt;
@@ -350,7 +354,7 @@ div.csl-indent {
 ## 5 Totals                       248                  94           32           25
 ## # ℹ 4 more variables: mono_craters &lt;chr&gt;, bodie_hills &lt;chr&gt;, mount_hicks &lt;chr&gt;,
 ## #   coso &lt;chr&gt;</code></pre>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="cleaning-data.html#cb19-1" tabindex="-1"></a>eerk_tab1 <span class="sc">%&gt;%</span> <span class="fu">filter</span>(source_artifact <span class="sc">!=</span> <span class="st">&quot;Totals&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="cleaning-data.html#cb21-1" tabindex="-1"></a>eerk_tab1 <span class="sc">%&gt;%</span> <span class="fu">filter</span>(source_artifact <span class="sc">!=</span> <span class="st">&quot;Totals&quot;</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 4 × 10
 ##   source_artifact      casa_diablo mono_glass_mountain truman_queen fish_springs
 ##   &lt;chr&gt;                      &lt;dbl&gt;               &lt;dbl&gt;        &lt;dbl&gt;        &lt;dbl&gt;
@@ -360,14 +364,14 @@ div.csl-indent {
 ## 4 Small Pressure Flak…           7                   3            7            1
 ## # ℹ 5 more variables: mono_craters &lt;chr&gt;, bodie_hills &lt;chr&gt;, mount_hicks &lt;chr&gt;,
 ## #   coso &lt;chr&gt;, totals &lt;dbl&gt;</code></pre>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="cleaning-data.html#cb21-1" tabindex="-1"></a><span class="co">#or chain those together with pipes</span></span>
-<span id="cb21-2"><a href="cleaning-data.html#cb21-2" tabindex="-1"></a>eerk_tab1 <span class="ot">&lt;-</span> eerk_tab1 <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span>totals) <span class="sc">%&gt;%</span> <span class="fu">filter</span>(source_artifact <span class="sc">!=</span> <span class="st">&quot;Totals&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="cleaning-data.html#cb23-1" tabindex="-1"></a><span class="co">#or chain those together with pipes</span></span>
+<span id="cb23-2"><a href="cleaning-data.html#cb23-2" tabindex="-1"></a>eerk_tab1 <span class="ot">&lt;-</span> eerk_tab1 <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span>totals) <span class="sc">%&gt;%</span> <span class="fu">filter</span>(source_artifact <span class="sc">!=</span> <span class="st">&quot;Totals&quot;</span>)</span></code></pre></div>
 <p><span style="color: orange;">Do the same for Eerkens et al. 2007 Table 2 and Table 3.</span></p>
 <p>Each of the three tables contains information from a separate site, but the site name is in the table caption, not included as a variable. We can add an populate a column in <strong>dplyr</strong> using <code>mutate()</code>.</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="cleaning-data.html#cb22-1" tabindex="-1"></a>eerk_tab1 <span class="ot">&lt;-</span> eerk_tab1 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">site =</span> <span class="st">&quot;Sherwin Summit&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="cleaning-data.html#cb24-1" tabindex="-1"></a>eerk_tab1 <span class="ot">&lt;-</span> eerk_tab1 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">site =</span> <span class="st">&quot;Sherwin Summit&quot;</span>)</span></code></pre></div>
 <p><span style="color: orange;">Do the same for Eerkens et al. 2007 Table 2 and Table 3.</span></p>
 <p>We can also use <code>mutate()</code> to alter column classes. We want to make sure, in particular, that our counts are ‘numeric’ rather than ‘character’ variables (<code>read_csv()</code> is likely to have guessed the to be character variables if it found <em>anything</em> non-numeric in them). We can do this efficiently by combining <code>across()</code> with <code>mutate()</code>. Referring to column names in code makes clear how useful <strong>janitor</strong>’s <code>clean_names()</code> function is (and how convenient “snake” case is for lazy typists).</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="cleaning-data.html#cb23-1" tabindex="-1"></a>eerk_tab1 <span class="ot">&lt;-</span> eerk_tab1 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="fu">across</span>(casa_diablo<span class="sc">:</span>coso, as.numeric))</span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="cleaning-data.html#cb25-1" tabindex="-1"></a>eerk_tab1 <span class="ot">&lt;-</span> eerk_tab1 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="fu">across</span>(casa_diablo<span class="sc">:</span>coso, as.numeric))</span></code></pre></div>
 <p><span style="color: orange;">Do the same for Eerkens et al. 2007 Table 2 and Table 3.</span></p>
 <p>We might also want to turn some of our character variables into factors, but if we plan to combine the tables it’s usually safest to do that <em>after</em> combining.</p>
 </div>
