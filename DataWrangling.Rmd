@@ -25,12 +25,6 @@ colorize <- function(x, color) {
 }
 ```
 
-# to-do 
-
-- add revealable code? **unilur**?
-- make sure structure of each section is 'Demo' with Drennan, then 'Putting it into practice' with Eerkens. Or re-order; all demo, then all 'putting it into practice'? 
-- tables in **kable**?
-
 
 # Introduction
 
@@ -87,7 +81,7 @@ Pick your favorite of the versions of this table and write it to an object. Beca
 knitr::include_graphics("imgs/tabula.png")
 ```
 
-[Tabula](https://tabula.technology/)
+[**Tabula**](https://tabula.technology/)
 
 We'll look at pages 589-592 from Eerkens and colleagues 2007 [paper]((https://www.cambridge.org/core/journals/american-antiquity/article/abs/reduction-strategies-and-geochemical-characterization-of-lithic-assemblages-a-comparison-of-three-case-studies-from-western-north-america/261B64DA3C2F3D77B4D480E169778CD6)) [@eerkens2007], which contains three tables of interest. Scrape all three - you can find a .pdf of the relevant pages [here](data/Eerkens_2007_American_Antiquity_extract.pdf) - using **tabula** (there is a **tabulapdf** package that provides an interface through R...but it generally doesn't work as well). Save the three resulting .csv files in your 'data' folder. Examine the results, and you'll find that the scraping isn't perfect: characters may be misinterpreted (empty spaces and placeholders tend to cause trouble) and not everything winds up exactly where it should. This is generally easiest to fix by opening the .csv in MSExcel or something like it and editing there, comparing to the .pdf table to make sure you get accurate output.
 
