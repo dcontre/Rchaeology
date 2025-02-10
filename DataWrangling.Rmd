@@ -1,8 +1,8 @@
 ---
-title: "Data Cleaning and Wrangling"
-subtitle: "An Introduction to Manipulating Archaeological Data"
+title: "Cleaning & Wrangling Data"
+subtitle: "An Introduction to Manipulating Archaeological Data\nANT4117/ANG6192"
 author: "D. Contreras"
-date: "2025-02-09"
+date: "`r Sys.Date()`"
 output: bookdown::gitbook
 bibliography: references.bib
 ---
