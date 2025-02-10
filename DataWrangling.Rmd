@@ -612,10 +612,12 @@ obsid_dist_l %>% ggplot() +
 There are some interesting contrasts apparent that might provide us some good food-for-thought. What if we want to look both at distances-by-site and distances-by-type?
 
 ```{r}
+#add distances to our long data
 eerk_comb_long_dist <- eerk_comb_coll_long %>% rename(source = Source) %>% 
   select(-sources_represented) %>% left_join(obsid_dist_l, by = c("site", "source")) %>% 
   filter(Count > 0)
 
+#then plot, using `facet_wrap()`
 eerk_comb_long_dist %>% ggplot() + 
   geom_col(aes(x = source_artifact, y = distance, fill = source),
            position = "dodge") +
