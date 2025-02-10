@@ -497,7 +497,8 @@ eerk_comb %>% kable() %>% kable_classic(bootstrap_options = c("condensed")) %>%
 The **tidyverse** is a pretty prescriptive place (there are definitely right and wrong ways to do things), and **tidynerds** prefer to do their data visualization using **ggplot** rather than Base R. Since we've been immersed in **dplyr** here, we'll plot that way as well. A few general rules about ggplot:
 
 -   If you only have a little knowledge of both base R and **ggplot**, it's easier to produce elegant plots with **ggplot**...but harder to control them. If you know both reasonably well, you can produce elegant plots with either; for *complex* plots I usually turn to **ggplot**.
--   **ggplot** often demands significant data preparation beforehand so that the data are in the format that **ggplot** expects (long rather than wide). If you're not conversant with **dplyr** this will be maddening. Base R can much more easily be coaxed to plot in ways that work with existing data.
+-   **ggplot** often demands significant data preparation beforehand so that the data are in the format that **ggplot** expects (long rather than wide). If you're not conversant with **dplyr** this will be maddening. Base R can much more easily be coaxed to plot in ways that work with existing data. 
+  - A corollary is that manipulating a **gplot** plot is as likely to involve manipulating the data being plotted as it is to involve manipulating the plot directly.
 -   **ggplot** (like the **tidyverse** in general) tends to be pretty *prescriptive*. As with any template, it's a good idea to think about what *you* want, and how well the template matches your desires, rather than just assuming that it's a) right, and b) smarter than you are.
 
 You can of course consult the full **ggplot** [manual](https://ggplot2-book.org/).
@@ -607,6 +608,35 @@ obsid_dist_l %>% ggplot() +
   theme_minimal() +
   labs(x = "", y = "Distance (km)")
 ```
+
+There are some interesting contrasts apparent that might provide us some good food-for-thought. What if we want to look both at distances-by-site and distances-by-type?
+
+```{r}
+eerk_comb_long_dist <- eerk_comb_coll_long %>% rename(source = Source) %>% 
+  select(-sources_represented) %>% left_join(obsid_dist_l, by = c("site", "source")) %>% 
+  filter(Count > 0)
+
+eerk_comb_long_dist %>% ggplot() + 
+  geom_col(aes(x = source_artifact, y = distance, fill = source),
+           position = "dodge") +
+  scale_fill_manual(values = mypalette) +
+  theme_minimal() +
+  labs(x = "", y = "Distance (km)", ) +
+  facet_wrap(vars(site)) +
+  guides(x = guide_axis(angle = 60)) 
+  
+#the bar widths are proportional to the number of sources in that group...
+#and - because ggplot - can't be changed in any obvious way 
+```
+
+
+
+```{r echo = F}
+eerk_comb_long_dist %>% group_by(site, source_artifact) %>% 
+  summarize(avg_dist = sum(distance)/length(distance), wgt_avg_dist = sum(Count*distance)/sum(Count))
+#relative magnitudes match Eerkens et al. reasonably well; absolute aren't close
+```
+
 
 ## Next steps after exploratory visualization
 
