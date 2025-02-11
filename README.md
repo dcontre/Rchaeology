@@ -1,2 +1,2 @@
 # Rchaeology
-Course notes for ANG6192
+Course notes for ANT4117/ANG6192
