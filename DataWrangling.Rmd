@@ -31,7 +31,7 @@ colorize <- function(x, color) {
 
 One of an archaeologist's most common challenges is struggling with an uncooperative dataset. Sometimes you might have no-oone to blame but yourself, and other times you may be working with existing (published/inherited/"legacy") data. They might be causing trouble for all sorts of reasons: for example, because they are full of typographical errors, because recording conventions were inconsistent, because they are formatted in a way that R finds inconvenient, or because the units of analysis in which you're interested differ from those of the initial collector of the data.
 
-Because this is such a common problem, data *cleaning* and data *wrangling* are fantastically useful skills. The former comprises everything from making column names machine-readable to removing empty rows to standardizing names, while the latter commonly involves renaming, recoding, summarizing, and reshaping data.
+Because this is such a common problem, data *cleaning* and data *wrangling* are fantastically useful skills. The former comprises everything from making column names consistent so that they're easily manipulable, to removing empty rows, to standardizing classifications; the latter commonly involves renaming, recoding, summarizing, and reshaping data.
 
 ```{r echo = F, out.width='30%', out.extra='style="float:right; padding:10px"'}
 knitr::include_graphics("imgs/expletives.png")
