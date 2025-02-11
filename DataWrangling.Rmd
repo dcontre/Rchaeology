@@ -114,6 +114,8 @@ We'll do these the **tidyverse** [`r emo::ji("face with rolling eyes")`] way, us
 
 ## Column/variable management
 
+Note that (most of the time) functions from the **tidyverse** allow selection of columns without using the familiar base R `object$column` syntax. Instead, once an object has been pushed into a pipe (`%>%`), its columns can be called by name, without quotation marks. This has the advantage of saving typing, but does make code a bit harder to read.
+
 ### Removing columns with `select()`
 
 Unless we've specified which cells we want with the `range =` argument when reading in the sheet, Table 6.1b has some extraneous columns produced because R detected text outside of the first four and expanded the range accordingly.
@@ -633,7 +635,7 @@ eerk_comb_long_dist %>% ggplot() +
 
 
 
-```{r echo = F}
+```{r echo = F, results='hide'}
 eerk_comb_long_dist %>% group_by(site, source_artifact) %>% 
   summarize(avg_dist = sum(distance)/length(distance), wgt_avg_dist = sum(Count*distance)/sum(Count))
 #relative magnitudes match Eerkens et al. reasonably well; absolute aren't close
@@ -642,7 +644,7 @@ eerk_comb_long_dist %>% group_by(site, source_artifact) %>%
 
 ## Next steps after exploratory visualization
 
-Generally the point of data visualization is to give you some idea about patterns or relationships in the data that you might explore further. In this case, we've been considering source diversity across artifact types at three different sites, and considering Eerkens and colleagues' contention that source diversity should be higher for small flakes.
+Generally the point of data visualization is to give you some idea about patterns or relationships in the data that you might explore further. In this case, we've been considering source diversity across artifact types at three different sites, and considering Eerkens and colleagues' test of a behavioral model with the expectation that source diversity should be higher for small flakes.
 
 ### Diversity indices
 
@@ -653,6 +655,9 @@ library(vegan)
 
 eerk_comb_long %>% filter(Count > 0) %>% group_by(site, source_artifact) %>%
 summarize(shannon_index = diversity(Count))
+
+# note that values are different than those published by Eerkens et al
+# but relative relationships the same
 
 ```
 

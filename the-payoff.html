@@ -23,7 +23,7 @@
 <meta name="author" content="D. Contreras" />
 
 
-<meta name="date" content="2025-02-10" />
+<meta name="date" content="2025-02-11" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -1416,48 +1416,37 @@ NA
 <span id="cb65-10"><a href="the-payoff.html#cb65-10" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Distance (km)&quot;</span>)</span></code></pre></div>
 <p><img src="DataWrangling_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
 <p>There are some interesting contrasts apparent that might provide us some good food-for-thought. What if we want to look both at distances-by-site and distances-by-type?</p>
-<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="the-payoff.html#cb66-1" tabindex="-1"></a>eerk_comb_long_dist <span class="ot">&lt;-</span> eerk_comb_coll_long <span class="sc">%&gt;%</span> <span class="fu">rename</span>(<span class="at">source =</span> Source) <span class="sc">%&gt;%</span> </span>
-<span id="cb66-2"><a href="the-payoff.html#cb66-2" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>sources_represented) <span class="sc">%&gt;%</span> <span class="fu">left_join</span>(obsid_dist_l, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;site&quot;</span>, <span class="st">&quot;source&quot;</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb66-3"><a href="the-payoff.html#cb66-3" tabindex="-1"></a>  <span class="fu">filter</span>(Count <span class="sc">&gt;</span> <span class="dv">0</span>)</span>
-<span id="cb66-4"><a href="the-payoff.html#cb66-4" tabindex="-1"></a></span>
-<span id="cb66-5"><a href="the-payoff.html#cb66-5" tabindex="-1"></a>eerk_comb_long_dist <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>() <span class="sc">+</span> </span>
-<span id="cb66-6"><a href="the-payoff.html#cb66-6" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="fu">aes</span>(<span class="at">x =</span> source_artifact, <span class="at">y =</span> distance, <span class="at">fill =</span> source),</span>
-<span id="cb66-7"><a href="the-payoff.html#cb66-7" tabindex="-1"></a>           <span class="at">position =</span> <span class="st">&quot;dodge&quot;</span>) <span class="sc">+</span></span>
-<span id="cb66-8"><a href="the-payoff.html#cb66-8" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> mypalette) <span class="sc">+</span></span>
-<span id="cb66-9"><a href="the-payoff.html#cb66-9" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb66-10"><a href="the-payoff.html#cb66-10" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Distance (km)&quot;</span>, ) <span class="sc">+</span></span>
-<span id="cb66-11"><a href="the-payoff.html#cb66-11" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="fu">vars</span>(site)) <span class="sc">+</span></span>
-<span id="cb66-12"><a href="the-payoff.html#cb66-12" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">x =</span> <span class="fu">guide_axis</span>(<span class="at">angle =</span> <span class="dv">60</span>)) </span></code></pre></div>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="the-payoff.html#cb66-1" tabindex="-1"></a><span class="co">#add distances to our long data</span></span>
+<span id="cb66-2"><a href="the-payoff.html#cb66-2" tabindex="-1"></a>eerk_comb_long_dist <span class="ot">&lt;-</span> eerk_comb_coll_long <span class="sc">%&gt;%</span> <span class="fu">rename</span>(<span class="at">source =</span> Source) <span class="sc">%&gt;%</span> </span>
+<span id="cb66-3"><a href="the-payoff.html#cb66-3" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>sources_represented) <span class="sc">%&gt;%</span> <span class="fu">left_join</span>(obsid_dist_l, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;site&quot;</span>, <span class="st">&quot;source&quot;</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb66-4"><a href="the-payoff.html#cb66-4" tabindex="-1"></a>  <span class="fu">filter</span>(Count <span class="sc">&gt;</span> <span class="dv">0</span>)</span>
+<span id="cb66-5"><a href="the-payoff.html#cb66-5" tabindex="-1"></a></span>
+<span id="cb66-6"><a href="the-payoff.html#cb66-6" tabindex="-1"></a><span class="co">#then plot, using `facet_wrap()`</span></span>
+<span id="cb66-7"><a href="the-payoff.html#cb66-7" tabindex="-1"></a>eerk_comb_long_dist <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>() <span class="sc">+</span> </span>
+<span id="cb66-8"><a href="the-payoff.html#cb66-8" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="fu">aes</span>(<span class="at">x =</span> source_artifact, <span class="at">y =</span> distance, <span class="at">fill =</span> source),</span>
+<span id="cb66-9"><a href="the-payoff.html#cb66-9" tabindex="-1"></a>           <span class="at">position =</span> <span class="st">&quot;dodge&quot;</span>) <span class="sc">+</span></span>
+<span id="cb66-10"><a href="the-payoff.html#cb66-10" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> mypalette) <span class="sc">+</span></span>
+<span id="cb66-11"><a href="the-payoff.html#cb66-11" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb66-12"><a href="the-payoff.html#cb66-12" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Distance (km)&quot;</span>, ) <span class="sc">+</span></span>
+<span id="cb66-13"><a href="the-payoff.html#cb66-13" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="fu">vars</span>(site)) <span class="sc">+</span></span>
+<span id="cb66-14"><a href="the-payoff.html#cb66-14" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">x =</span> <span class="fu">guide_axis</span>(<span class="at">angle =</span> <span class="dv">60</span>)) </span></code></pre></div>
 <p><img src="DataWrangling_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
 <div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="the-payoff.html#cb67-1" tabindex="-1"></a><span class="co">#the bar widths are proportional to the number of sources in that group...</span></span>
 <span id="cb67-2"><a href="the-payoff.html#cb67-2" tabindex="-1"></a><span class="co">#and - because ggplot - can&#39;t be changed in any obvious way </span></span></code></pre></div>
 <pre><code>## `summarise()` has grouped output by &#39;site&#39;. You can override using the
 ## `.groups` argument.</code></pre>
-<pre><code>## # A tibble: 9 × 4
-## # Groups:   site [3]
-##   site           source_artifact avg_dist wgt_avg_dist
-##   &lt;chr&gt;          &lt;chr&gt;              &lt;dbl&gt;        &lt;dbl&gt;
-## 1 Bone Cave      Formal Tools        343.         218 
-## 2 Bone Cave      Large Flakes        418.         117.
-## 3 Bone Cave      Small Flakes        392          172.
-## 4 Mohawk Valley  Formal Tools        374.         358.
-## 5 Mohawk Valley  Large Flakes        298.         298.
-## 6 Mohawk Valley  Small Flakes        337          302.
-## 7 Sherwin Summit Formal Tools        344          216.
-## 8 Sherwin Summit Large Flakes        363.         199.
-## 9 Sherwin Summit Small Flakes        326          225.</code></pre>
 </div>
 </div>
 <div id="next-steps-after-exploratory-visualization" class="section level2 hasAnchor" number="5.2">
 <h2><span class="header-section-number">5.2</span> Next steps after exploratory visualization<a href="the-payoff.html#next-steps-after-exploratory-visualization" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>Generally the point of data visualization is to give you some idea about patterns or relationships in the data that you might explore further. In this case, we’ve been considering source diversity across artifact types at three different sites, and considering Eerkens and colleagues’ contention that source diversity should be higher for small flakes.</p>
+<p>Generally the point of data visualization is to give you some idea about patterns or relationships in the data that you might explore further. In this case, we’ve been considering source diversity across artifact types at three different sites, and considering Eerkens and colleagues’ test of a behavioral model with the expectation that source diversity should be higher for small flakes.</p>
 <div id="diversity-indices" class="section level3 hasAnchor" number="5.2.1">
 <h3><span class="header-section-number">5.2.1</span> Diversity indices<a href="the-payoff.html#diversity-indices" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>We can examine diversity numerically as well as visually. The Shannon index is one of several tools used for quantifying the diversity of a sample by building on how many varieties there are and what proportion of the total each represents. A maximally rich sample is one with lots of varieties where each comprises a relatively high proportion of of the population.</p>
-<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="the-payoff.html#cb70-1" tabindex="-1"></a><span class="fu">library</span>(vegan)</span>
-<span id="cb70-2"><a href="the-payoff.html#cb70-2" tabindex="-1"></a></span>
-<span id="cb70-3"><a href="the-payoff.html#cb70-3" tabindex="-1"></a>eerk_comb_long <span class="sc">%&gt;%</span> <span class="fu">filter</span>(Count <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(site, source_artifact) <span class="sc">%&gt;%</span></span>
-<span id="cb70-4"><a href="the-payoff.html#cb70-4" tabindex="-1"></a><span class="fu">summarize</span>(<span class="at">shannon_index =</span> <span class="fu">diversity</span>(Count))</span></code></pre></div>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="the-payoff.html#cb69-1" tabindex="-1"></a><span class="fu">library</span>(vegan)</span>
+<span id="cb69-2"><a href="the-payoff.html#cb69-2" tabindex="-1"></a></span>
+<span id="cb69-3"><a href="the-payoff.html#cb69-3" tabindex="-1"></a>eerk_comb_long <span class="sc">%&gt;%</span> <span class="fu">filter</span>(Count <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(site, source_artifact) <span class="sc">%&gt;%</span></span>
+<span id="cb69-4"><a href="the-payoff.html#cb69-4" tabindex="-1"></a><span class="fu">summarize</span>(<span class="at">shannon_index =</span> <span class="fu">diversity</span>(Count))</span></code></pre></div>
 <pre><code>## # A tibble: 10 × 3
 ## # Groups:   site [3]
 ##    site           source_artifact           shannon_index
@@ -1472,6 +1461,8 @@ NA
 ##  8 Sherwin Summit Large Flakes                      1.01 
 ##  9 Sherwin Summit Small Non-pressure Flakes         0.988
 ## 10 Sherwin Summit Small Pressure Flakes             1.34</code></pre>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="the-payoff.html#cb71-1" tabindex="-1"></a><span class="co"># note that values are different than those published by Eerkens et al</span></span>
+<span id="cb71-2"><a href="the-payoff.html#cb71-2" tabindex="-1"></a><span class="co"># but relative relationships the same</span></span></code></pre></div>
 <p>How do these values compare to your assessment of the <a href="the-payoff.html#prop-plot">plot</a> we created above?</p>
 </div>
 </div>
