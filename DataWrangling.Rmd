@@ -25,7 +25,7 @@ colorize <- function(x, color) {
 }
 ```
 
-# Introduction
+# Introduction 
 
 One of an archaeologist's most common challenges is struggling with an uncooperative dataset. Sometimes you might have no-oone to blame but yourself, and other times you may be working with existing (published/inherited/"legacy") data. They might be causing trouble for all sorts of reasons: for example, because they are full of typographical errors, because recording conventions were inconsistent, because they are formatted in a way that R finds inconvenient, or because the units of analysis in which you're interested differ from those of the initial collector of the data.
 
