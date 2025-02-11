@@ -49,7 +49,7 @@ What you'll find here are the tools you need to get started with data cleaning a
 
 You can probably figure out a way to read just about any tabular data into R. We'll look here at a couple of very straightforward but useful ones, and one slightly more clever one - but if you encounter messier data, be persistent.
 
-We've loaded the **dplyr** package above, and we'll add the **readxl**, **googlesheets4** packages here. They do exactly what you'd expect from the names. Since you're already familiar with `read.csv()` and `read.delim` from Base R, we'll skip those here. As it is wont to do, the **tidyverse** reinvents the wheel and adds a `read_csv()` function in the **readr** package. It it similar to the Base R function most of the time, but sometimes better at parsing files, and by default produces a `tibble`, which is a **tidyverse** version of a data frame.
+We've loaded the **dplyr** package above, and we'll add the **readxl**, **googlesheets4** packages here. They do exactly what you'd expect from the names. Since you're already familiar with `read.csv()` and `read.delim` from Base R, we'll skip those here. As it is wont to do, the **tidyverse** reinvents the wheel and adds a `read_csv()` function in the **readr** package. It it similar to the Base R function most of the time, but sometimes better at parsing files, and by default produces a `tibble`, which is a **tidyverse** version of a data frame. For a guide to data import, see this [cheatsheet](https://rstudio.github.io/cheatsheets/html/data-import.html).
 
 You'll find an .xlsx version of a table modified from Drennan's [-@drennan2009] Table 6-1 in the 'data' folder, and a a google sheet version [here](https://docs.google.com/spreadsheets/d/1bnZ7QSc1hjQ1HYQwXFNUHY3Yf4DLiNw4B68gl3texJc/edit?usp=sharing). Try importing both just to see that it's possible to do either, but then pick one - you only need one version each of `drennan6.1b` and `drennan6.1b_2`.
 
@@ -112,7 +112,7 @@ A few common data-cleaning tasks:
 -   adding and removing columns
 -   converting character columns to factors
 
-We'll do these the **tidyverse** [`r emo::ji("face with rolling eyes")`] way, using `pipes` (`%>%`), since we're going to use the **dplyr** package and most of the examples you'll find in the wild do so. Note that even using pipes, if you don't write the result to an object (often overwriting the one that you feed into the pipe), it will be ephemeral. So, `drennan6.1b <- drennan6.1b %>%` is more likely to be useful than just `drennan6.1b %>%`.
+We'll do these the **tidyverse** [`r emo::ji("face with rolling eyes")`] way, using `pipes` (`%>%`), since we're going to use the **dplyr** package and most of the examples you'll find in the wild do so (for a handy **dplyr** reference, see this [cheatsheet](https://rstudio.github.io/cheatsheets/html/data-transformation.html)). Note that even using pipes, if you don't write the result to an object (often overwriting the one that you feed into the pipe), it will be ephemeral. So, `drennan6.1b <- drennan6.1b %>%` is more likely to be useful than just `drennan6.1b %>%`.
 
 ## Column/variable management
 
