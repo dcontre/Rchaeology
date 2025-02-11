@@ -1,6 +1,8 @@
 ---
 title: "Cleaning & Wrangling Data"
-subtitle: "An Introduction to Manipulating Archaeological Data\nfor ANT4117/ANG6192"
+subtitle: |
+  <center> An Introduction to Manipulating Archaeological Data </center>
+  <center> for ANT4117/ANG6192 </center>
 author: "D. Contreras"
 date: "`r Sys.Date()`"
 output: bookdown::gitbook
@@ -49,7 +51,7 @@ You can probably figure out a way to read just about any tabular data into R. We
 
 We've loaded the **dplyr** package above, and we'll add the **readxl**, **googlesheets4** packages here. They do exactly what you'd expect from the names. Since you're already familiar with `read.csv()` and `read.delim` from Base R, we'll skip those here. As it is wont to do, the **tidyverse** reinvents the wheel and adds a `read_csv()` function in the **readr** package. It it similar to the Base R function most of the time, but sometimes better at parsing files, and by default produces a `tibble`, which is a **tidyverse** version of a data frame.
 
-You'll find an .xlsx version of a table modified from Drennan's [-@drennan2009] Table 6-1 in the 'data' folder, and a a google sheet version [here](https://docs.google.com/spreadsheets/d/1bnZ7QSc1hjQ1HYQwXFNUHY3Yf4DLiNw4B68gl3texJc/edit?usp=sharing). Try importing both just to see that it's possible to do either, but then pick one - you only need one version of `drennan6.1b` and `drennan6.1b_2`.
+You'll find an .xlsx version of a table modified from Drennan's [-@drennan2009] Table 6-1 in the 'data' folder, and a a google sheet version [here](https://docs.google.com/spreadsheets/d/1bnZ7QSc1hjQ1HYQwXFNUHY3Yf4DLiNw4B68gl3texJc/edit?usp=sharing). Try importing both just to see that it's possible to do either, but then pick one - you only need one version each of `drennan6.1b` and `drennan6.1b_2`.
 
 Note that some information is stored on a second sheet; you'll want that also. Note also that some information is encoded by highlighting cells. How might you alter the spreadhseet to make that information capturable [you needn't do this; just think about it]?
 
