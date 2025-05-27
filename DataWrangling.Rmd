@@ -229,7 +229,7 @@ eerk_tab3 <- eerk_tab3 %>% rename("Obsidian Cliffs" = "Obs. Cliff",
                                   )
 ```
 
-As you'll have noticed above, column names with punctuation can be a hassle (need to be enclosed in tickmarks [`]).  The **janitor** package ("simple little tools for examining and cleaning dirty data") streamlines the standardization of these names (the`case=\` argument controls whether you'll get "Source Artifact", "source_artifact", or "SourceArtifact", etc.).
+As you'll have noticed above, column names with punctuation can be a hassle (need to be enclosed in tickmarks [\`]).  The **janitor** package ("simple little tools for examining and cleaning dirty data") streamlines the standardization of these names (the `case=` argument controls whether you'll get "Source Artifact", "source_artifact", or "SourceArtifact", etc.).
 
 ```{r janitor}
 library(janitor)
