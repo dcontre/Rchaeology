@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>2 Acquiring data | Cleaning &amp; Wrangling Data</title>
   <meta name="description" content="2 Acquiring data | Cleaning &amp; Wrangling Data" />
-  <meta name="generator" content="bookdown 0.41 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.42 and GitBook 2.6.7" />
 
   <meta property="og:title" content="2 Acquiring data | Cleaning &amp; Wrangling Data" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="D. Contreras" />
 
 
-<meta name="date" content="2025-02-13" />
+<meta name="date" content="2026-06-24" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -31,7 +31,7 @@
   
   
 <link rel="prev" href="introduction.html"/>
-<link rel="next" href="cleaning-data.html"/>
+<link rel="next" href="data-cleaning.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -59,8 +59,9 @@
 
 
 <style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -169,14 +170,14 @@ div.csl-indent {
 <li class="chapter" data-level="2.1" data-path="acquiring-data.html"><a href="acquiring-data.html#reading-tabular-data"><i class="fa fa-check"></i><b>2.1</b> Reading tabular data</a></li>
 <li class="chapter" data-level="2.2" data-path="acquiring-data.html"><a href="acquiring-data.html#scraping-.pdfs"><i class="fa fa-check"></i><b>2.2</b> Scraping .pdfs</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="cleaning-data.html"><a href="cleaning-data.html"><i class="fa fa-check"></i><b>3</b> Cleaning data</a>
+<li class="chapter" data-level="3" data-path="data-cleaning.html"><a href="data-cleaning.html"><i class="fa fa-check"></i><b>3</b> Cleaning data</a>
 <ul>
-<li class="chapter" data-level="3.1" data-path="cleaning-data.html"><a href="cleaning-data.html#columnvariable-management"><i class="fa fa-check"></i><b>3.1</b> Column/variable management</a>
+<li class="chapter" data-level="3.1" data-path="data-cleaning.html"><a href="data-cleaning.html#columnvariable-management"><i class="fa fa-check"></i><b>3.1</b> Column/variable management</a>
 <ul>
-<li class="chapter" data-level="3.1.1" data-path="cleaning-data.html"><a href="cleaning-data.html#removing-columns-with-select"><i class="fa fa-check"></i><b>3.1.1</b> Removing columns with <code>select()</code></a></li>
-<li class="chapter" data-level="3.1.2" data-path="cleaning-data.html"><a href="cleaning-data.html#changing-column-classes-and-adding-columns-with-mutate"><i class="fa fa-check"></i><b>3.1.2</b> Changing column classes and adding columns with <code>mutate()</code></a></li>
+<li class="chapter" data-level="3.1.1" data-path="data-cleaning.html"><a href="data-cleaning.html#removing-columns-with-select"><i class="fa fa-check"></i><b>3.1.1</b> Removing columns with <code>select()</code></a></li>
+<li class="chapter" data-level="3.1.2" data-path="data-cleaning.html"><a href="data-cleaning.html#changing-column-classes-and-adding-columns-with-mutate"><i class="fa fa-check"></i><b>3.1.2</b> Changing column classes and adding columns with <code>mutate()</code></a></li>
 </ul></li>
-<li class="chapter" data-level="3.2" data-path="cleaning-data.html"><a href="cleaning-data.html#putting-it-into-practice"><i class="fa fa-check"></i><b>3.2</b> Putting it into practice</a></li>
+<li class="chapter" data-level="3.2" data-path="data-cleaning.html"><a href="data-cleaning.html#putting-it-into-practice"><i class="fa fa-check"></i><b>3.2</b> Putting it into practice</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="wrangling-data.html"><a href="wrangling-data.html"><i class="fa fa-check"></i><b>4</b> Wrangling data</a>
 <ul>
@@ -225,7 +226,7 @@ div.csl-indent {
 <p>You can probably figure out a way to read just about any tabular data into R. We’ll look here at a couple of very straightforward but useful ones, and one slightly more clever one - but if you encounter messier data, be persistent.</p>
 <p>We’ve loaded the <strong>dplyr</strong> package above, and we’ll add the <strong>readxl</strong>, <strong>googlesheets4</strong> packages here. They do exactly what you’d expect from the names. Since you’re already familiar with <code>read.csv()</code> and <code>read.delim</code> from Base R, we’ll skip those here. As it is wont to do, the <strong>tidyverse</strong> reinvents the wheel and adds a <code>read_csv()</code> function in the <strong>readr</strong> package. It it similar to the Base R function most of the time, but sometimes better at parsing files, and by default produces a <code>tibble</code>, which is a <strong>tidyverse</strong> version of a data frame. For a guide to data import, see this <a href="https://rstudio.github.io/cheatsheets/html/data-import.html">cheatsheet</a>.</p>
 <p>You’ll find an .xlsx version of a table modified from Drennan’s <span class="citation">(2009)</span> Table 6-1 <a href="data/Drennan_2009_Table6-1_b.xlsx">here</a>, and a google sheet version <a href="https://docs.google.com/spreadsheets/d/1bnZ7QSc1hjQ1HYQwXFNUHY3Yf4DLiNw4B68gl3texJc/edit?usp=sharing">here</a>. If you examine the spreadsheet versions, you’ll note that some information is stored on a second sheet; you’ll want that also, so we’ll import two objects (<code>drennan6.1b</code> and <code>drennan6.1b_2</code>). Try importing both .xlsx and google sheet just to see that it’s possible to do either, but then pick one - you only need one version each of <code>drennan6.1b</code> and <code>drennan6.1b_2</code>.</p>
-<p>Note also that some information is encoded by highlighting cells. How might you alter the spreadhseet to make that information capturable [you needn’t do this; just think about it]?</p>
+<p>Note also that some information is encoded by highlighting cells. How might you alter the spreadsheet to make that information capturable [you needn’t do this; just think about it]?</p>
 <p>To note:</p>
 <ul>
 <li>.csv is the most easily and reliably readable tabular format, but will not save formulas, colored cells, multiple sheets, etc…but when you read an .xlsx file you can’t easily capture that info anyway…so it’s not good practice to store information that way.</li>
@@ -237,10 +238,12 @@ div.csl-indent {
 <span id="cb1-3"><a href="acquiring-data.html#cb1-3" tabindex="-1"></a></span>
 <span id="cb1-4"><a href="acquiring-data.html#cb1-4" tabindex="-1"></a>drennan6<span class="fl">.1</span>b <span class="ot">&lt;-</span> <span class="fu">read_xlsx</span>(<span class="st">&quot;data/Drennan_2009_Table6-1_b.xlsx&quot;</span>) <span class="co">#defaults to sheet 1</span></span>
 <span id="cb1-5"><a href="acquiring-data.html#cb1-5" tabindex="-1"></a>drennan6<span class="fl">.1</span>b_2 <span class="ot">&lt;-</span> <span class="fu">read_xlsx</span>(<span class="st">&quot;data/Drennan_2009_Table6-1_b.xlsx&quot;</span>, <span class="at">sheet =</span> <span class="dv">2</span>) </span>
-<span id="cb1-6"><a href="acquiring-data.html#cb1-6" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="acquiring-data.html#cb1-7" tabindex="-1"></a>drennan6<span class="fl">.1</span>b <span class="ot">&lt;-</span> <span class="fu">read_sheet</span>(<span class="st">&quot;https://docs.google.com/spreadsheets/d/1bnZ7QSc1hjQ1HYQwXFNUHY3Yf4DLiNw4B68gl3texJc/edit?usp=sharing&quot;</span>)</span>
-<span id="cb1-8"><a href="acquiring-data.html#cb1-8" tabindex="-1"></a>drennan6<span class="fl">.1</span>b_2 <span class="ot">&lt;-</span> <span class="fu">read_sheet</span>(<span class="st">&quot;https://docs.google.com/spreadsheets/d/1bnZ7QSc1hjQ1HYQwXFNUHY3Yf4DLiNw4B68gl3texJc/edit?usp=sharing&quot;</span>, <span class="at">sheet =</span> <span class="dv">2</span>)</span></code></pre></div>
-<p>Pick your favorite of the versions of this table and write it to an object. Because these data are clean, there’s no need to fuss with them much - but we may want to rearrange them a bit, and probably will find it convenient to convert some of the columns into factors for that reason. See ‘Data Cleaning’.</p>
+<span id="cb1-6"><a href="acquiring-data.html#cb1-6" tabindex="-1"></a> </span>
+<span id="cb1-7"><a href="acquiring-data.html#cb1-7" tabindex="-1"></a><span class="co">#uncomment the below if you want the googlesheet version</span></span>
+<span id="cb1-8"><a href="acquiring-data.html#cb1-8" tabindex="-1"></a><span class="co"># drennan6.1b &lt;- read_sheet(&quot;https://docs.google.com/spreadsheets/d/1bnZ7QSc1hjQ1HYQwXFNUHY3Yf4DLiNw4B68gl3texJc/edit?usp=sharing&quot;)</span></span>
+<span id="cb1-9"><a href="acquiring-data.html#cb1-9" tabindex="-1"></a><span class="co"># drennan6.1b_2 &lt;- read_sheet(&quot;https://docs.google.com/spreadsheets/d/1bnZ7QSc1hjQ1HYQwXFNUHY3Yf4DLiNw4B68gl3texJc/edit?usp=sharing&quot;, sheet = 2)</span></span></code></pre></div>
+<p>Pick your favorite of the versions of this table and write it to an object. Because these data are clean, there’s no need to fuss with them much - but we may want to rearrange them a bit, and probably will find it convenient to convert some of the columns into factors for that reason. See <a href="data-cleaning.html#data-cleaning">Cleaning data</a>.</p>
+<p>It’s a bit beyond our scope here, but one of common side-effects of working with spreadsheet data is rage against the author of the spreadsheet (even - or maybe especially - if that author is your past self). There are better and worse ways to use spreadsheets; see for example Broman and Woo (<span class="citation">(2018)</span>).</p>
 </div>
 <div id="scraping-.pdfs" class="section level2 hasAnchor" number="2.2">
 <h2><span class="header-section-number">2.2</span> Scraping .pdfs<a href="acquiring-data.html#scraping-.pdfs" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -275,7 +278,7 @@ div.csl-indent {
         </div>
       </div>
 <a href="introduction.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="cleaning-data.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="data-cleaning.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -289,39 +292,39 @@ div.csl-indent {
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
-"sharing": {
-"github": false,
-"facebook": true,
-"twitter": true,
-"linkedin": false,
-"weibo": false,
-"instapaper": false,
-"vk": false,
-"whatsapp": false,
-"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
-},
-"fontsettings": {
-"theme": "white",
-"family": "sans",
-"size": 2
-},
-"edit": {
-"link": null,
-"text": null
-},
-"history": {
-"link": null,
-"text": null
-},
-"view": {
-"link": null,
-"text": null
-},
-"download": null,
-"search": false,
-"toc": {
-"collapse": "subsection"
-}
+  "sharing": {
+    "github": false,
+    "facebook": true,
+    "twitter": true,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": null,
+    "text": null
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": null,
+  "search": false,
+  "toc": {
+    "collapse": "subsection"
+  }
 });
 });
 </script>
