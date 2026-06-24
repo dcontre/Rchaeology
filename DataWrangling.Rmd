@@ -53,7 +53,7 @@ We've loaded the **dplyr** package above, and we'll add the **readxl**, **google
 
 You'll find an .xlsx version of a table modified from Drennan's [-@drennan2009] Table 6-1 [here](data/Drennan_2009_Table6-1_b.xlsx), and a google sheet version [here](https://docs.google.com/spreadsheets/d/1bnZ7QSc1hjQ1HYQwXFNUHY3Yf4DLiNw4B68gl3texJc/edit?usp=sharing). If you examine the spreadsheet versions, you'll note that some information is stored on a second sheet; you'll want that also, so we'll import two objects (`drennan6.1b` and `drennan6.1b_2`). Try importing both .xlsx and google sheet just to see that it's possible to do either, but then pick one - you only need one version each of `drennan6.1b` and `drennan6.1b_2`.
 
-Note also that some information is encoded by highlighting    cells. How might you alter the spreadhseet to make that information capturable [you needn't do this; just think about it]?
+Note also that some information is encoded by highlighting cells. How might you alter the spreadsheet to make that information capturable [you needn't do this; just think about it]?
 
 To note:
 
@@ -73,7 +73,9 @@ drennan6.1b <- read_sheet("https://docs.google.com/spreadsheets/d/1bnZ7QSc1hjQ1H
 drennan6.1b_2 <- read_sheet("https://docs.google.com/spreadsheets/d/1bnZ7QSc1hjQ1HYQwXFNUHY3Yf4DLiNw4B68gl3texJc/edit?usp=sharing", sheet = 2)
 ```
 
-Pick your favorite of the versions of this table and write it to an object. Because these data are clean, there's no need to fuss with them much - but we may want to rearrange them a bit, and probably will find it convenient to convert some of the columns into factors for that reason. See 'Data Cleaning'.
+Pick your favorite of the versions of this table and write it to an object. Because these data are clean, there's no need to fuss with them much - but we may want to rearrange them a bit, and probably will find it convenient to convert some of the columns into factors for that reason. See [Cleaning data](#data-cleaning).
+
+It's a bit beyond our scope here, but one of common side-effects of working with spreadsheet data is rage against the author of the spreadsheet (even - or maybe especially - if that author is your past self). There are better and worse ways to use spreadsheets; see for example Broman and Woo (-@broman2018). 
 
 ## Scraping .pdfs
 
@@ -105,7 +107,7 @@ It's immediately clear that we have some work to do. There are two different way
 
 What we want to do is tidy these tables up, and combine them into a single table that includes a variable for site (the captions indicate that Table 1 is material from Sherwin Summit, Table 2 from Mohawk Valley, and Table 3 from Bone Cave). Those desires leads us to...
 
-# Cleaning data
+# Cleaning data {#data-cleaning}
 
 A few common data-cleaning tasks:
 
