@@ -68,9 +68,10 @@ library(googlesheets4)
 
 drennan6.1b <- read_xlsx("data/Drennan_2009_Table6-1_b.xlsx") #defaults to sheet 1
 drennan6.1b_2 <- read_xlsx("data/Drennan_2009_Table6-1_b.xlsx", sheet = 2) 
-
-drennan6.1b <- read_sheet("https://docs.google.com/spreadsheets/d/1bnZ7QSc1hjQ1HYQwXFNUHY3Yf4DLiNw4B68gl3texJc/edit?usp=sharing")
-drennan6.1b_2 <- read_sheet("https://docs.google.com/spreadsheets/d/1bnZ7QSc1hjQ1HYQwXFNUHY3Yf4DLiNw4B68gl3texJc/edit?usp=sharing", sheet = 2)
+ 
+#uncomment the below if you want the googlesheet version
+# drennan6.1b <- read_sheet("https://docs.google.com/spreadsheets/d/1bnZ7QSc1hjQ1HYQwXFNUHY3Yf4DLiNw4B68gl3texJc/edit?usp=sharing")
+# drennan6.1b_2 <- read_sheet("https://docs.google.com/spreadsheets/d/1bnZ7QSc1hjQ1HYQwXFNUHY3Yf4DLiNw4B68gl3texJc/edit?usp=sharing", sheet = 2)
 ```
 
 Pick your favorite of the versions of this table and write it to an object. Because these data are clean, there's no need to fuss with them much - but we may want to rearrange them a bit, and probably will find it convenient to convert some of the columns into factors for that reason. See [Cleaning data](#data-cleaning).
