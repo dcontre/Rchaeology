@@ -3,7 +3,7 @@ title: "Cleaning & Wrangling Data"
 subtitle: |
   <center> An Introduction to Manipulating Archaeological Data </center>
   <center> for ANT4117/ANG6192 </center>
-author: "D. Contreras"
+author: "[Daniel A. Contreras](https://dcontre.github.io/academic/)"
 date: "`r Sys.Date()`"
 output: bookdown::gitbook
 bibliography: references.bib
